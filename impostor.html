@@ -81,8 +81,10 @@
             if (juegoIniciado) return; // FIX: Don't allow adding during game
             const input = document.getElementById('nuevo-jugador');
             const nombre = input.value.trim();
-            if (nombre && nombre.length <= 12 && !jugadores.includes(nombre)) {
-                jugadores.push(nombre);
+            // Sanitize: only allow letters, numbers, and spaces
+            const nombreLimpio = nombre.replace(/[^a-zA-ZáéíóúñÑ0-9\s]/g, '');
+            if (nombreLimpio && nombreLimpio.length <= 12 && !jugadores.includes(nombreLimpio)) {
+                jugadores.push(nombreLimpio);
                 input.value = '';
                 actualizarListaSetup();
                 actualizarBtnIniciar();
@@ -153,19 +155,48 @@
             }
             
             const info = document.getElementById('info-texto');
+            info.innerHTML = ''; // Clear previous content
+            
             if (esImpostor) {
-                info.innerHTML = `
-                    <div style="font-size: 34px;">🕵️‍♂️ ${jugadores[index].toUpperCase()} 🕵️‍♂️</div>
-                    <div id="palabra" style="color: #ff6b6b;">IMPOSTOR</div>
-                    <p style="font-size: 22px; margin: 15px 0;">Pista sutil: <em>"${pistaImpostor}"</em></p>
-                    <small>¡Nadie sabe que eres impostor! Finge.</small>
-                `;
+                const nombreDiv = document.createElement('div');
+                nombreDiv.style.fontSize = '34px';
+                nombreDiv.textContent = `🕵️‍♂️ ${jugadores[index].toUpperCase()} 🕵️‍♂️`;
+                
+                const palabraDiv = document.createElement('div');
+                palabraDiv.id = 'palabra';
+                palabraDiv.style.color = '#ff6b6b';
+                palabraDiv.textContent = 'IMPOSTOR';
+                
+                const pistaP = document.createElement('p');
+                pistaP.style.fontSize = '22px';
+                pistaP.style.margin = '15px 0';
+                pistaP.innerHTML = 'Pista sutil: <em></em>';
+                pistaP.querySelector('em').textContent = `"${pistaImpostor}"`;
+                
+                const avisoSmall = document.createElement('small');
+                avisoSmall.textContent = '¡Nadie sabe que eres impostor! Finge.';
+                
+                info.appendChild(nombreDiv);
+                info.appendChild(palabraDiv);
+                info.appendChild(pistaP);
+                info.appendChild(avisoSmall);
             } else {
-                info.innerHTML = `
-                    <div style="font-size: 34px;">👥 ${jugadores[index].toUpperCase()} 👥</div>
-                    <div id="palabra" style="color: #44ff44;">${palabraSecreta}</div>
-                    <p style="font-size: 22px;">(${categoriaActual})</p>
-                `;
+                const nombreDiv = document.createElement('div');
+                nombreDiv.style.fontSize = '34px';
+                nombreDiv.textContent = `👥 ${jugadores[index].toUpperCase()} 👥`;
+                
+                const palabraDiv = document.createElement('div');
+                palabraDiv.id = 'palabra';
+                palabraDiv.style.color = '#44ff44';
+                palabraDiv.textContent = palabraSecreta;
+                
+                const categoriaP = document.createElement('p');
+                categoriaP.style.fontSize = '22px';
+                categoriaP.textContent = `(${categoriaActual})`;
+                
+                info.appendChild(nombreDiv);
+                info.appendChild(palabraDiv);
+                info.appendChild(categoriaP);
             }
             actualizarProgreso();
             document.getElementById('ocultar-btn').style.display = 'block';
@@ -194,8 +225,11 @@
             if (msg) {
                 const mensajes = document.getElementById('mensajes');
                 const p = document.createElement('p');
-                p.innerHTML = `• <strong>${getRandom(jugadores)}:</strong> `;
-                p.appendChild(document.createTextNode(msg));
+                p.textContent = '• ';
+                const strong = document.createElement('strong');
+                strong.textContent = `${getRandom(jugadores)}:`;
+                p.appendChild(strong);
+                p.appendChild(document.createTextNode(' ' + msg));
                 mensajes.appendChild(p);
                 mensajes.scrollTop = mensajes.scrollHeight;
                 input.value = '';
