@@ -102,12 +102,22 @@
 
         function actualizarListaSetup() {
             const lista = document.getElementById('lista-jugadores');
-            lista.innerHTML = jugadores.map((jug, i) => 
-                `<div class="jugador-lista">
-                    ${jug}
-                    <button class="eliminar" onclick="eliminarJugador(${i})" title="Eliminar">×</button>
-                </div>`
-            ).join('');
+            lista.innerHTML = ''; // Clear list
+            jugadores.forEach((jug, i) => {
+                const div = document.createElement('div');
+                div.className = 'jugador-lista';
+                div.textContent = jug;
+                
+                const btn = document.createElement('button');
+                btn.className = 'eliminar';
+                btn.title = 'Eliminar';
+                btn.textContent = '×';
+                btn.onclick = () => eliminarJugador(i);
+                
+                div.appendChild(document.createTextNode(' '));
+                div.appendChild(btn);
+                lista.appendChild(div);
+            });
         }
 
         function actualizarBtnIniciar() {
@@ -137,9 +147,15 @@
 
         function crearBotonesJugadores() {
             const grid = document.getElementById('jugadores-grid');
-            grid.innerHTML = jugadores.map((jug, i) => 
-                `<div class="jugador-btn" data-index="${i}" onclick="mostrarRol(${i})">${jug}</div>`
-            ).join('');
+            grid.innerHTML = ''; // Clear grid
+            jugadores.forEach((jug, i) => {
+                const div = document.createElement('div');
+                div.className = 'jugador-btn';
+                div.setAttribute('data-index', i);
+                div.textContent = jug;
+                div.onclick = () => mostrarRol(i);
+                grid.appendChild(div);
+            });
         }
 
         function mostrarRol(index) {
@@ -207,11 +223,17 @@
             document.getElementById('ocultar-btn').style.display = 'none';
             
             const count = vistos.size;
+            const info = document.getElementById('info-texto');
             if (count === jugadores.length) {
-                document.getElementById('info-texto').innerHTML = '<div style="font-size: 28px; color: #ffeb3b;">🎊 ¡TODOS VIERON! Chat abajo para dar pistas.</div>';
+                info.innerHTML = ''; // Clear
+                const div = document.createElement('div');
+                div.style.fontSize = '28px';
+                div.style.color = '#ffeb3b';
+                div.textContent = '🎊 ¡TODOS VIERON! Chat abajo para dar pistas.';
+                info.appendChild(div);
                 document.getElementById('chat-section').style.display = 'block';
             } else {
-                document.getElementById('info-texto').textContent = `${count}/${jugadores.length} vistos. Siguiente click SU nombre.`;
+                info.textContent = `${count}/${jugadores.length} vistos. Siguiente click SU nombre.`;
             }
         }
 
