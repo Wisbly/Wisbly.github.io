@@ -192,8 +192,12 @@
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
             if (msg) {
-                document.getElementById('mensajes').innerHTML += `<p>• <strong>${getRandom(jugadores)}:</strong> ${msg}</p>`;
-                document.getElementById('mensajes').scrollTop = 999;
+                const mensajes = document.getElementById('mensajes');
+                const p = document.createElement('p');
+                p.innerHTML = `• <strong>${getRandom(jugadores)}:</strong> `;
+                p.appendChild(document.createTextNode(msg));
+                mensajes.appendChild(p);
+                mensajes.scrollTop = mensajes.scrollHeight;
                 input.value = '';
             }
         }
