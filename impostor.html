@@ -186,8 +186,10 @@
                 const pistaP = document.createElement('p');
                 pistaP.style.fontSize = '22px';
                 pistaP.style.margin = '15px 0';
-                pistaP.innerHTML = 'Pista sutil: <em></em>';
-                pistaP.querySelector('em').textContent = `"${pistaImpostor}"`;
+                pistaP.textContent = 'Pista sutil: ';
+                const em = document.createElement('em');
+                em.textContent = `"${pistaImpostor}"`;
+                pistaP.appendChild(em);
                 
                 const avisoSmall = document.createElement('small');
                 avisoSmall.textContent = '¡Nadie sabe que eres impostor! Finge.';
