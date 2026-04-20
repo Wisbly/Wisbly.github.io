@@ -1,369 +1,986 @@
-<!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<!doctype html>
+<html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cristian M. Salinas — CV & Portafolio</title>
     <meta
       name="description"
-      content="CV y portafolio de Cristian M. Salinas: análisis de datos, Excel/VBA y desarrollo web con Bootstrap."
+      content="Portafolio profesional de Cristian M. Salinas: análisis de datos, Excel/VBA y desarrollo web. Elige un plan y conoce mis proyectos."
     />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
-      rel="stylesheet"
-    />
-    <link href="./assets/css/style.css" rel="stylesheet" />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #070710;
+        --bg2: #0d0d1e;
+        --brand: #2ddb1d;
+        --brand-lt: #8ef083;
+        --brand-dk: #1aa010;
+        --accent: #5b8ef0;
+        --text: #e8e6f0;
+        --muted: #8a88a0;
+        --card: rgba(255, 255, 255, 0.04);
+        --card-b: rgba(255, 255, 255, 0.08);
+        --radius: 20px;
+        --serif: "DM Serif Display", serif;
+        --sans: "Plus Jakarta Sans", sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--brand);
+        border-radius: 3px;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1.2rem 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(18px);
+        background: rgba(7, 7, 16, 0.6);
+        border-bottom: 1px solid rgba(45, 219, 29, 0.12);
+        transition: background 0.4s;
+      }
+      nav .logo {
+        font-family: var(--serif);
+        font-size: 1.5rem;
+        color: var(--brand-lt);
+        letter-spacing: 0.02em;
+      }
+      nav .logo span {
+        color: var(--brand);
+      }
+      nav .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      nav .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      nav .nav-links a:hover {
+        color: var(--brand-lt);
+      }
+      nav a.cta-nav {
+        text-decoration: none;
+        background: var(--brand);
+        color: #0a0a14;
+        font-weight: 700;
+        font-size: 0.85rem;
+        padding: 0.55rem 1.3rem;
+        border-radius: 100px;
+        letter-spacing: 0.04em;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      nav a.cta-nav:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 24px rgba(45, 219, 29, 0.4);
+      }
+
+      /* Decor */
+      .geo-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .geo {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.18;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+      .geo-1 {
+        width: 500px;
+        height: 500px;
+        background: #1a7a3a;
+        top: -100px;
+        left: -120px;
+        animation-duration: 20s;
+      }
+      .geo-2 {
+        width: 400px;
+        height: 400px;
+        background: #2a7a5a;
+        top: 40%;
+        right: -100px;
+        animation-duration: 16s;
+        animation-delay: -6s;
+      }
+      .geo-3 {
+        width: 300px;
+        height: 300px;
+        background: #1a3a7a;
+        bottom: 10%;
+        left: 20%;
+        animation-duration: 22s;
+        animation-delay: -10s;
+      }
+      @keyframes drift {
+        from {
+          transform: translate(0, 0) scale(1);
+        }
+        to {
+          transform: translate(40px, 60px) scale(1.12);
+        }
+      }
+
+      .grid-lines {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(45, 219, 29, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(45, 219, 29, 0.04) 1px, transparent 1px);
+        background-size: 80px 80px;
+        mask-image: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          black 30%,
+          transparent 100%
+        );
+      }
+
+      section {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* HERO */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 2rem 4rem;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(45, 219, 29, 0.12);
+        border: 1px solid rgba(45, 219, 29, 0.3);
+        color: var(--brand-lt);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.2s ease both;
+      }
+      .badge::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--brand);
+        display: inline-block;
+      }
+
+      #hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(2.4rem, 6vw, 5rem);
+        line-height: 1.1;
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        animation: fadeUp 0.9s 0.4s ease both;
+      }
+      #hero h1 em {
+        font-style: italic;
+        color: var(--brand-lt);
+        position: relative;
+      }
+      #hero h1 em::after {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brand), transparent);
+        border-radius: 2px;
+      }
+      #hero p.sub {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: var(--muted);
+        max-width: 580px;
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        animation: fadeUp 0.9s 0.6s ease both;
+      }
+
+      .hero-ctas {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        opacity: 0;
+        animation: fadeUp 0.9s 0.8s ease both;
+      }
+      .btn-primary {
+        display: inline-block;
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dk));
+        color: #07070f;
+        font-weight: 700;
+        padding: 1rem 2rem;
+        border-radius: 100px;
+        font-size: 1rem;
+        box-shadow: 0 8px 30px rgba(45, 219, 29, 0.3);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 40px rgba(45, 219, 29, 0.45);
+      }
+      .btn-ghost {
+        display: inline-block;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--text);
+        padding: 1rem 2rem;
+        border-radius: 100px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .btn-ghost:hover {
+        border-color: var(--brand);
+        background: rgba(45, 219, 29, 0.06);
+      }
+
+      .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+        max-width: 780px;
+        margin-top: 4rem;
+        width: 100%;
+        opacity: 0;
+        animation: fadeUp 0.9s 1s ease both;
+      }
+      .metric {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 1rem;
+        background: var(--card);
+        text-align: center;
+      }
+      .metric .h4 {
+        font-family: var(--serif);
+        font-size: 1.1rem;
+        color: var(--brand-lt);
+        margin-bottom: 0.2rem;
+      }
+      .metric small {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      /* SEC HEADER */
+      .sec-header {
+        text-align: center;
+        max-width: 620px;
+        margin: 0 auto 3.5rem;
+      }
+      .sec-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--brand);
+        margin-bottom: 0.8rem;
+      }
+      .sec-header h2 {
+        font-family: var(--serif);
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        line-height: 1.15;
+        margin-bottom: 0.8rem;
+      }
+      .sec-header p {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      /* ACCESOS (nav cards) */
+      #accesos {
+        padding: 5rem 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .access-grid {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+      }
+      .access-card {
+        background: var(--card);
+        border: 1px solid var(--card-b);
+        border-radius: var(--radius);
+        padding: 2rem;
+        text-decoration: none;
+        color: var(--text);
+        transition:
+          transform 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+        opacity: 0;
+        transform: translateY(30px);
+        display: block;
+      }
+      .access-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .access-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(45, 219, 29, 0.35);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      }
+      .access-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(45, 219, 29, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .access-card h3 {
+        font-family: var(--serif);
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        color: var(--brand-lt);
+      }
+      .access-card p {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+      }
+      .access-card .arrow {
+        color: var(--brand);
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+      }
+
+      /* PLANES */
+      #planes {
+        padding: 6rem 2rem;
+      }
+      .plans-grid {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+      .plan-card {
+        background: var(--card);
+        border: 1px solid var(--card-b);
+        border-radius: var(--radius);
+        padding: 2.2rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s,
+          border-color 0.3s;
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      .plan-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .plan-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border-color: rgba(45, 219, 29, 0.25);
+      }
+      .plan-card.pro {
+        background: linear-gradient(
+          140deg,
+          rgba(45, 219, 29, 0.12),
+          rgba(91, 142, 240, 0.08)
+        );
+        border-color: rgba(45, 219, 29, 0.45);
+        transform: translateY(0) scale(1.03);
+      }
+      .plan-card.pro.visible:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 24px 70px rgba(45, 219, 29, 0.25);
+      }
+      .plan-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(45, 219, 29, 0.4),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .plan-card.pro::before {
+        background: linear-gradient(90deg, var(--brand), var(--accent));
+        opacity: 1;
+      }
+      .plan-card:hover::before {
+        opacity: 1;
+      }
+
+      .popular-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dk));
+        color: #07070f;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.85rem;
+        border-radius: 100px;
+        margin-bottom: 1.2rem;
+      }
+      .plan-name {
+        font-family: var(--serif);
+        font-size: 1.6rem;
+        margin-bottom: 0.3rem;
+      }
+      .plan-tagline {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+      .plan-price {
+        display: flex;
+        align-items: baseline;
+        gap: 0.3rem;
+        margin-bottom: 0.3rem;
+      }
+      .plan-price .amount {
+        font-family: var(--serif);
+        font-size: 2.6rem;
+        color: var(--brand-lt);
+      }
+      .plan-price .currency {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      .plan-why {
+        font-size: 0.8rem;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.04);
+        border-left: 2px solid var(--brand);
+        padding: 0.6rem 0.8rem;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 1.5rem;
+        font-style: italic;
+      }
+      .features {
+        list-style: none;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .features li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        font-size: 0.9rem;
+      }
+      .features li .check {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: rgba(45, 219, 29, 0.15);
+        color: var(--brand);
+        font-size: 0.65rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 2px;
+        font-weight: 700;
+      }
+      .btn-plan {
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 100px;
+        padding: 0.9rem 1.5rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn-plan:hover {
+        transform: translateY(-2px);
+      }
+      .btn-plan-outline {
+        background: rgba(45, 219, 29, 0.1);
+        border: 1px solid rgba(45, 219, 29, 0.35);
+        color: var(--brand-lt);
+      }
+      .btn-plan-outline:hover {
+        background: rgba(45, 219, 29, 0.18);
+        box-shadow: 0 6px 24px rgba(45, 219, 29, 0.2);
+      }
+      .btn-plan-filled {
+        background: linear-gradient(135deg, var(--brand), var(--brand-dk));
+        color: #07070f;
+        box-shadow: 0 6px 24px rgba(45, 219, 29, 0.3);
+      }
+      .btn-plan-filled:hover {
+        box-shadow: 0 10px 36px rgba(45, 219, 29, 0.5);
+      }
+
+      /* CTA BAND */
+      #cta-band {
+        padding: 5rem 2rem;
+        text-align: center;
+        position: relative;
+      }
+      #cta-band::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 70% 60% at 50% 50%,
+          rgba(45, 219, 29, 0.08),
+          transparent
+        );
+        pointer-events: none;
+      }
+      #cta-band h2 {
+        font-family: var(--serif);
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        margin-bottom: 1rem;
+      }
+      #cta-band p {
+        color: var(--muted);
+        margin-bottom: 2rem;
+        font-size: 1rem;
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 2.5rem 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+      footer strong {
+        color: var(--brand-lt);
+        font-weight: 600;
+      }
+      footer .footer-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+      }
+      footer .footer-links a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      footer .footer-links a:hover {
+        color: var(--brand-lt);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 700px) {
+        nav {
+          padding: 1rem 1.2rem;
+        }
+        nav .logo {
+          font-size: 1.2rem;
+        }
+        nav .nav-links {
+          display: none;
+        }
+        .plan-card.pro {
+          transform: none;
+        }
+        .plan-card.pro.visible:hover {
+          transform: translateY(-6px);
+        }
+        .hero-ctas {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
   </head>
   <body>
-    <nav
-      class="navbar navbar-expand-lg bg-body sticky-top border-bottom border-secondary-subtle"
-    >
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="#"
-          ><span class="text-brand">CV</span> Cristian Salinas Orrego</a
-        >
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#nav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="nav" class="collapse navbar-collapse">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
-            <li class="nav-item">
-              <a class="nav-link" href="./portafolio.html"
-                >"Portafolio Link externo"</a
-              >
+    <div class="geo-canvas" aria-hidden="true">
+      <div class="geo geo-1"></div>
+      <div class="geo geo-2"></div>
+      <div class="geo geo-3"></div>
+    </div>
+    <div class="grid-lines" aria-hidden="true"></div>
+
+    <nav>
+      <div class="logo">CV <span>Cristian Salinas</span></div>
+      <div class="nav-links">
+        <a href="./cv.html">Perfil</a>
+        <a href="./portafolio.html">Portafolio</a>
+        <a href="./valores.html">Valores</a>
+      </div>
+      <a
+        class="cta-nav"
+        style="background: #25d366; color: #fff"
+        href="https://wa.me/56993322519?text=Hola!%2C%20quisiera%20hablar%20para%20un%20proyecto%20de%20p%C3%A1gina%20web"
+        target="_blank"
+        rel="noopener"
+        >💬 WhatsApp</a
+      >
+    </nav>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="badge">✦ Ingeniero Comercial · Chile</div>
+
+      <h1>Cristian M. Salinas <em>Orrego</em></h1>
+
+      <p class="sub">
+        Análisis de datos, automatización con Excel/VBA y desarrollo web con
+        Bootstrap. Enfoque en eficiencia, métricas claras y entregables
+        mantenibles.
+      </p>
+
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#planes">Ver Planes y Valores</a>
+        <a class="btn-ghost" href="./portafolio.html">Ver Proyectos</a>
+      </div>
+
+      <div class="hero-metrics">
+        <div class="metric">
+          <div class="h4">Lugar</div>
+          <small>Todo Chile</small>
+        </div>
+        <div class="metric">
+          <div class="h4">Inmediata</div>
+          <small>Disponibilidad</small>
+        </div>
+        <div class="metric">
+          <div class="h4">Licencia</div>
+          <small>Conducir Clase B</small>
+        </div>
+        <div class="metric">
+          <div class="h4">Inglés B1</div>
+          <small>Duolingo +600D</small>
+        </div>
+        <div class="metric">
+          <div class="h4">Emprendedor</div>
+          <small>IG: @ThingGoApp</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACCESOS -->
+    <section id="accesos">
+      <div class="sec-header">
+        <div class="sec-label">Navegación</div>
+        <h2>Explora mi trabajo</h2>
+        <p>Tres accesos rápidos a lo que hago, cómo lo hago y cuánto cuesta.</p>
+      </div>
+
+      <div class="access-grid">
+        <a class="access-card" href="./cv.html">
+          <div class="access-icon">👤</div>
+          <h3>Perfil Profesional</h3>
+          <p>
+            CV completo: experiencia, habilidades, educación y certificaciones.
+          </p>
+          <span class="arrow">Ver CV →</span>
+        </a>
+        <a class="access-card" href="./portafolio.html">
+          <div class="access-icon">💼</div>
+          <h3>Portafolio</h3>
+          <p>Proyectos destacados en desarrollo web, datos y emprendimiento.</p>
+          <span class="arrow">Ver proyectos →</span>
+        </a>
+        <a class="access-card" href="./valores.html">
+          <div class="access-icon">💰</div>
+          <h3>Valores y Mantención</h3>
+          <p>Planes de servicio y detalle de mantenciones mensuales.</p>
+          <span class="arrow">Ver valores →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- PLANES -->
+    <section id="planes">
+      <div class="sec-header">
+        <div class="sec-label">Inversión</div>
+        <h2>Planes de Servicio</h2>
+        <p>Precios en pesos chilenos. Sin sorpresas ni costos ocultos.</p>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card" data-delay="0">
+          <div class="plan-name">Básico</div>
+          <div class="plan-tagline">Ideal para empezar con el pie derecho</div>
+          <div class="plan-price">
+            <span class="amount">$150.000</span>
+            <span class="currency">CLP</span>
+          </div>
+          <div class="plan-why">
+            Diseño + publicación. Valor inmediato sin complicaciones.
+          </div>
+          <ul class="features">
+            <li>
+              <span class="check">✓</span> 1 página completa con tus proyectos
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#habilidades">Habilidades</a>
+            <li><span class="check">✓</span> Galería de fotos ordenada</li>
+            <li><span class="check">✓</span> Botón de contacto por WhatsApp</li>
+            <li>
+              <span class="check">✓</span> Responsive en celular y computador
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#experiencia">Experiencia</a>
+            <li>
+              <span class="check">✓</span> Carga inicial de contenido incluida
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#educacion">Educación</a>
+            <li><span class="check">✓</span> Publicada en 5–7 días</li>
+          </ul>
+          <a class="btn-plan btn-plan-outline" href="./valores.html#basico"
+            >Ver detalle →</a
+          >
+        </div>
+
+        <div class="plan-card pro" data-delay="150">
+          <div class="popular-badge">⭐ Más Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-tagline">
+            El preferido para profesionales activos
+          </div>
+          <div class="plan-price">
+            <span class="amount">$250.000</span>
+            <span class="currency">CLP</span>
+          </div>
+          <div class="plan-why">
+            Inversión que genera clientes + ahorras en hosting el primer año.
+          </div>
+          <ul class="features">
+            <li><span class="check">✓</span> Todo lo del plan Básico</li>
+            <li><span class="check">✓</span> Portafolio con categorías</li>
+            <li><span class="check">✓</span> Galería ilimitada</li>
+            <li>
+              <span class="check">✓</span> Formulario de contacto profesional
+            </li>
+            <li><span class="check">✓</span> SEO básico: apareces en Google</li>
+            <li><span class="check">✓</span> Hosting + dominio gratis 1 año</li>
+          </ul>
+          <a class="btn-plan btn-plan-filled" href="./valores.html#pro"
+            >Ver detalle →</a
+          >
+        </div>
+
+        <div class="plan-card" data-delay="300">
+          <div class="plan-name">Premium</div>
+          <div class="plan-tagline">
+            Para quienes quieren crecer con autonomía
+          </div>
+          <div class="plan-price">
+            <span class="amount">$400.000</span>
+            <span class="currency">CLP</span>
+          </div>
+          <div class="plan-why">
+            Creces solo, ahorras freelancers futuros. Editas contenido cuando
+            quieras.
+          </div>
+          <ul class="features">
+            <li><span class="check">✓</span> Todo lo del plan Pro</li>
+            <li>
+              <span class="check">✓</span> Panel admin para editar tú mismo
+            </li>
+            <li>
+              <span class="check">✓</span> Blog para más visibilidad en Google
+            </li>
+            <li><span class="check">✓</span> 3 meses de soporte incluido</li>
+            <li>
+              <span class="check">✓</span> SEO avanzado con blog optimizado
+            </li>
+            <li>
+              <span class="check">✓</span> Capacitación para usar el panel
             </li>
           </ul>
-        </div>
-      </div>
-    </nav>
-
-    <header class="hero py-5">
-      <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-7">
-            <div class="col-lg-5 p-2 text-start">
-              <img
-                src="./assets/img/CV_01.jpeg"
-                alt="Foto de Cristian Salinas"
-                class="img-fluid rounded-4 shadow"
-              />
-            </div>
-            <h1 class="display-5 fw-800 mb-3">Cristian M. Salinas Orrego</h1>
-            <h1 class="text-brand">Ingeniero Comercial</h1>
-
-            <p class="lead text-secondary">
-              Análisis de datos, automatización con Excel/VBA y desarrollo web
-              con Bootstrap. Enfoque en eficiencia, métricas claras y
-              entregables mantenibles.
-            </p>
-            <div class="d-flex gap-2 flex-wrap">
-              <a class="btn btn-brand btn-lg" href="./portafolio.html"
-                >Ver proyectos</a
-              >
-              <a
-                class="btn btn-outline-light btn-lg"
-                href="mailto:cristian.salinasor@gmail.com"
-                >cristian.salinasor@gmail.com</a
-              >
-            </div>
-
-            <div class="row row-cols-3 g-3 mt-4">
-              <div class="col">
-                <div class="metric text-center">
-                  <div class="h4 mb-0">Lugar</div>
-                  <small>Todo Chile</small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="metric text-center">
-                  <div class="h4 mb-0">Inmediata</div>
-                  <small>Disponibilidad</small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="metric text-center">
-                  <div class="h4 mb-0">Licencia</div>
-                  <small>Conducir Clase B</small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="metric text-center">
-                  <div class="h4 mb-0">Pasatiempo</div>
-                  <small>Artes y Videojuego</small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="metric text-center">
-                  <div class="h4 mb-0">Inglés B1</div>
-                  <small>Duolingo +600D</small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="metric text-center">
-                  <div class="h4 mb-0">Emprendedor</div>
-                  <small>Ig:@ThingGoApp</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- HABILIDADES -->
-    <section id="habilidades" class="py-5 bg-section">
-      <div class="container">
-        <h2 class="mb-4">Habilidades y Logros</h2>
-        <div class="row g-4">
-          <div class="col-md-6">
-            <div class="mb-2 fw-semibold">• Excel / VBA Avanzado</div>
-
-            <div class="mb-2 fw-semibold">• Power BI / Tableau</div>
-
-            <div class="mb-2 fw-semibold">• HTML / CSS / Bootstrap</div>
-          </div>
-          <div class="col-md-6">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-transparent">
-                ✔ Ganador Fondo Sercotec - Capital Semilla 2025
-              </li>
-              <li class="list-group-item bg-transparent">
-                ✔ Intercambio Académico - México 2023
-              </li>
-              <li class="list-group-item bg-transparent">
-                ✔ Centro de Alumnos - Ing. Comercial 2020 & 2022
-              </li>
-            </ul>
-          </div>
+          <a class="btn-plan btn-plan-outline" href="./valores.html#premium"
+            >Ver detalle →</a
+          >
         </div>
       </div>
     </section>
 
-    <!-- Experiencia -->
-    <section id="experiencia" class="py-5">
-      <div class="container">
-        <div class="container">
-          <h2 class="mb-4">Experiencia</h2>
-          <div class="timeline">
-            <div class="item mb-4">
-              <h3 class="h5 mb-1">
-                UTFSM — Análista de Datos y Gestión
-                <small class="text-secondary">2024–2025</small>
-              </h3>
-
-              <ul>
-                <li>Desarrollo de reportes y dashboards</li>
-                <li>ERP y SAP</li>
-                <li>Optimización de procesos administrativos</li>
-              </ul>
-            </div>
-            <div class="item">
-              <h3 class="h5 mb-1">
-                ThingGo App — Fundador
-                <small class="text-secondary">2024–Actual</small>
-              </h3>
-              <ul>
-                <li>Elaboración del modelo de Negocio</li>
-                <li>Gestión de Equipo</li>
-                <li>Ganador Fondo Capital Semilla Sercotec 2025</li>
-              </ul>
-            </div>
-            <div class="item">
-              <h3 class="h5 mb-1">
-                JetSMART — Prácticante de Operaciones
-                <small class="text-secondary">2024</small>
-              </h3>
-              <ul>
-                <li>Manejo de BBDD</li>
-                <li>Revisión de Facturas</li>
-              </ul>
-            </div>
-            <div class="item">
-              <h3 class="h5 mb-1">
-                Sistemas B Chile — Análista de Datos para Evento
-                <small class="text-secondary">2024</small>
-              </h3>
-              <ul>
-                <li>Elaboración y manejo de BBDD</li>
-                <li>Contacto con Empresas</li>
-                <li>Apoyo general en Evento Empresas Sistema B 2024</li>
-              </ul>
-            </div>
-            <div class="item">
-              <h3 class="h5 mb-1">
-                UTFSM — Ayudantías
-                <small class="text-secondary">2020 - 2024</small>
-              </h3>
-              <ul>
-                <li>
-                  Microeconomía
-                  <small class="text-secondary">2020 - 2022</small>
-                </li>
-                <li>
-                  Contabilidad Financiera
-                  <small class="text-secondary">2020 - 2021</small>
-                </li>
-                <li>Economía 1-A <small class="text-secondary">2022</small></li>
-                <li>
-                  Sistema Híbrido Ing. Comercial Vespertino
-                  <small class="text-secondary">2022 - 2023</small>
-                </li>
-                <li>
-                  Sistema Híbrido Magister in Business Administration
-                  <small class="text-secondary">2022 - 2024</small>
-                </li>
-              </ul>
-            </div>
-            <div class="item">
-              <h3 class="h5 mb-1">
-                Electronika Ltda — Prácticante de Análisis de datos
-                <small class="text-secondary">2022</small>
-              </h3>
-              <ul>
-                <li>Elaboración y manejo de BBDD</li>
-                <li>Estudio de Mercado</li>
-                <li>Apoyo general en el área de ventas</li>
-              </ul>
-            </div>
-            <div class="item">
-              <h3 class="h5 mb-1">
-                Emprendimientos - Varios
-                <small class="text-secondary">2017 - Actual</small>
-              </h3>
-              <ul>
-                <li>
-                  ThingGo App
-                  <small class="text-secondary">2023 - Actual</small>
-                </li>
-                <li>
-                  Chocolates Quetzal <small class="text-secondary">2022</small>
-                </li>
-                <li>
-                  Dulces Aviadora <small class="text-secondary">2022</small>
-                </li>
-                <li>
-                  Limonadas Manchitas
-                  <small class="text-secondary">2020 - 2021</small>
-                </li>
-                <li>
-                  Ventas de Dulces <small class="text-secondary">2017</small>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EDUCACIÓN -->
-    <section id="educacion" class="py-5 bg-section">
-      <div class="container">
-        <h2 class="mb-4">Educación & Certificaciones</h2>
-        <div class="row g-3">
-          <div class="col-md-6">
-            <div class="p-3 border rounded-4 border-secondary-subtle">
-              <div class="fw-semibold">Ingeniería Comercial</div>
-              <small class="text-secondary"
-                >Universidad Técnica Federico Santa María (2019-2024)</small
-              >
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="p-3 border rounded-4 border-secondary-subtle">
-              <div class="fw-semibold">Desarrollador Full-Stack (en curso)</div>
-              <small class="text-secondary">Desafío LATAM (2025-2026)</small>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="p-3 border rounded-4 border-secondary-subtle">
-              <div class="fw-semibold">Intercambio Academico</div>
-              <small class="text-secondary"
-                >Universidad de Guadalajara (2023)</small
-              >
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="p-3 border rounded-4 border-secondary-subtle">
-              <div class="fw-semibold">
-                Diseño Web y Experiencia de Usuario (UX/UI)
-              </div>
-              <small class="text-secondary">Diploma AIEP - SENCE (2025)</small>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="p-3 border rounded-4 border-secondary-subtle">
-              <div class="fw-semibold">Licenciatura Enseñanza Media</div>
-              <small class="text-secondary"
-                >Liceo Santa Marta - Vallenar (2014 - 2018)</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="py-4 border-top border-secondary-subtle">
-      <div class="container">
-        <h2 class="mb-3">Contacto</h2>
-        <p class="text-secondary">¿Proyecto en mente? Conversemos.</p>
-        <div class="d-flex gap-2 flex-wrap">
-          <a class="btn btn-brand" href="mailto:cristian.salinasor@gmail.com"
-            ><i class="bi bi-envelope"></i> Email</a
-          >
-          <a
-            class="btn btn-outline-light"
-            href="https://thinggoapp.github.io/index.html"
-            target="_blank"
-            rel="noopener"
-          >
-            ThinggoApp</a
-          >
-          <a
-            class="btn btn-outline-light"
-            href="https://www.linkedin.com/in/cristian-salinas-orrego-a229061b2/"
-            target="_blank"
-            rel="noopener"
-            ><i class="bi bi-linkedin"></i> LinkedIn</a
-          >
-          <a
-            class="btn btn-outline-light"
-            href="https://github.com/Wisbly"
-            target="_blank"
-            rel="noopener"
-            ><i class="bi bi-github"></i> GitHub</a
-          >
-        </div>
-      </div>
-      <div
-        class="container mt-4 small text-secondary d-flex justify-content-between"
+    <!-- CTA -->
+    <section id="cta-band">
+      <h2>¿Listo para conversar?</h2>
+      <p>Cotización 100% gratis y personalizada. Sin compromisos.</p>
+      <a
+        class="btn-primary"
+        style="background: #25d366; font-size: 1.1rem; padding: 1.1rem 2.5rem"
+        href="https://wa.me/56993322519?text=Hola!%2C%20quisiera%20hablar%20para%20un%20proyecto%20de%20p%C3%A1gina%20web"
+        target="_blank"
+        rel="noopener"
       >
-        <span>©2025 Cristian M. Salinas</span>
-        <a href="#top">Volver arriba ↑</a>
+        💬 Habla conmigo por WhatsApp
+      </a>
+    </section>
+
+    <footer>
+      <div>Desarrollado por <strong>Cristian M. Salinas Orrego</strong></div>
+      <div class="footer-links">
+        <a href="mailto:cristian.salinasor@gmail.com">Email</a>
+        <a
+          href="https://www.linkedin.com/in/cristian-salinas-orrego-a229061b2/"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        <a href="https://github.com/Wisbly" target="_blank" rel="noopener"
+          >GitHub</a
+        >
+        <a
+          href="https://thinggoapp.github.io/index.html"
+          target="_blank"
+          rel="noopener"
+          >ThingGoApp</a
+        >
+      </div>
+      <div class="footer-note">
+        © 2025 Cristian M. Salinas · Hecho con 💚 en Chile 🇨🇱
       </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
+              setTimeout(() => el.classList.add("visible"), delay);
+              observer.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+
+      document
+        .querySelectorAll(".plan-card, .access-card")
+        .forEach((el) => observer.observe(el));
+
+      document.querySelectorAll(".access-card").forEach((el, i) => {
+        el.style.transitionDelay = `${i * 100}ms`;
+      });
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          const nav = document.querySelector("nav");
+          nav.style.background =
+            window.scrollY > 50 ? "rgba(7,7,16,0.92)" : "rgba(7,7,16,0.6)";
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        "mousemove",
+        (e) => {
+          const cx = (e.clientX / window.innerWidth - 0.5) * 20;
+          const cy = (e.clientY / window.innerHeight - 0.5) * 20;
+          document.querySelector(".geo-1").style.transform =
+            `translate(${cx * 0.8}px, ${cy * 0.8}px)`;
+          document.querySelector(".geo-2").style.transform =
+            `translate(${-cx * 0.6}px, ${-cy * 0.6}px)`;
+          document.querySelector(".geo-3").style.transform =
+            `translate(${cx * 0.4}px, ${cy * 0.4}px)`;
+        },
+        { passive: true },
+      );
+    </script>
   </body>
 </html>

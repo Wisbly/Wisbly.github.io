@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valores y Planes — Cristian M. Salinas</title>
+  <meta name="description" content="Detalle de planes, valores de servicio y mantenciones mensuales. Transparencia total en precios.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#070710;
+      --brand:#2ddb1d;
+      --brand-lt:#8ef083;
+      --brand-dk:#1aa010;
+      --accent:#5b8ef0;
+      --text:#e8e6f0;
+      --muted:#8a88a0;
+      --card:rgba(255,255,255,0.04);
+      --card-b:rgba(255,255,255,0.08);
+      --radius:20px;
+      --serif:'DM Serif Display',serif;
+      --sans:'Plus Jakarta Sans',sans-serif;
+    }
+
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--brand);border-radius:3px}
+
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;
+      backdrop-filter:blur(18px);background:rgba(7,7,16,0.6);
+      border-bottom:1px solid rgba(45,219,29,0.12);transition:background .4s;
+    }
+    nav .logo{font-family:var(--serif);font-size:1.5rem;color:var(--brand-lt);letter-spacing:.02em}
+    nav .logo span{color:var(--brand)}
+    nav .nav-links{display:flex;gap:1.5rem;align-items:center}
+    nav .nav-links a{text-decoration:none;color:var(--muted);font-size:.9rem;font-weight:500;transition:color .2s}
+    nav .nav-links a:hover{color:var(--brand-lt)}
+    nav .nav-links a.active{color:var(--brand-lt)}
+    nav a.cta-nav{
+      text-decoration:none;background:var(--brand);color:#0a0a14;
+      font-weight:700;font-size:.85rem;padding:.55rem 1.3rem;border-radius:100px;
+      letter-spacing:.04em;transition:transform .2s,box-shadow .2s;
+    }
+    nav a.cta-nav:hover{transform:scale(1.05);box-shadow:0 0 24px rgba(45,219,29,0.4)}
+
+    .geo-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+    .geo{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;animation:drift 18s ease-in-out infinite alternate}
+    .geo-1{width:500px;height:500px;background:#1a7a3a;top:-100px;left:-120px}
+    .geo-2{width:400px;height:400px;background:#2a7a5a;top:40%;right:-100px;animation-delay:-6s}
+    .geo-3{width:300px;height:300px;background:#1a3a7a;bottom:10%;left:20%;animation-delay:-10s}
+    @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,60px) scale(1.12)}}
+
+    .grid-lines{
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:linear-gradient(rgba(45,219,29,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(45,219,29,0.04) 1px,transparent 1px);
+      background-size:80px 80px;
+      mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);
+    }
+
+    section{position:relative;z-index:1;scroll-margin-top:100px}
+
+    #hero{padding:9rem 2rem 3rem;text-align:center}
+    .badge{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(45,219,29,0.12);border:1px solid rgba(45,219,29,0.3);
+      color:var(--brand-lt);font-size:.78rem;font-weight:600;letter-spacing:.1em;
+      text-transform:uppercase;padding:.4rem 1rem;border-radius:100px;margin-bottom:1.5rem;
+    }
+    .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);display:inline-block}
+    #hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.1;margin-bottom:1rem;max-width:820px;margin-left:auto;margin-right:auto}
+    #hero h1 em{font-style:italic;color:var(--brand-lt)}
+    #hero p.sub{color:var(--muted);font-size:1.05rem;max-width:620px;margin:0 auto}
+
+    .sec-header{text-align:center;max-width:640px;margin:0 auto 3rem}
+    .sec-label{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--brand);margin-bottom:.8rem}
+    .sec-header h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;margin-bottom:.8rem}
+    .sec-header p{color:var(--muted)}
+
+    /* PLANES */
+    #planes{padding:5rem 2rem}
+    .plans-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;align-items:start}
+    .plan-card{
+      background:var(--card);border:1px solid var(--card-b);border-radius:var(--radius);
+      padding:2.2rem;position:relative;overflow:hidden;
+      transition:transform .3s,box-shadow .3s,border-color .3s;
+      scroll-margin-top:110px;
+    }
+    .plan-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.4);border-color:rgba(45,219,29,0.25)}
+    .plan-card.pro{
+      background:linear-gradient(140deg,rgba(45,219,29,0.12),rgba(91,142,240,0.08));
+      border-color:rgba(45,219,29,0.45);transform:scale(1.02);
+    }
+    .plan-card.pro:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 24px 70px rgba(45,219,29,0.25)}
+    .plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(45,219,29,0.4),transparent);opacity:0;transition:opacity .3s}
+    .plan-card.pro::before{background:linear-gradient(90deg,var(--brand),var(--accent));opacity:1}
+    .plan-card:hover::before{opacity:1}
+
+    .popular-badge{
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:linear-gradient(135deg,var(--brand),var(--brand-dk));
+      color:#07070f;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      padding:.3rem .85rem;border-radius:100px;margin-bottom:1.2rem;
+    }
+    .plan-name{font-family:var(--serif);font-size:1.7rem;margin-bottom:.3rem}
+    .plan-tagline{font-size:.85rem;color:var(--muted);margin-bottom:1.3rem}
+    .plan-price{display:flex;align-items:baseline;gap:.3rem;margin-bottom:.3rem}
+    .plan-price .amount{font-family:var(--serif);font-size:2.6rem;color:var(--brand-lt)}
+    .plan-price .currency{font-size:.9rem;color:var(--muted)}
+    .plan-why{
+      font-size:.82rem;color:var(--muted);background:rgba(255,255,255,0.04);
+      border-left:2px solid var(--brand);padding:.6rem .85rem;border-radius:0 8px 8px 0;
+      margin-bottom:1.4rem;font-style:italic;
+    }
+    .features{list-style:none;margin-bottom:1.8rem;display:flex;flex-direction:column;gap:.7rem}
+    .features li{display:flex;align-items:flex-start;gap:.7rem;font-size:.9rem}
+    .features li .check{
+      width:18px;height:18px;border-radius:50%;background:rgba(45,219,29,0.15);color:var(--brand);
+      font-size:.65rem;display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;margin-top:2px;font-weight:700;
+    }
+    .btn-plan{display:block;text-align:center;text-decoration:none;border-radius:100px;padding:.9rem 1.5rem;font-weight:700;font-size:.95rem;transition:transform .2s,box-shadow .2s}
+    .btn-plan:hover{transform:translateY(-2px)}
+    .btn-plan-outline{background:rgba(45,219,29,0.1);border:1px solid rgba(45,219,29,0.35);color:var(--brand-lt)}
+    .btn-plan-outline:hover{background:rgba(45,219,29,0.18);box-shadow:0 6px 24px rgba(45,219,29,0.2)}
+    .btn-plan-filled{background:linear-gradient(135deg,var(--brand),var(--brand-dk));color:#07070f;box-shadow:0 6px 24px rgba(45,219,29,0.3)}
+    .btn-plan-filled:hover{box-shadow:0 10px 36px rgba(45,219,29,0.5)}
+
+    /* MANTENCIÓN */
+    #mantencion{padding:6rem 2rem;background:linear-gradient(180deg,transparent,rgba(13,13,30,0.6),transparent)}
+    .maint-intro{max-width:820px;margin:0 auto 3rem;background:var(--card);border:1px solid var(--card-b);border-radius:var(--radius);padding:2rem;border-left:4px solid var(--brand)}
+    .maint-intro h3{font-family:var(--serif);font-size:1.3rem;color:var(--brand-lt);margin-bottom:.8rem}
+    .maint-intro p{color:var(--text);font-size:.95rem;margin-bottom:.8rem}
+    .maint-intro p:last-child{margin-bottom:0;color:var(--muted);font-size:.88rem}
+
+    .maint-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.3rem}
+    .maint-card{
+      background:var(--card);border:1px solid var(--card-b);border-radius:var(--radius);
+      padding:2rem;position:relative;transition:transform .3s,border-color .3s;
+    }
+    .maint-card:hover{transform:translateY(-4px);border-color:rgba(45,219,29,0.25)}
+    .maint-card.highlight{border-color:rgba(45,219,29,0.4);background:linear-gradient(140deg,rgba(45,219,29,0.1),rgba(91,142,240,0.06))}
+    .maint-card h3{font-family:var(--serif);font-size:1.4rem;color:var(--brand-lt);margin-bottom:.3rem}
+    .maint-card .sub{color:var(--muted);font-size:.82rem;margin-bottom:1.2rem}
+    .maint-price{display:flex;align-items:baseline;gap:.3rem;margin-bottom:.2rem}
+    .maint-price .amount{font-family:var(--serif);font-size:2.2rem;color:var(--brand-lt)}
+    .maint-price .unit{font-size:.85rem;color:var(--muted)}
+    .maint-annual{color:var(--muted);font-size:.78rem;margin-bottom:1.3rem;font-style:italic}
+    .maint-card ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+    .maint-card ul li{display:flex;align-items:flex-start;gap:.6rem;font-size:.87rem}
+    .maint-card ul li .check{
+      width:16px;height:16px;border-radius:50%;background:rgba(45,219,29,0.15);color:var(--brand);
+      font-size:.6rem;display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;margin-top:3px;font-weight:700;
+    }
+
+    /* COMPARATIVA */
+    #comparativa{padding:6rem 2rem}
+    .table-wrap{max-width:960px;margin:0 auto;overflow-x:auto;background:var(--card);border:1px solid var(--card-b);border-radius:var(--radius);padding:.5rem}
+    table{width:100%;border-collapse:collapse;min-width:540px}
+    th,td{padding:1rem .9rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06);font-size:.88rem}
+    th{color:var(--brand);font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+    td .yes{color:var(--brand-lt);font-weight:700}
+    td .no{color:var(--muted);opacity:.6}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover{background:rgba(45,219,29,0.04)}
+
+    /* FAQ */
+    #faq{padding:5rem 2rem}
+    .faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:1rem}
+    .faq-item{background:var(--card);border:1px solid var(--card-b);border-radius:14px;overflow:hidden;transition:border-color .3s}
+    .faq-item.open{border-color:rgba(45,219,29,0.35)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;cursor:pointer;font-weight:600;font-size:.95rem;user-select:none}
+    .faq-q .arrow{
+      width:24px;height:24px;border-radius:50%;background:rgba(45,219,29,0.1);
+      display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:.8rem;
+      transition:transform .3s,background .3s;flex-shrink:0;
+    }
+    .faq-item.open .faq-q .arrow{transform:rotate(45deg);background:rgba(45,219,29,0.25)}
+    .faq-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding:0 1.5rem}
+    .faq-item.open .faq-body{max-height:400px;padding:0 1.5rem 1.3rem}
+    .faq-body p{color:var(--muted);font-size:.88rem;line-height:1.7}
+    .faq-body strong{color:var(--text)}
+
+    /* CTA */
+    #cta-band{padding:5rem 2rem;text-align:center;position:relative}
+    #cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(45,219,29,0.08),transparent);pointer-events:none}
+    #cta-band h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:1rem}
+    #cta-band p{color:var(--muted);margin-bottom:2rem}
+    .btn-primary{
+      display:inline-block;text-decoration:none;
+      background:linear-gradient(135deg,var(--brand),var(--brand-dk));color:#07070f;font-weight:700;
+      padding:1rem 2.2rem;border-radius:100px;font-size:1rem;
+      box-shadow:0 8px 30px rgba(45,219,29,0.3);transition:transform .2s,box-shadow .2s;
+    }
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(45,219,29,0.45)}
+
+    footer{padding:2.5rem 2rem;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:var(--muted);font-size:.82rem}
+    footer strong{color:var(--brand-lt);font-weight:600}
+    footer .footer-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
+    footer .footer-links a{color:var(--muted);text-decoration:none;transition:color .2s}
+    footer .footer-links a:hover{color:var(--brand-lt)}
+
+    @media (max-width:700px){
+      nav{padding:1rem 1.2rem}
+      nav .logo{font-size:1.2rem}
+      nav .nav-links{display:none}
+      .plan-card.pro{transform:none}
+    }
+  </style>
+</head>
+<body>
+
+<div class="geo-canvas" aria-hidden="true">
+  <div class="geo geo-1"></div>
+  <div class="geo geo-2"></div>
+  <div class="geo geo-3"></div>
+</div>
+<div class="grid-lines" aria-hidden="true"></div>
+
+<nav>
+  <a href="./index.html" style="text-decoration:none"><div class="logo">CV <span>Cristian Salinas</span></div></a>
+  <div class="nav-links">
+    <a href="./index.html">Inicio</a>
+    <a href="./cv.html">Perfil</a>
+    <a href="./portafolio.html">Portafolio</a>
+    <a href="./valores.html" class="active">Valores</a>
+  </div>
+  <a class="cta-nav" href="mailto:cristian.salinasor@gmail.com">📩 Contáctame</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="badge">✦ Inversión transparente</div>
+  <h1>Valores y <em>Mantención</em></h1>
+  <p class="sub">
+    Precios claros, sin sorpresas. Cada plan incluye lo que necesitas para empezar,
+    y la mantención mensual es opcional y configurable según tus necesidades.
+  </p>
+</section>
+
+<!-- PLANES -->
+<section id="planes">
+  <div class="sec-header">
+    <div class="sec-label">Planes de servicio</div>
+    <h2>Elige tu punto de partida</h2>
+    <p>Precios en pesos chilenos. Pago único por el desarrollo.</p>
+  </div>
+
+  <div class="plans-grid">
+
+    <div class="plan-card" id="basico">
+      <div class="plan-name">Básico</div>
+      <div class="plan-tagline">Ideal para empezar con el pie derecho</div>
+      <div class="plan-price">
+        <span class="amount">$150.000</span>
+        <span class="currency">CLP</span>
+      </div>
+      <div class="plan-why">Tiempo de diseño + publicación = valor inmediato sin complicaciones.</div>
+      <ul class="features">
+        <li><span class="check">✓</span> 1 página completa con todos tus proyectos</li>
+        <li><span class="check">✓</span> Galería de fotos ordenada y bonita</li>
+        <li><span class="check">✓</span> Botón de contacto por WhatsApp</li>
+        <li><span class="check">✓</span> Se ve perfecta en celular y computador</li>
+        <li><span class="check">✓</span> Carga inicial de TUS proyectos incluida</li>
+        <li><span class="check">✓</span> Publicada y lista en 5–7 días</li>
+      </ul>
+      <a class="btn-plan btn-plan-outline" href="mailto:cristian.salinasor@gmail.com?subject=Plan%20B%C3%A1sico">Contratar Básico →</a>
+    </div>
+
+    <div class="plan-card pro" id="pro">
+      <div class="popular-badge">⭐ Más Popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-tagline">El preferido de mis clientes</div>
+      <div class="plan-price">
+        <span class="amount">$250.000</span>
+        <span class="currency">CLP</span>
+      </div>
+      <div class="plan-why">Inversión que genera clientes + ahorras $50.000/año en hosting.</div>
+      <ul class="features">
+        <li><span class="check">✓</span> Todo lo del plan Básico</li>
+        <li><span class="check">✓</span> Portafolio completo con categorías</li>
+        <li><span class="check">✓</span> Galería ilimitada de proyectos</li>
+        <li><span class="check">✓</span> Formulario de contacto profesional</li>
+        <li><span class="check">✓</span> SEO básico: apareces en Google</li>
+        <li><span class="check">✓</span> Hosting + dominio (.cl o .com) gratis 1 año</li>
+        <li><span class="check">✓</span> Carga inicial de TUS proyectos incluida</li>
+      </ul>
+      <a class="btn-plan btn-plan-filled" href="mailto:cristian.salinasor@gmail.com?subject=Plan%20Pro">Contratar Pro →</a>
+    </div>
+
+    <div class="plan-card" id="premium">
+      <div class="plan-name">Premium</div>
+      <div class="plan-tagline">Para quienes quieren crecer con autonomía</div>
+      <div class="plan-price">
+        <span class="amount">$400.000</span>
+        <span class="currency">CLP</span>
+      </div>
+      <div class="plan-why">Creces solo, ahorras freelancers futuros. Tú editas el contenido cuando quieras.</div>
+      <ul class="features">
+        <li><span class="check">✓</span> Todo lo del plan Pro</li>
+        <li><span class="check">✓</span> Panel admin: editas tú mismo el contenido</li>
+        <li><span class="check">✓</span> Blog para más visibilidad en Google</li>
+        <li><span class="check">✓</span> 3 meses de soporte técnico incluido</li>
+        <li><span class="check">✓</span> SEO avanzado con blog optimizado</li>
+        <li><span class="check">✓</span> Carga inicial de TUS proyectos incluida</li>
+        <li><span class="check">✓</span> Capacitación para usar el panel</li>
+      </ul>
+      <a class="btn-plan btn-plan-outline" href="mailto:cristian.salinasor@gmail.com?subject=Plan%20Premium">Contratar Premium →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- MANTENCIÓN MENSUAL -->
+<section id="mantencion">
+  <div class="sec-header">
+    <div class="sec-label">Soporte recurrente</div>
+    <h2>Valores Mensuales de Mantención</h2>
+    <p>Opcional. Para mantener tu sitio actualizado, seguro y con respaldo permanente.</p>
+  </div>
+
+  <div class="maint-intro">
+    <h3>💡 ¿Por qué pagar una mantención?</h3>
+    <p>
+      Una página web no es un producto estático: necesita <strong>actualizaciones de seguridad</strong>,
+      <strong>respaldos periódicos</strong>, <strong>renovación de hosting y dominio</strong> y,
+      si tu negocio crece, también <strong>cambios en el contenido</strong> (nuevas fotos, proyectos, textos).
+    </p>
+    <p>
+      La mantención es <strong>100% opcional</strong>: si contrataste el plan Pro o Premium, tu primer año ya
+      incluye hosting y dominio. Después puedes elegir seguir conmigo o gestionarlo por tu cuenta.
+      Si eliges un plan de mantención, tienes soporte directo, sin tener que buscar a alguien nuevo cada vez.
+    </p>
+    <p>
+      Los valores son mensuales, sin permanencia forzada. Puedes pausar o cancelar cuando quieras.
+    </p>
+  </div>
+
+  <div class="maint-grid">
+
+    <div class="maint-card">
+      <h3>Esencial</h3>
+      <div class="sub">Lo mínimo para estar tranquilo</div>
+      <div class="maint-price">
+        <span class="amount">$15.000</span>
+        <span class="unit">/ mes</span>
+      </div>
+      <div class="maint-annual">Equivalente a $180.000 anuales</div>
+      <ul>
+        <li><span class="check">✓</span> Renovación de hosting y dominio</li>
+        <li><span class="check">✓</span> Respaldo mensual automático</li>
+        <li><span class="check">✓</span> Monitoreo básico de uptime</li>
+        <li><span class="check">✓</span> Correcciones de errores menores</li>
+        <li><span class="check">✓</span> Respuesta en hasta 72 hrs hábiles</li>
+      </ul>
+    </div>
+
+    <div class="maint-card highlight">
+      <h3>Activa</h3>
+      <div class="sub">Para sitios con movimiento frecuente</div>
+      <div class="maint-price">
+        <span class="amount">$30.000</span>
+        <span class="unit">/ mes</span>
+      </div>
+      <div class="maint-annual">Equivalente a $360.000 anuales</div>
+      <ul>
+        <li><span class="check">✓</span> Todo lo del plan Esencial</li>
+        <li><span class="check">✓</span> Hasta 2 cambios de contenido al mes</li>
+        <li><span class="check">✓</span> Subida de nuevos proyectos/fotos</li>
+        <li><span class="check">✓</span> Ajustes menores de diseño</li>
+        <li><span class="check">✓</span> Revisión SEO trimestral</li>
+        <li><span class="check">✓</span> Respuesta en hasta 48 hrs hábiles</li>
+      </ul>
+    </div>
+
+    <div class="maint-card">
+      <h3>Pro Mensual</h3>
+      <div class="sub">Mantención completa + crecimiento</div>
+      <div class="maint-price">
+        <span class="amount">$55.000</span>
+        <span class="unit">/ mes</span>
+      </div>
+      <div class="maint-annual">Equivalente a $660.000 anuales</div>
+      <ul>
+        <li><span class="check">✓</span> Todo lo del plan Activa</li>
+        <li><span class="check">✓</span> Cambios de contenido ilimitados</li>
+        <li><span class="check">✓</span> 1 artículo de blog al mes (Premium)</li>
+        <li><span class="check">✓</span> Optimización SEO mensual</li>
+        <li><span class="check">✓</span> Reporte de visitas y métricas</li>
+        <li><span class="check">✓</span> Soporte prioritario &lt; 24 hrs</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARATIVA -->
+<section id="comparativa">
+  <div class="sec-header">
+    <div class="sec-label">Resumen</div>
+    <h2>Comparativa rápida</h2>
+    <p>Todos los valores en pesos chilenos (CLP).</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Básico</th>
+          <th>Pro</th>
+          <th>Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Pago único de desarrollo</td><td>$150.000</td><td>$250.000</td><td>$400.000</td></tr>
+        <tr><td>Hosting + dominio 1er año</td><td><span class="no">—</span></td><td><span class="yes">Incluido</span></td><td><span class="yes">Incluido</span></td></tr>
+        <tr><td>SEO</td><td><span class="no">—</span></td><td><span class="yes">Básico</span></td><td><span class="yes">Avanzado</span></td></tr>
+        <tr><td>Panel admin</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>Blog</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>Mantención sugerida</td><td>Esencial</td><td>Esencial / Activa</td><td>Activa / Pro Mensual</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="sec-header">
+    <div class="sec-label">Preguntas frecuentes</div>
+    <h2>Lo que siempre me preguntan</h2>
+    <p>Respuestas directas, sin términos técnicos.</p>
+  </div>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <div class="faq-q">¿Estoy obligado a contratar mantención mensual? <span class="arrow">+</span></div>
+      <div class="faq-body"><p>No. La mantención es <strong>100% opcional</strong>. Si eliges no contratarla, tu sitio seguirá funcionando, pero deberás hacerte cargo tú mismo de renovaciones, respaldos y eventuales cambios.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">¿Qué pasa si no pago hosting después del primer año? <span class="arrow">+</span></div>
+      <div class="faq-body"><p>Si tienes plan Pro o Premium, el primer año de hosting y dominio está incluido. Después cuesta aproximadamente <strong>$50.000 CLP al año</strong>. Si no renuevas, tu sitio dejará de estar disponible en internet hasta que lo renueves.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">¿Puedo cambiar de plan de mantención? <span class="arrow">+</span></div>
+      <div class="faq-body"><p>Sí. Puedes subir o bajar de plan en cualquier momento, sin permanencia. El cambio aplica desde el mes siguiente.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">¿Qué es el hosting y el dominio? <span class="arrow">+</span></div>
+      <div class="faq-body"><p><strong>Hosting</strong> es el arriendo del espacio donde vive tu página en internet. <strong>Dominio</strong> es tu dirección web, como <em>tunombre.cl</em>. En los planes Pro y Premium, ambos están incluidos gratis el primer año.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">¿Mi página aparecerá automáticamente en Google? <span class="arrow">+</span></div>
+      <div class="faq-body"><p>No es automático. Para aparecer en búsquedas necesitas <strong>SEO</strong>, que incluyo en los planes Pro y Premium. El plan Básico no incluye SEO.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">¿En cuánto tiempo está lista mi página? <span class="arrow">+</span></div>
+      <div class="faq-body"><p>Entre <strong>5 y 7 días hábiles</strong> desde que me envías tus materiales. Primero te muestro un borrador, corriges y recién publico cuando estás 100% conforme.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">¿Acepto métodos de pago? <span class="arrow">+</span></div>
+      <div class="faq-body"><p>Sí: transferencia bancaria, y para la mantención mensual también suscripción automática. Entrego boleta por cada pago.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-band">
+  <h2>¿Conversamos?</h2>
+  <p>Cotización gratis y personalizada. Sin compromiso.</p>
+  <a class="btn-primary" href="mailto:cristian.salinasor@gmail.com">📩 Escríbeme por correo</a>
+</section>
+
+<footer>
+  <div>Desarrollado por <strong>Cristian M. Salinas Orrego</strong></div>
+  <div class="footer-links">
+    <a href="mailto:cristian.salinasor@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/cristian-salinas-orrego-a229061b2/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/Wisbly" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://thinggoapp.github.io/index.html" target="_blank" rel="noopener">ThingGoApp</a>
+  </div>
+  <div>© 2025 Cristian M. Salinas · Hecho con 💚 en Chile 🇨🇱</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.background = window.scrollY > 50 ? 'rgba(7,7,16,0.92)' : 'rgba(7,7,16,0.6)';
+  }, { passive: true });
+</script>
+
+</body>
+</html>
