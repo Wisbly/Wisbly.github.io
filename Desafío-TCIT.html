@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base Comercial — TCIT &amp; Agri · Ejercicio BDR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TCIT BRAND TOKENS ============ */
+:root,[data-theme="light"]{
+  --bg:#eef3fb;--surface:#ffffff;--surface-2:#f6f9fe;--surface-offset:#eaf0fa;
+  --border:#d3deef;--divider:#e1e9f5;
+  --text:#0b1e3f;--text-muted:#5a6b85;--text-faint:#9fb0c8;
+  --brand:#0e63e6;--brand-deep:#0a47a6;--brand-soft:#d9e7fd;--navy:#0b1e3f;
+  --cyan:#0bb3d6;--cyan-soft:#cdeef6;
+  --agri:#3d9b35;--agri-soft:#d8edd2;
+  --alta:#d23b3b;--alta-soft:#f8dada;
+  --media:#c47d12;--media-soft:#f6e6c8;
+  --baja:#6b7892;--baja-soft:#e4e9f1;
+  --shadow-sm:0 1px 2px rgba(11,30,63,.06);
+  --shadow-md:0 6px 20px rgba(11,30,63,.10);
+  --shadow-lg:0 18px 44px rgba(11,30,63,.16);
+  --r-sm:.4rem;--r-md:.65rem;--r-lg:.9rem;--r-xl:1.15rem;--r-full:999px;
+  --t:200ms cubic-bezier(.16,1,.3,1);
+  --display:'Sora',sans-serif;--body:'IBM Plex Sans',sans-serif;
+  --xs:clamp(.72rem,.68rem + .2vw,.8rem);
+  --sm:clamp(.84rem,.8rem + .25vw,.94rem);
+  --base:clamp(.96rem,.92rem + .2vw,1.05rem);
+  --lg:clamp(1.15rem,1rem + .7vw,1.45rem);
+  --xl:clamp(1.6rem,1.2rem + 1.6vw,2.5rem);
+  --2xl:clamp(2.1rem,1.3rem + 3vw,3.6rem);
+}
+[data-theme="dark"]{
+  --bg:#08111f;--surface:#0f1d33;--surface-2:#13243d;--surface-offset:#16294557;
+  --border:#26405f;--divider:#1b2f48;
+  --text:#dce6f4;--text-muted:#8aa0bd;--text-faint:#566c8a;
+  --brand:#3d8bff;--brand-deep:#6aa6ff;--brand-soft:#16305a;--navy:#dce6f4;
+  --cyan:#34d6ec;--cyan-soft:#123b46;
+  --agri:#62b957;--agri-soft:#1d3a1c;
+  --alta:#f06d6d;--alta-soft:#3d1f22;
+  --media:#e0a44b;--media-soft:#3a2e1a;
+  --baja:#8ea0bd;--baja-soft:#22324a;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow-md:0 6px 20px rgba(0,0,0,.4);--shadow-lg:0 18px 44px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{min-height:100dvh;font-family:var(--body);font-size:var(--base);color:var(--text);background:var(--bg);line-height:1.6;
+  background-image:radial-gradient(circle at 12% -5%,color-mix(in srgb,var(--brand) 12%,transparent),transparent 38%),radial-gradient(circle at 95% 0%,color-mix(in srgb,var(--cyan) 10%,transparent),transparent 32%);
+  background-attachment:fixed}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a,button{transition:color var(--t),background var(--t),border-color var(--t),box-shadow var(--t),transform var(--t)}
+.container{max-width:1180px;margin-inline:auto;padding-inline:clamp(1rem,4vw,2.5rem)}
+
+/* ============ HEADER ============ */
+header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--divider)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding-block:.85rem}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--text)}
+.logo-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-deep));display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);flex-shrink:0}
+.logo-mark span{font-family:var(--display);font-weight:800;color:#fff;font-size:1rem;letter-spacing:-.03em}
+.logo-text{display:flex;flex-direction:column;line-height:1.05}
+.logo-text b{font-family:var(--display);font-size:1.02rem;font-weight:700;letter-spacing:-.02em}
+.logo-text small{font-size:.68rem;color:var(--text-muted);letter-spacing:.02em}
+.theme-toggle{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-md);color:var(--text-muted);border:1px solid var(--border)}
+.theme-toggle:hover{background:var(--surface-offset);color:var(--brand)}
+
+/* ============ HERO ============ */
+.hero{padding-block:clamp(2.5rem,7vw,4.5rem) clamp(1.5rem,4vw,2.5rem)}
+.hero-label{display:inline-flex;align-items:center;gap:.45rem;font-size:var(--xs);text-transform:uppercase;letter-spacing:.12em;color:var(--brand);font-weight:600;margin-bottom:1rem;background:var(--brand-soft);padding:.3rem .8rem;border-radius:var(--r-full)}
+.hero-title{font-family:var(--display);font-size:var(--2xl);line-height:1.04;font-weight:800;letter-spacing:-.03em;max-width:16ch;margin-bottom:1rem}
+.hero-title em{font-style:normal;background:linear-gradient(120deg,var(--brand),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:var(--base);color:var(--text-muted);max-width:62ch;line-height:1.7;margin-bottom:2rem}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.85rem;margin-bottom:2rem}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1rem 1.1rem;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand)}
+.stat:nth-child(2)::after{background:var(--cyan)}
+.stat:nth-child(3)::after{background:var(--agri)}
+.stat:nth-child(4)::after{background:var(--alta)}
+.stat-num{font-family:var(--display);font-size:1.7rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+.stat-label{font-size:var(--xs);color:var(--text-muted);margin-top:.3rem}
+
+/* founder */
+.founder{margin-top:1.5rem;padding:1.35rem 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);border-left:3px solid var(--cyan);box-shadow:var(--shadow-sm)}
+.founder-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem}
+.founder-ic{width:36px;height:36px;border-radius:var(--r-md);background:var(--cyan-soft);color:var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.founder-head h3{font-family:var(--display);font-size:var(--base);font-weight:600}
+.founder p{font-size:var(--sm);color:var(--text-muted);max-width:72ch;line-height:1.7}
+.founder p b{color:var(--text);font-weight:600}
+
+/* ============ FILTERS ============ */
+.filters{position:sticky;top:67px;z-index:60;padding-block:.9rem;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-block:1px solid var(--divider);margin-bottom:.5rem}
+.filters-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:210px}
+.search-wrap svg{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--text-faint);pointer-events:none}
+.search-input{width:100%;padding:.55rem .8rem .55rem 2.3rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:var(--sm);color:var(--text);font-family:var(--body)}
+.search-input::placeholder{color:var(--text-faint)}
+.search-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.fbtn{padding:.45rem 1rem;border-radius:var(--r-full);font-size:var(--sm);font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);white-space:nowrap}
+.fbtn:hover{border-color:var(--brand);color:var(--brand)}
+.fbtn.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--shadow-sm)}
+.fbtn.active[data-filter="agri"]{background:var(--agri);border-color:var(--agri)}
+.results-count{font-size:var(--xs);color:var(--text-muted);margin-left:auto;white-space:nowrap}
+
+/* ============ SECTIONS ============ */
+.main{padding-block:1.5rem 2rem}
+.sec-head{display:flex;align-items:center;gap:.7rem;margin:2rem 0 1.2rem}
+.sec-dot{width:9px;height:9px;border-radius:var(--r-full);flex-shrink:0}
+.dot-tcit{background:var(--brand)}.dot-agri{background:var(--agri)}
+.sec-title{font-family:var(--display);font-size:var(--lg);font-weight:600;letter-spacing:-.02em}
+.sec-sub{font-size:var(--xs);color:var(--text-muted)}
+.sec-count{font-size:var(--xs);color:var(--text-muted);background:var(--surface-offset);padding:.15rem .6rem;border-radius:var(--r-full);margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(345px,100%),1fr));gap:1rem}
+
+/* ============ CARD ============ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:1.3rem;box-shadow:var(--shadow-sm);transition:box-shadow var(--t),transform var(--t),border-color var(--t);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:color-mix(in srgb,var(--brand) 35%,var(--border))}
+.card.is-top::before{content:'★ TOP 5';position:absolute;top:0;right:1.1rem;font-family:var(--display);font-size:.62rem;font-weight:700;letter-spacing:.08em;padding:.28rem .65rem;background:linear-gradient(135deg,var(--brand),var(--brand-deep));color:#fff;border-radius:0 0 var(--r-md) var(--r-md)}
+.card.is-top.t-agri::before{background:linear-gradient(135deg,var(--agri),#2c7a26)}
+
+.c-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.7rem;margin-bottom:.7rem;padding-right:3.5rem}
+.c-company{font-family:var(--display);font-weight:600;font-size:var(--base);letter-spacing:-.01em;margin-bottom:.2rem}
+.c-meta{font-size:var(--xs);color:var(--text-faint)}
+.prio{flex-shrink:0;padding:.22rem .65rem;border-radius:var(--r-full);font-size:var(--xs);font-weight:600;border:1px solid;letter-spacing:.01em}
+.prio.Alta{background:var(--alta-soft);color:var(--alta);border-color:color-mix(in srgb,var(--alta) 30%,transparent)}
+.prio.Media{background:var(--media-soft);color:var(--media);border-color:color-mix(in srgb,var(--media) 30%,transparent)}
+.prio.Baja{background:var(--baja-soft);color:var(--baja);border-color:color-mix(in srgb,var(--baja) 35%,transparent)}
+
+.c-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.tag{display:inline-flex;align-items:center;gap:.35rem;font-size:var(--xs);padding:.22rem .6rem;border-radius:var(--r-full);font-weight:500}
+.tag-prod{background:var(--surface-offset);color:var(--text-muted)}
+.tag-prod .d{width:6px;height:6px;border-radius:var(--r-full)}
+.tag-ind{background:transparent;color:var(--text-faint);border:1px solid var(--divider)}
+
+.c-opp{font-size:var(--sm);color:var(--text-muted);line-height:1.6;margin-bottom:.9rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card.open .c-opp{-webkit-line-clamp:unset;overflow:visible}
+
+.c-signal{display:flex;align-items:flex-start;gap:.55rem;padding:.65rem .75rem;background:var(--surface-2);border:1px solid var(--divider);border-radius:var(--r-md);margin-bottom:.9rem;font-size:var(--xs);color:var(--text-muted);line-height:1.5}
+.c-signal svg{flex-shrink:0;margin-top:1px}
+.sig-v{color:var(--agri)}.sig-h{color:var(--media)}
+.sig-badge{font-weight:600;display:inline-block;margin-bottom:.15rem}
+.sig-v .sig-badge{color:var(--agri)}.sig-h .sig-badge{color:var(--media)}
+
+.c-contact{border-top:1px solid var(--divider);padding-top:.85rem;margin-top:auto}
+.ct-name{font-weight:600;font-size:var(--sm);margin-bottom:.15rem}
+.ct-role{font-size:var(--xs);color:var(--text-muted);line-height:1.45;margin-bottom:.6rem}
+.ct-role .note{display:block;color:var(--text-faint);margin-top:.15rem;font-style:italic}
+.ct-links{display:flex;gap:.4rem;flex-wrap:wrap}
+.clink{display:inline-flex;align-items:center;gap:.32rem;font-size:var(--xs);color:var(--brand);text-decoration:none;padding:.25rem .55rem;border-radius:var(--r-sm);border:1px solid color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)}
+.clink:hover{background:var(--brand);color:#fff}
+.clink.muted{color:var(--text-muted);background:var(--surface-offset);border-color:var(--divider)}
+.clink.muted:hover{background:var(--text-muted);color:var(--surface)}
+
+.c-detail{margin-top:.85rem;display:none;flex-direction:column;gap:.6rem}
+.card.open .c-detail{display:flex}
+.detail-row{font-size:var(--xs);color:var(--text-muted);line-height:1.55}
+.detail-row b{color:var(--text);font-weight:600;display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.15rem;color:var(--text-faint)}
+.justif{padding:.8rem;background:color-mix(in srgb,var(--brand) 6%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 18%,transparent);border-radius:var(--r-md);font-size:var(--xs);color:var(--text-muted);line-height:1.65}
+.t-agri .justif{background:color-mix(in srgb,var(--agri) 7%,var(--surface));border-color:color-mix(in srgb,var(--agri) 20%,transparent)}
+.justif b{color:var(--brand)}.t-agri .justif b{color:var(--agri)}
+
+.expand{width:100%;margin-top:.7rem;padding:.4rem;font-size:var(--xs);color:var(--text-faint);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;gap:.3rem;border:1px solid transparent}
+.expand:hover{background:var(--surface-offset);color:var(--text-muted);border-color:var(--border)}
+.expand svg{transition:transform var(--t)}
+.card.open .expand svg{transform:rotate(180deg)}
+
+/* empty + footer */
+.empty{display:none;flex-direction:column;align-items:center;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
+.empty svg{margin-bottom:1rem;color:var(--text-faint)}
+.empty h3{font-family:var(--display);color:var(--text);margin-bottom:.4rem}
+footer{border-top:1px solid var(--divider);padding-block:1.5rem;margin-top:1rem}
+.foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:var(--xs);color:var(--text-faint)}
+.foot b{color:var(--text-muted);font-weight:600}
+.disc{font-size:var(--xs);color:var(--text-faint);margin-top:.8rem;max-width:80ch;line-height:1.6}
+@media(max-width:600px){.filters{top:63px}.results-count{width:100%;margin-left:0;text-align:right}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark"><span>TC</span></span>
+      <span class="logo-text"><b>TCIT · Base Comercial</b><small>Ejercicio BDR Junior</small></span>
+    </a>
+    <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <section class="hero">
+      <span class="hero-label">Prospección B2B · TCIT &amp; Agri</span>
+      <h1 class="hero-title">20 cuentas objetivo para <em>TCIT</em> y Agri</h1>
+      <p class="hero-desc">Base comercial construida con información pública y un criterio de priorización por decisor correcto, señal de compra verificable y fit con el portafolio. Cada cuenta incluye el ángulo de venta y el próximo paso sugerido.</p>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-num">20</div><div class="stat-label">Cuentas objetivo</div></div>
+        <div class="stat"><div class="stat-num">12</div><div class="stat-label">Línea TCIT</div></div>
+        <div class="stat"><div class="stat-num">8</div><div class="stat-label">Línea Agri</div></div>
+        <div class="stat"><div class="stat-num">5</div><div class="stat-label">Top 5 prioritario</div></div>
+      </div>
+
+      <div class="founder">
+        <div class="founder-head">
+          <div class="founder-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3>Por qué yo — perspectiva de fundador</h3>
+        </div>
+        <p>Soy cofundador de <b>Tinggo</b>, un marketplace multi-vertical en Chile (arriendo de objetos, marketplace de servicios y reventa de entradas) que levanté desde cero sobre un stack cloud propio: integraciones de pago, gestión de inventario y base de usuarios. Viví de primera mano el problema que <b>TCIT</b> resuelve para grandes empresas y que <b>Agri</b> digitaliza en el agro, así que entro a la conversación comercial entendiendo el dolor del cliente, no solo el discurso del producto.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="filters">
+    <div class="container">
+      <div class="filters-row">
+        <div class="search-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="search-input" id="search" placeholder="Buscar empresa, contacto, cargo, industria..." autocomplete="off">
+        </div>
+        <button class="fbtn active" data-filter="all">Todas</button>
+        <button class="fbtn" data-filter="tcit">TCIT</button>
+        <button class="fbtn" data-filter="agri">Agri</button>
+        <button class="fbtn" data-filter="top5">★ Top 5</button>
+        <button class="fbtn" data-filter="alta">Prioridad Alta</button>
+        <button class="fbtn" data-filter="mineria">⛏ Minería</button>
+        <span class="results-count" id="count"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container main">
+    <div id="tcitSec">
+      <div class="sec-head">
+        <span class="sec-dot dot-tcit"></span>
+        <div><div class="sec-title">TCIT — Servicios Cloud</div><div class="sec-sub">Software a medida · Migración nube · TaaS · Automatización IA · Integraciones</div></div>
+        <span class="sec-count" id="tcitCount"></span>
+      </div>
+      <div class="grid" id="tcitGrid"></div>
+    </div>
+
+    <div id="agriSec">
+      <div class="sec-head">
+        <span class="sec-dot dot-agri"></span>
+        <div><div class="sec-title">Agri — SaaS Agrícola</div><div class="sec-sub">Gestión de cultivos · Faenas y remuneraciones · Trazabilidad · Agroquímicos</div></div>
+        <span class="sec-count" id="agriCount"></span>
+      </div>
+      <div class="grid" id="agriGrid"></div>
+    </div>
+
+    <div class="empty" id="empty">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <h3>Sin resultados</h3><p>Prueba con otro término o filtro.</p>
+    </div>
+
+    <p class="disc">Nota metodológica: los emails marcados <b>(inferido)</b> siguen el patrón corporativo estándar y deben verificarse antes de enviar. Los teléfonos son centrales corporativas, no líneas directas. Los contactos <b>"Por identificar"</b> tienen empresa y cargo objetivo definidos, pendientes de enriquecer (Sales Navigator). Años de fundación y señales verificados en fuentes primarias.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>Ejercicio BDR Junior · TCIT — datos de fuentes públicas, mayo 2026</span>
+    <span><b>Cristian · Cofundador de Tinggo</b></span>
+  </div>
+</footer>
+
+<script>
+const data={tcit:[
+ {company:"Clínica Alemana",founded:1918,industry:"Salud privada",size:"Grande",product:"Integración HIS + LIS + RIS",type:"tcit",sig:"Verificada",
+  opp:"Más de un siglo de operación (fundada 1918) con múltiples sistemas clínicos acumulados (HIS, LIS, RIS, facturación) que típicamente no están integrados. Oportunidad de integración y modernización de arquitectura, no de implementar desde cero.",
+  signal:"Cambio reciente en el liderazgo de Tecnología — la ventana de decisión más valiosa son los primeros 90 días.",
+  contact:"Andrés Coghlan",role:"Gerente Corporativo de Tecnología",linkedin:"https://www.linkedin.com/in/andres-coghlan-6331952",
+  phone:"+56 2 2210 1111 (central)",email:"andres.coghlan@alemana.cl",emailInf:true,ticket:"Alto",
+  next:"Mensaje en LinkedIn felicitando por el nuevo rol + caso de integración de sistemas clínicos. Pedir reunión de 20 min.",
+  priority:"Alta",top5:true,
+  justif:"<b>Señal más caliente de la lista:</b> gerente nuevo en una institución centenaria con sistemas acumulados. Decisor correcto y fit de integración directo. Argumentar integrar, no digitalizar desde cero."},
+
+ {company:"Empresas Carozzi",founded:1898,industry:"Alimentos / Consumo masivo",size:"Grande",product:"Integración SAP / Automatización RPA",type:"tcit",sig:"Verificada",
+  opp:"128 años de operación (fundada 1898) en consumo masivo con presencia en Chile, Perú y Argentina. Alta probabilidad de sistemas acumulados entre producción, logística y ventas — oportunidad de integración SAP y automatización de backoffice.",
+  signal:"CIO con experiencia SAP + área de Innovación y Transformación Digital activa públicamente.",
+  contact:"Pablo Tirado Berroeta",role:"CIO / Gerente TI",linkedin:"https://www.linkedin.com/in/ptirado",
+  phone:"+56 2 2360 3000 (central)",email:"pablo.tirado@carozzi.cl",emailInf:true,ticket:"Medio-Alto",
+  next:"Doble entrada: CIO (integración SAP) + líder de Innovación (RPA backoffice). Abordar con un caso SAP de consumo masivo.",
+  priority:"Alta",top5:true,
+  justif:"<b>Dos puntos de entrada</b> (CIO + Innovación) multiplican la probabilidad de respuesta, y la arquitectura SAP instalada habilita un argumento directo de integración, no de reemplazo."},
+
+ {company:"Antofagasta Minerals",founded:1980,industry:"Minería / Cobre",size:"Grande (grupo minero líder)",product:"Automatización IA · Integración · TaaS",type:"tcit",sig:"Verificada",
+  opp:"Grupo minero con la innovación como pilar estratégico: Centro Integrado de Operaciones de Minera Centinela, flota de camiones autónomos y plataforma propia de IA generativa (GPT Aminerals). Demanda sostenida de desarrollo, integración y perfiles TI especializados.",
+  signal:"Vicepresidencia de Estrategia e Innovación creada; programas activos de automatización, operación remota y GenAI (prensa sectorial y reporte de sustentabilidad 2024).",
+  contact:"Gino Ivani",role:"Gte. Corp. de TI, Comunicaciones y Automatización",linkedin:"https://www.linkedin.com/search/results/people/?keywords=Gino%20Ivani%20Antofagasta%20Minerals",
+  phone:"+56 2 2798 7000 (central)",email:"gino.ivani@aminerals.cl",emailInf:true,ticket:"Alto",
+  next:"Minería = mayor gasto TI de Chile. Ángulo: integración de datos operacionales + TaaS para acelerar el roadmap de automatización. Alternativa: Francisco Lozano (Gte. Innovación).",
+  priority:"Alta",top5:true,
+  justif:"<b>Minería = el mayor gasto TI del país.</b> Señales verificadas (operaciones autónomas, plataforma GenAI propia, VP de Innovación) y contacto técnico identificado por nombre. Ticket alto y roadmap activo."},
+
+ {company:"Transportes Nazar",founded:1976,industry:"Logística / Alimentos",size:"Grande (~550 camiones)",product:"Automatización RPA / Software a medida",type:"tcit",sig:"Hipótesis",
+  opp:"50 años operando con bases regionales de Arica a Punta Arenas. Alta probabilidad de procesos manuales de backoffice, control de flota y rendición de operadores sin digitalizar a esa escala.",
+  signal:"Escala nacional con operación multi-rubro; contacto de TI público y alcanzable.",
+  contact:"Patricio Vilches Rubio",role:"Subgerente de Innovación y TI",linkedin:"https://www.linkedin.com/in/patricio-vilches-rubio",
+  phone:"+56 9 8500 4050",email:"patricio.vilches@nazar.cl",emailInf:true,ticket:"Alto",
+  next:"El buzón comunicaciones@nazar.cl es genérico: úsalo para el primer toque, pero pide derivación al Subgerente TI. Ángulo: control de flota y rendiciones.",
+  priority:"Alta",top5:false},
+
+ {company:"Agunsa",founded:1960,industry:"Logística portuaria multimodal",size:"Grande (20+ países)",product:"Integración de sistemas / TaaS",type:"tcit",sig:"Verificada",
+  opp:"66 años en terminales marítimos, aéreos y terrestres en múltiples países. Sistemas distribuidos por la expansión internacional con alta probabilidad de no estar integrados entre unidades de negocio.",
+  signal:"CDO dedicado con mandato explícito de transformación digital — señal de presupuesto activo.",
+  contact:"Gerardo Mella",role:"Chief Digital Officer",linkedin:"https://www.linkedin.com/in/gerardomella",
+  phone:"+56 2 2460 2700 (central)",email:"gerardo.mella@agunsa.com",emailInf:true,ticket:"Medio-Alto",
+  next:"Tener un CDO (no solo CTO) indica presupuesto de transformación. Abordar con contenido sobre integración multi-país antes del pitch.",
+  priority:"Alta",top5:false},
+
+ {company:"Destácame",founded:2014,industry:"Fintech / Inclusión financiera",size:"Mediana (2M+ usuarios)",product:"TaaS / Desarrollo a medida",type:"tcit",sig:"Verificada",
+  opp:"Fintech en expansión a México tras una ronda de USD 10M (Santander, 2023). El crecimiento acelerado exige ampliar el equipo técnico rápido, sin el ciclo largo de contratación interna.",
+  signal:"Financiamiento activo + expansión internacional en curso; CTO estable en el cargo.",
+  contact:"Nel Pérez",role:"CTO",linkedin:"https://www.linkedin.com/in/nelperez",
+  phone:"No encontrado",email:"nel.perez@destacame.cl",emailInf:true,ticket:"Medio-Alto",
+  next:"Ángulo TaaS: cubrir vacantes de la expansión en semanas, no meses. Mencionar perfiles backend/cloud específicos.",
+  priority:"Alta",top5:false},
+
+ {company:"Bupa Chile",founded:2000,industry:"Salud privada",size:"Grande (red de clínicas)",product:"Integración SAP / Desarrollo a medida",type:"tcit",sig:"Hipótesis",
+  opp:"Red de clínicas con SAP instalado. Oportunidad de integrar SAP con los sistemas clínicos propios y automatizar procesos administrativos que aún corren en paralelo.",
+  signal:"Gerente TI de segmento clínicas en el cargo; arquitectura SAP + sistemas clínicos coexistiendo.",
+  contact:"Teresa Torrealba",role:"Gerente TI Segmento Clínicas",linkedin:"https://www.linkedin.com/in/teresa-torrealba-14715726b",
+  phone:"No encontrado",email:"teresa.torrealba@bupa.cl",emailInf:true,ticket:"Medio-Alto",
+  next:"Caso de integración SAP–HIS en salud privada. Conectar con el aprendizaje aplicable de Clínica Alemana.",
+  priority:"Alta",top5:false},
+
+ {company:"Codelco",founded:1976,industry:"Minería estatal / Cobre",size:"Grande (mayor productora de cobre del mundo)",product:"Automatización · Integración · Software a medida",type:"tcit",sig:"Verificada",
+  opp:"Mayor productora de cobre del mundo, con Vicepresidencia de Tecnología e Innovación y proyectos de minas autónomas (palas, perforadoras, trenes). Demanda permanente de tecnología, aunque la compra entra por licitación pública.",
+  signal:"Programas declarados de transformación digital y automatización por división.",
+  contact:"Por identificar",role:"VP de Tecnología e Innovación / Gerencia de TIC",linkedin:"https://www.linkedin.com/search/results/people/?keywords=Codelco%20Tecnolog%C3%ADa%20Innovaci%C3%B3n",
+  phone:"+56 2 2690 3000 (central)",email:"Dominio @codelco.cl",emailInf:false,ticket:"Alto",
+  next:"Caveat: empresa estatal — la compra va por ChileCompra/Mercado Público (ciclo largo). Identificar al sponsor técnico antes que al comprador formal.",
+  priority:"Media",top5:false},
+
+ {company:"Echeverría Izquierdo",founded:1978,industry:"Construcción / Ingeniería",size:"Grande (11.000+ trabajadores)",product:"Desarrollo a medida / Automatización",type:"tcit",sig:"Hipótesis",
+  opp:"48 años en construcción gestionando múltiples proyectos simultáneos con miles de subcontratistas. Procesos de control de obra, RRHH y abastecimiento probablemente solo parcialmente digitalizados.",
+  signal:"Sector con baja penetración de software de control de obra; empresa referente del rubro.",
+  contact:"Manuel Eduardo Arriagada",role:"Jefe de Soluciones TI",linkedin:"https://www.linkedin.com/in/manuel-eduardo-arriagada-l%C3%B3pez-0221aa28",
+  phone:"No encontrado",email:"manuel.arriagada@echeverriaizquierdo.cl",emailInf:true,ticket:"Medio-Alto",
+  next:"El Jefe de Soluciones TI es influenciador, no decisor final: pedir derivación al Gerente TI. Ángulo: control de obra y subcontratistas.",
+  priority:"Media",top5:false},
+
+ {company:"NotCo",founded:2015,industry:"FoodTech / IA aplicada",size:"Mediana (unicornio chileno)",product:"TaaS / Software Factory",type:"tcit",sig:"Hipótesis",
+  opp:"Unicornio con IA propietaria (Giuseppe) en expansión global acelerada. Alta necesidad de perfiles tech especializados para sostener el crecimiento.",
+  signal:"Empresa escalando globalmente; contratación técnica continua.",
+  contact:"Matias Antiñanco",role:"Software Engineering Manager (punto de entrada)",roleNote:"Decisor económico de TaaS: VP Eng / Head of Talent — usar al EM como champion.",linkedin:"https://www.linkedin.com/in/matias-antinanco",
+  phone:"No encontrado",email:"matias.antinanco@notco.com",emailInf:true,ticket:"Medio",
+  next:"El EM no compra TaaS: úsalo para llegar al VP Eng o Head of Talent. Prioridad Media hasta confirmar al decisor.",
+  priority:"Media",top5:false},
+
+ {company:"LATAM Airlines",founded:1929,industry:"Aerolíneas / Transporte aéreo",size:"Grande (mayor aerolínea de Latam)",product:"Desarrollo a medida / Automatización IA",type:"tcit",sig:"Hipótesis",
+  opp:"97 años de operación con modernización permanente de sistemas (revenue management, operaciones, experiencia de cliente). Oportunidad de proyectos puntuales donde TCIT compite con equipos ágiles.",
+  signal:"Argumento aún genérico — requiere identificar una iniciativa o RFP concreta como gancho.",
+  contact:"Francisco Javier García Cortés",role:"CTO",linkedin:"https://www.linkedin.com/in/francisco-javier-garcia-cortes-29775a18",
+  phone:"No encontrado",email:"francisco.garcia@latam.com",emailInf:true,ticket:"Alto",
+  next:"Empresa enorme y de ciclo largo. Antes de abordar, encontrar un proyecto/RFP específico; si no, mantener en cultivo.",
+  priority:"Media",top5:false},
+
+ {company:"Cencosud",founded:1978,industry:"Retail / Supermercados y tiendas",size:"Grande (multinacional, 6 países)",product:"TaaS / Integración de sistemas",type:"tcit",sig:"Hipótesis",
+  opp:"48 años de retail con arquitectura TI distribuida por unidad de negocio (Jumbo, Santa Isabel, Easy, Paris) con alta probabilidad de silos sin integrar.",
+  signal:"Argumento genérico de TaaS; organización grande y burocrática con múltiples decisores por división.",
+  contact:"Marcelo Romero Mena",role:"IT Director — Cenco Malls",linkedin:"https://www.linkedin.com/search/results/people/?keywords=Marcelo%20Romero%20Cencosud",
+  phone:"No encontrado",email:"marcelo.romero@cencosud.cl",emailInf:true,ticket:"Medio-Alto",
+  next:"Difícil de penetrar en frío (muchos gatekeepers). Entrar por una división específica, no por el corporativo. Mantener en cultivo.",
+  priority:"Baja",top5:false}
+],
+agri:[
+ {company:"Hortifrut",founded:1983,industry:"Berries / Exportadora mundial",size:"Grande (mayor exportadora de berries del mundo)",product:"Gestión de cultivos + trazabilidad",type:"agri",sig:"Verificada",
+  opp:"Mayor exportadora de berries del mundo. La trazabilidad field-to-port es obligatoria para cumplir protocolos de EE.UU. y Europa — no es un nice-to-have, es requisito para exportar.",
+  signal:"Exigencia regulatoria de trazabilidad en sus mercados principales; cosechas simultáneas en varias regiones = complejidad máxima.",
+  contact:"Ivan Melelli Jauregui",role:"Gerente de Operaciones y Adquisiciones",linkedin:"https://www.linkedin.com/in/ivan-melelli-jauregui-97a39538",
+  phone:"No encontrado",email:"ivan.melelli@hortifrut.com",emailInf:true,ticket:"Medio",
+  next:"Señal de compra más fuerte de la lista: sin trazabilidad digital no exportan. Ángulo: cumplimiento + reducción del riesgo de rechazo en aduana.",
+  priority:"Alta",top5:true,
+  justif:"<b>La señal más concreta de toda la lista:</b> sin trazabilidad digital no puede cumplir los protocolos fitosanitarios de sus mercados principales. Es una necesidad operacional, no un nice-to-have."},
+
+ {company:"Agrosuper",founded:1955,industry:"Agroindustria / Aves y cerdo",size:"Grande (mayor productor de proteínas de Chile)",product:"Control de faenas + remuneraciones",type:"agri",sig:"Verificada",
+  opp:"Mayor productor de proteínas de Chile (fundada 1955), con miles de trabajadores estacionales en plantas y campos. Gestión de faenas, turnos y liquidaciones a escala, probablemente sobre sistemas propios desactualizados o Excel.",
+  signal:"Empresa en proceso declarado de modernización tecnológica; Gerencia de Innovación activa.",
+  contact:"Cristián Meyer",role:"Gerente de Innovación",linkedin:"https://www.linkedin.com/in/crmeyer",
+  phone:"+56 2 2829 7000 (central)",email:"cristian.meyer@agrosuper.com",emailInf:true,ticket:"Medio",
+  next:"ROI claro: a esta escala, errores en liquidaciones = pérdidas millonarias. Llevar un cálculo de ahorro estimado al primer contacto.",
+  priority:"Alta",top5:true,
+  justif:"<b>El ROI es fácil de cuantificar:</b> a esta escala, los errores de liquidación son pérdidas millonarias. Gerencia de Innovación es el decisor adecuado y la empresa está en modernización declarada."},
+
+ {company:"Viña Concha y Toro",founded:1883,industry:"Vitivinícola / Exportadora",size:"Grande (opera en 5 países)",product:"Integración gestión vitivinícola + trazabilidad",type:"agri",sig:"Verificada",
+  opp:"143 años de operación con miles de hectáreas en múltiples valles. Alta probabilidad de sistemas acumulados sin integrar entre producción agrícola, bodega y exportación — oportunidad de integrar/complementar, no de implementar desde cero.",
+  signal:"Exporta a 150 países con trazabilidad exigida; CIO en el cargo evaluando proveedores.",
+  contact:"Jaime Baraqui",role:"CIO / Gerente TI",linkedin:"https://www.linkedin.com/in/jaimebaraqui",
+  phone:"No encontrado",email:"jaime.baraqui@conchaytoro.cl",emailInf:true,ticket:"Medio",
+  next:"Argumento de integración (Agri como capa agrícola sobre el ERP corporativo), no de reemplazo. Hablar lenguaje de arquitectura, no solo agrícola.",
+  priority:"Alta",top5:false},
+
+ {company:"Empresas Ariztía",founded:1930,industry:"Avicultura / Agroindustria",size:"Grande (líder en avicultura de Chile)",product:"Control de faenas + gestión de campo",type:"agri",sig:"Verificada",
+  opp:"96 años de operación avícola y agroindustrial. Sistemas acumulados en distintas épocas con alta probabilidad de silos entre planta, campo y administración — oportunidad de integración y digitalización de faenas.",
+  signal:"Cambio reciente en la Gerencia de Tecnología — ventana de decisión abierta.",
+  contact:"Jose Luis Alegría",role:"Gerente de Tecnología",linkedin:"https://www.linkedin.com/in/jose-luis-alegr%C3%ADa-55ba4919",
+  phone:"No encontrado",email:"joseluis.alegria@ariztia.com",emailInf:true,ticket:"Medio",
+  next:"Misma lógica que Clínica Alemana: gerente nuevo en empresa antigua. Ángulo: digitalizar faenas y remuneraciones con ahorro cuantificable.",
+  priority:"Alta",top5:false},
+
+ {company:"Copefrut",founded:1958,industry:"Cooperativa frutícola exportadora",size:"Grande (500+ socios productores)",product:"Gestión de cultivos + trazabilidad GlobalGAP",type:"agri",sig:"Verificada",
+  opp:"Cooperativa con 500+ socios que exportan manzanas y peras a Europa y Asia, con certificaciones GlobalGAP exigidas. Oportunidad de unificar la trazabilidad fragmentada por fundo.",
+  signal:"Estructura cooperativa = efecto multiplicador: un cliente puede derivar en cientos de usuarios.",
+  contact:"Por identificar",role:"Gerente Agrícola / Gerente de Operaciones",roleNote:"José Luis Tomasevic (Gte. Comercial) sirve como contacto de entrada, pero NO decide un SaaS operacional.",linkedin:"https://www.linkedin.com/in/jose-luis-tomasevic-peirano-792a5726",
+  phone:"+56 75 263 1000 (central)",email:"Dominio @copefrut.com",emailInf:false,ticket:"Medio",
+  next:"Corrección clave: identificar al Gte. Agrícola/Operaciones. Cuenta de altísimo potencial, pero con el decisor pendiente queda en prioridad Media.",
+  priority:"Media",top5:false},
+
+ {company:"Garces Fruit",founded:1998,industry:"Exportadora frutícola (cerezas, uva)",size:"Grande (Región de O'Higgins)",product:"Control de agroquímicos + trazabilidad",type:"agri",sig:"Hipótesis",
+  opp:"28 años exportando fruta. Empresa en maduración digital: sistemas básicos existen pero sin integración entre campo y administración — oportunidad de modernizar sin reemplazar todo.",
+  signal:"Exporta a mercados que exigen registro digital de aplicaciones fitosanitarias.",
+  contact:"Sebastian Vidal",role:"Gerente Industrial",linkedin:"https://www.linkedin.com/in/sebastian-vidal-3b509a24",
+  phone:"No encontrado",email:"sebastian.vidal@garcesfruit.com",emailInf:true,ticket:"Medio",
+  next:"Verificar si el decisor real es Gte. Agrícola o Industrial. Ángulo: registro digital de agroquímicos para exportación.",
+  priority:"Media",top5:false},
+
+ {company:"Exportadora Subsole",founded:1991,industry:"Exportadora frutícola (paltas, uva, cítricos)",size:"Grande (líder en paltas de Chile)",product:"Gestión de cultivos + control de agroquímicos",type:"agri",sig:"Hipótesis",
+  opp:"Líder en exportación de paltas. Cultivo sensible con protocolos fitosanitarios estrictos (EE.UU., Japón) que exigen trazabilidad digital de cada aplicación química.",
+  signal:"Exporta a mercados con protocolos fitosanitarios de alto estándar; escala grande.",
+  contact:"Patricio Aliaga",role:"Agrónomo (entrada técnica)",roleNote:"Subir al Gerente Agrícola, que es el decisor del SaaS.",linkedin:"https://www.linkedin.com/in/patricio-aliaga-b7b507166",
+  phone:"+56 2 2478 5500 (central)",email:"Dominio @subsole.com",emailInf:false,ticket:"Medio",
+  next:"El agrónomo es entrada técnica, no decisor. Ángulo: control de agroquímicos para protocolos USA/Japón.",
+  priority:"Media",top5:false},
+
+ {company:"Dole Chile",founded:1991,industry:"Exportadora frutícola (multinacional)",size:"Grande (filial multinacional)",product:"Trazabilidad + control de agroquímicos",type:"agri",sig:"Hipótesis",
+  opp:"Filial de multinacional con exigencias de reportería global estandarizada. Procesos locales deben cumplir estándares internacionales de trazabilidad que requieren plataforma digital unificada.",
+  signal:"Estándares globales del grupo; decisión local probablemente limitada.",
+  contact:"Gabriel Abarca Saavedra",role:"Gerente Zonal Rancagua",linkedin:"https://www.linkedin.com/in/gabriel-abarca-saavedra-24565926",
+  phone:"No encontrado",email:"gabriel.abarca@dole.com",emailInf:true,ticket:"Medio",
+  next:"Riesgo: como filial, la plataforma puede estar mandatada por la casa matriz. Confirmar autonomía local antes de invertir esfuerzo → prioridad Baja.",
+  priority:"Baja",top5:false}
+]};
+
+const ICON={
+ link:'<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>',
+ phone:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.07 6.07l1.39-1.39a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>',
+ mail:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+ bolt:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+};
+
+function card(d){
+  const el=document.createElement("div");
+  el.className="card"+(d.top5?" is-top":"")+(d.type==="agri"?" t-agri":"");
+  el.dataset.type=d.type;el.dataset.priority=d.priority;el.dataset.top5=d.top5;el.dataset.industry=d.industry.toLowerCase();
+  el.dataset.search=(d.company+" "+d.contact+" "+d.role+" "+d.industry+" "+d.product).toLowerCase();
+  const dot=d.type==="agri"?"var(--agri)":"var(--brand)";
+  const sigCls=d.sig==="Verificada"?"sig-v":"sig-h";
+  const links=[];
+  if(d.linkedin)links.push(`<a href="${d.linkedin}" target="_blank" rel="noopener" class="clink">${ICON.link}LinkedIn</a>`);
+  if(d.phone&&d.phone!=="No encontrado")links.push(`<a href="tel:${d.phone.replace(/[^0-9+]/g,'')}" class="clink muted">${ICON.phone}${d.phone}</a>`);
+  if(d.email){
+    if(d.emailInf)links.push(`<a href="mailto:${d.email}" class="clink muted" title="Patrón inferido — verificar">${ICON.mail}${d.email} (inferido)</a>`);
+    else links.push(`<span class="clink muted">${ICON.mail}${d.email}</span>`);
+  }
+  el.innerHTML=`
+   <div class="c-head">
+     <div><div class="c-company">${d.company}</div><div class="c-meta">Fundada ${d.founded} · ${d.size}</div></div>
+     <span class="prio ${d.priority}">${d.priority}</span>
+   </div>
+   <div class="c-tags">
+     <span class="tag tag-prod"><span class="d" style="background:${dot}"></span>${d.product}</span>
+     <span class="tag tag-ind">${d.industry}</span>
+   </div>
+   <div class="c-opp">${d.opp}</div>
+   <div class="c-signal ${sigCls}">${ICON.bolt}<span><span class="sig-badge">Señal ${d.sig}</span>${d.signal}</span></div>
+   <div class="c-contact">
+     <div class="ct-name">${d.contact}</div>
+     <div class="ct-role">${d.role}${d.roleNote?`<span class="note">${d.roleNote}</span>`:""}</div>
+     <div class="ct-links">${links.join("")}</div>
+   </div>
+   <div class="c-detail">
+     ${d.justif?`<div class="justif">★ <b>Por qué Top 5:</b> ${d.justif}</div>`:""}
+     <div class="detail-row"><b>Próximo paso / ángulo</b>${d.next}</div>
+     <div class="detail-row"><b>Ticket estimado</b>${d.ticket}</div>
+   </div>
+   <button class="expand"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg><span>${d.top5?"Ver justificación y próximo paso":"Ver próximo paso"}</span></button>`;
+  el.querySelector(".expand").addEventListener("click",function(){
+    el.classList.toggle("open");
+    this.querySelector("span").textContent=el.classList.contains("open")?"Cerrar":(d.top5?"Ver justificación y próximo paso":"Ver próximo paso");
+  });
+  return el;
+}
+
+const tg=document.getElementById("tcitGrid"),ag=document.getElementById("agriGrid");
+data.tcit.forEach(d=>tg.appendChild(card(d)));
+data.agri.forEach(d=>ag.appendChild(card(d)));
+
+let f="all",q="";
+function apply(){
+  let t=0,a=0,tot=0;
+  document.querySelectorAll(".card").forEach(c=>{
+    const mType=(f==="all"||f==="top5"||f==="alta"||f==="mineria")||c.dataset.type===f;
+    const mTop=f!=="top5"||c.dataset.top5==="true";
+    const mAlta=f!=="alta"||c.dataset.priority==="Alta";
+    const mMin=f!=="mineria"||c.dataset.industry.includes("miner");
+    const mQ=!q||c.dataset.search.includes(q);
+    const vis=mType&&mTop&&mAlta&&mMin&&mQ;
+    c.style.display=vis?"":"none";
+    if(vis){tot++;c.dataset.type==="tcit"?t++:a++;}
+  });
+  document.getElementById("tcitCount").textContent=t+(t===1?" cuenta":" cuentas");
+  document.getElementById("agriCount").textContent=a+(a===1?" cuenta":" cuentas");
+  document.getElementById("count").textContent=tot+(tot===1?" resultado":" resultados");
+  document.getElementById("tcitSec").style.display=(f==="agri"||(t===0&&tot>0))?"none":"";
+  document.getElementById("agriSec").style.display=(f==="tcit"||(a===0&&tot>0))?"none":"";
+  document.getElementById("empty").style.display=tot===0?"flex":"none";
+}
+document.querySelectorAll(".fbtn").forEach(b=>b.addEventListener("click",function(){
+  document.querySelectorAll(".fbtn").forEach(x=>x.classList.remove("active"));
+  this.classList.add("active");f=this.dataset.filter;apply();
+}));
+document.getElementById("search").addEventListener("input",function(){q=this.value.toLowerCase().trim();apply();});
+apply();
+
+(function(){
+  const t=document.querySelector("[data-theme-toggle]"),r=document.documentElement;
+  let d=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";r.setAttribute("data-theme",d);
+  const moon='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const sun='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  t.innerHTML=d==="dark"?moon:sun;
+  t.addEventListener("click",()=>{d=d==="dark"?"light":"dark";r.setAttribute("data-theme",d);t.innerHTML=d==="dark"?moon:sun;});
+})();
+</script>
+</body>
+</html>
