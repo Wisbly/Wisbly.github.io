@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Web — Electricidad RyR</title>
+<style>
+:root{
+  --green:#7cb342;
+  --green-dark:#558b2f;
+  --green-soft:#e8f5e9;
+  --ink:#1c2526;
+  --muted:#6b7c7d;
+  --bg:#fafafa;
+  --card:#ffffff;
+  --border:#e0e6e1;
+  --shadow:0 4px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 40px rgba(124,179,66,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s;
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;padding:14px 24px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+}
+.brand{font-weight:800;color:var(--green-dark);letter-spacing:.5px;font-size:18px}
+.brand span{color:var(--ink);font-weight:600}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{
+  color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--green-dark)}
+.nav-cta{
+  background:var(--green);color:#fff;padding:9px 18px;border-radius:8px;
+  text-decoration:none;font-size:14px;font-weight:600;
+  transition:all .2s;
+}
+.nav-cta:hover{background:var(--green-dark);transform:translateY(-1px)}
+.burger{display:none;background:none;border:none;cursor:pointer;font-size:24px;color:var(--ink)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 24px 80px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(124,179,66,.12), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(124,179,66,.08), transparent 50%),
+    linear-gradient(180deg,#fff 0%,#f5f9f0 100%);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;top:50%;left:50%;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(124,179,66,.04),transparent 70%);
+  transform:translate(-50%,-50%);
+  animation:pulse 6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes pulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6}
+  50%{transform:translate(-50%,-50%) scale(1.2);opacity:.3}
+}
+.hero-content{max-width:1000px;text-align:center;position:relative;z-index:1}
+.hero-tag{
+  display:inline-block;background:var(--green-soft);color:var(--green-dark);
+  padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;
+  margin-bottom:24px;letter-spacing:.5px;
+}
+.hero h1{
+  font-size:clamp(36px,6vw,64px);font-weight:800;line-height:1.1;
+  margin-bottom:24px;letter-spacing:-1px;
+}
+.hero h1 .accent{
+  color:var(--green-dark);
+  background:linear-gradient(120deg,var(--green) 0%,var(--green-dark) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{font-size:clamp(16px,2vw,20px);color:var(--muted);max-width:720px;margin:0 auto 32px}
+.hero-meta{
+  display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+  margin-top:40px;padding-top:32px;border-top:1px solid var(--border);
+}
+.meta-item{text-align:left}
+.meta-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.meta-value{font-size:15px;font-weight:600;color:var(--ink);margin-top:4px}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.btn-primary{
+  background:var(--green);color:#fff;border:none;padding:14px 28px;
+  font-size:15px;font-weight:600;border-radius:10px;cursor:pointer;
+  text-decoration:none;display:inline-block;
+  transition:all .2s;box-shadow:0 4px 14px rgba(124,179,66,.4);
+}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,179,66,.5)}
+.btn-ghost{
+  background:transparent;color:var(--ink);border:2px solid var(--border);
+  padding:12px 26px;font-size:15px;font-weight:600;border-radius:10px;cursor:pointer;
+  text-decoration:none;display:inline-block;transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--green);color:var(--green-dark)}
+
+/* SECTIONS */
+section{padding:80px 24px;scroll-margin-top:70px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{
+  display:inline-block;color:var(--green-dark);font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;
+}
+.section-title{
+  font-size:clamp(28px,4vw,42px);font-weight:800;line-height:1.2;
+  margin-bottom:16px;letter-spacing:-.5px;
+}
+.section-subtitle{font-size:17px;color:var(--muted);max-width:680px;margin-bottom:48px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* CONTEXTO */
+.context-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+.context-card{
+  background:var(--card);padding:32px;border-radius:16px;
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  transition:transform .3s;
+}
+.context-card:hover{transform:translateY(-4px)}
+.context-card.problem{border-top:4px solid #d32f2f}
+.context-card.solution{border-top:4px solid var(--green)}
+.context-card h3{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.context-card ul{list-style:none}
+.context-card li{padding:8px 0;color:var(--muted);font-size:14px;padding-left:24px;position:relative}
+.context-card li::before{
+  content:"";position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;
+}
+.problem li::before{background:#d32f2f}
+.solution li::before{background:var(--green)}
+
+/* COMPARATIVA */
+.compare-table{
+  width:100%;background:var(--card);border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--border);margin-top:32px;
+}
+.compare-table table{width:100%;border-collapse:collapse}
+.compare-table th{
+  background:var(--ink);color:#fff;padding:18px;text-align:left;font-weight:600;font-size:14px;
+}
+.compare-table th.win{background:var(--green-dark)}
+.compare-table td{padding:18px;border-top:1px solid var(--border);font-size:14px;color:var(--muted);vertical-align:top}
+.compare-table td:first-child{font-weight:700;color:var(--ink);width:160px}
+.compare-table td.win{background:var(--green-soft);color:var(--ink)}
+.compare-table tr:hover td{background:#fafafa}
+.compare-table tr:hover td.win{background:#d7ecca}
+
+/* MÓDULOS / PRICING */
+.modules-intro{
+  background:var(--green-soft);padding:24px;border-radius:12px;
+  margin-bottom:32px;border-left:4px solid var(--green);
+}
+.modules-intro strong{color:var(--green-dark)}
+
+.pricing-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.module{
+  background:var(--card);border-radius:16px;border:2px solid var(--border);
+  overflow:hidden;transition:all .3s;
+}
+.module.base{border-color:var(--green);box-shadow:var(--shadow-lg)}
+.module.selected{border-color:var(--green);background:#f9fcf5}
+.module-header{
+  padding:24px 28px;display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;gap:16px;flex-wrap:wrap;
+}
+.module-title{display:flex;align-items:center;gap:14px;flex:1;min-width:240px}
+.module-check{
+  width:24px;height:24px;border:2px solid var(--border);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .2s;background:#fff;
+}
+.module.selected .module-check,.module.base .module-check{
+  background:var(--green);border-color:var(--green);
+}
+.module-check::after{
+  content:"✓";color:#fff;font-weight:bold;font-size:14px;
+  opacity:0;transition:opacity .2s;
+}
+.module.selected .module-check::after,.module.base .module-check::after{opacity:1}
+.module-name{font-weight:700;font-size:16px}
+.module-tag{
+  font-size:11px;background:var(--green);color:#fff;padding:3px 8px;border-radius:10px;
+  text-transform:uppercase;letter-spacing:.5px;margin-left:8px;font-weight:600;
+}
+.module-price{text-align:right}
+.module-price .net{font-size:13px;color:var(--muted)}
+.module-price .total{font-size:22px;font-weight:800;color:var(--green-dark)}
+.module-toggle{
+  background:none;border:none;cursor:pointer;color:var(--muted);
+  font-size:20px;transition:transform .3s;margin-left:8px;
+}
+.module.open .module-toggle{transform:rotate(180deg)}
+.module-body{
+  max-height:0;overflow:hidden;transition:max-height .4s ease;
+  padding:0 28px;
+}
+.module.open .module-body{max-height:1000px;padding:0 28px 24px}
+.module-body h4{font-size:13px;text-transform:uppercase;color:var(--green-dark);margin:16px 0 10px;letter-spacing:1px}
+.module-body ul{list-style:none}
+.module-body li{padding:6px 0 6px 22px;position:relative;color:var(--muted);font-size:14px}
+.module-body li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:bold}
+.module-body p{color:var(--muted);font-size:14px;margin-top:8px}
+.module-why{
+  background:#f7faf3;padding:16px;border-radius:8px;margin-top:16px;font-size:13px;
+  border-left:3px solid var(--green);
+}
+
+/* TOTAL CALCULATOR */
+.calculator{
+  position:sticky;bottom:20px;margin-top:32px;
+  background:linear-gradient(135deg,var(--ink) 0%,#2d3a3b 100%);
+  color:#fff;padding:24px 32px;border-radius:16px;
+  box-shadow:0 10px 40px rgba(0,0,0,.25);
+  display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+  z-index:10;
+}
+.calc-label{font-size:13px;color:#b0bcbd;text-transform:uppercase;letter-spacing:1px}
+.calc-total{font-size:32px;font-weight:800;color:var(--green);margin-top:4px}
+.calc-detail{font-size:13px;color:#b0bcbd;margin-top:4px}
+
+/* COMBOS */
+.combos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
+.combo{
+  background:var(--card);padding:32px;border-radius:16px;border:2px solid var(--border);
+  text-align:center;transition:all .3s;cursor:pointer;position:relative;
+}
+.combo:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--green)}
+.combo.featured{border-color:var(--green);background:linear-gradient(180deg,#fff 0%,#f7faf3 100%)}
+.combo.featured::before{
+  content:"RECOMENDADA";position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--green);color:#fff;padding:5px 14px;border-radius:12px;
+  font-size:11px;font-weight:700;letter-spacing:1px;
+}
+.combo h3{font-size:20px;margin-bottom:8px}
+.combo .combo-desc{color:var(--muted);font-size:14px;min-height:60px;margin-bottom:20px}
+.combo .combo-price{font-size:30px;font-weight:800;color:var(--green-dark);margin-bottom:8px}
+.combo .combo-price small{font-size:14px;color:var(--muted);font-weight:500}
+.combo-btn{
+  margin-top:16px;background:transparent;border:2px solid var(--green);color:var(--green-dark);
+  padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;width:100%;
+  transition:all .2s;
+}
+.combo-btn:hover{background:var(--green);color:#fff}
+.combo.featured .combo-btn{background:var(--green);color:#fff}
+.combo.featured .combo-btn:hover{background:var(--green-dark);border-color:var(--green-dark)}
+
+/* TIMELINE */
+.timeline{position:relative;margin-top:40px;padding-left:40px}
+.timeline::before{
+  content:"";position:absolute;left:14px;top:0;bottom:0;width:3px;background:var(--green-soft);
+}
+.timeline-item{position:relative;padding-bottom:32px}
+.timeline-item::before{
+  content:"";position:absolute;left:-32px;top:6px;width:18px;height:18px;border-radius:50%;
+  background:var(--green);border:4px solid #fff;box-shadow:0 0 0 2px var(--green);
+}
+.timeline-item h4{font-size:16px;margin-bottom:4px}
+.timeline-item p{color:var(--muted);font-size:14px}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:32px}
+.about-card{
+  background:var(--card);padding:36px;border-radius:16px;box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+.about-card h3{margin-bottom:12px;color:var(--green-dark)}
+.about-card p{color:var(--muted);font-size:15px;margin-bottom:12px}
+.portfolio-item{
+  display:block;background:#f7faf3;padding:16px;border-radius:10px;margin-top:12px;
+  border-left:3px solid var(--green);text-decoration:none;color:var(--ink);
+  transition:all .2s;
+}
+.portfolio-item:hover{background:var(--green-soft);transform:translateX(4px)}
+.portfolio-item strong{color:var(--green-dark);display:block;margin-bottom:4px}
+.portfolio-item span{font-size:13px;color:var(--muted)}
+
+/* FAQ */
+.faq-item{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  margin-bottom:12px;overflow:hidden;
+}
+.faq-q{
+  padding:20px 24px;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;font-weight:600;
+}
+.faq-q:hover{color:var(--green-dark)}
+.faq-icon{color:var(--green);font-size:24px;transition:transform .3s;font-weight:300}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .4s ease;
+  padding:0 24px;color:var(--muted);font-size:15px;
+}
+.faq-item.open .faq-a{max-height:400px;padding:0 24px 20px}
+
+/* CTA FINAL */
+.cta-final{
+  background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
+  color:#fff;text-align:center;padding:80px 24px;
+}
+.cta-final h2{font-size:clamp(28px,4vw,40px);margin-bottom:16px}
+.cta-final p{font-size:18px;opacity:.95;margin-bottom:32px;max-width:640px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cta-final .btn-primary{
+  background:#fff;color:var(--green-dark);box-shadow:0 4px 14px rgba(0,0,0,.2);
+}
+.cta-final .btn-primary:hover{background:#f7faf3}
+.cta-final .btn-ghost{border-color:rgba(255,255,255,.4);color:#fff}
+.cta-final .btn-ghost:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
+
+/* FOOTER */
+footer{
+  background:var(--ink);color:#b0bcbd;padding:40px 24px;text-align:center;
+}
+footer strong{color:#fff;display:block;margin-bottom:8px;font-size:18px}
+.contact-row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.contact-row a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;font-size:14px}
+.contact-row a:hover{color:var(--green)}
+
+/* WHATSAPP FLOAT */
+.wa-float{
+  position:fixed;bottom:24px;right:24px;width:60px;height:60px;
+  background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(37,211,102,.5);z-index:90;text-decoration:none;
+  transition:transform .2s;animation:wabounce 2s ease-in-out infinite;
+}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:32px;height:32px;fill:#fff}
+@keyframes wabounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .nav-links{display:none}
+  .burger{display:block}
+  .nav-links.open{
+    display:flex;position:absolute;top:60px;left:0;right:0;
+    background:#fff;flex-direction:column;padding:20px;gap:16px;
+    border-bottom:1px solid var(--border);
+  }
+  .context-grid{grid-template-columns:1fr}
+  .combos-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr;gap:24px}
+  .compare-table{font-size:13px;overflow-x:auto;display:block}
+  .compare-table table{min-width:600px}
+  section{padding:60px 20px}
+  .module-header{padding:20px}
+  .module-price{text-align:left}
+  .calculator{padding:20px;flex-direction:column;align-items:flex-start;gap:12px}
+  .calc-total{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">TINGGO <span>· por Cristian Salinas</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#contexto">Contexto</a></li>
+      <li><a href="#comparativa">Comparativa</a></li>
+      <li><a href="#modulos">Módulos</a></li>
+      <li><a href="#combos">Combos</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Conversemos</a>
+    <button class="burger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">PROPUESTA DE DESARROLLO WEB</span>
+    <h1>Un sitio web que <span class="accent">trabaja para Electricidad RyR</span>, no solo existe</h1>
+    <p>Sitio institucional con catálogo autogestionable, optimizado para Google y diseñado primero para celular. Listo para superar a su competencia directa en Curicó.</p>
+    <div class="hero-ctas">
+      <a href="#combos" class="btn-primary">Ver opciones de inversión</a>
+      <a href="#modulos" class="btn-ghost">Armar mi propio plan</a>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Cliente</div>
+        <div class="meta-value">Electricidad RyR · Curicó</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Desarrollador</div>
+        <div class="meta-value">Cristian Salinas Orrego</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Fecha</div>
+        <div class="meta-value">28 de mayo de 2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Vigencia</div>
+        <div class="meta-value">30 días corridos</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CONTEXTO -->
+<section id="contexto">
+  <div class="section-inner reveal">
+    <span class="section-tag">01 · Contexto y oportunidad</span>
+    <h2 class="section-title">Hoy Google los está mandando a Sodimac, Easy y Mercado Libre</h2>
+    <p class="section-subtitle">Su presencia digital se limita a un Instagram desactualizado. Eso deja un espacio vacío que las grandes cadenas llenan cada vez que alguien busca materiales eléctricos en Curicó.</p>
+    <div class="context-grid">
+      <div class="context-card problem">
+        <h3>⚠️ Situación actual</h3>
+        <ul>
+          <li>Sin sitio web propio que represente el negocio</li>
+          <li>Instagram desactualizado como única vitrina digital</li>
+          <li>Google llena el vacío con Sodimac, Easy y Mercado Libre</li>
+          <li>Casi 20 años de experiencia que no se ven en internet</li>
+          <li>Clientes potenciales que no llegan porque no los encuentran</li>
+        </ul>
+      </div>
+      <div class="context-card solution">
+        <h3>✅ Lo que esta propuesta resuelve</h3>
+        <ul>
+          <li>Sitio profesional que refleja su trayectoria</li>
+          <li>Catálogo navegable que ustedes mismos actualizan</li>
+          <li>Optimización para aparecer en búsquedas locales</li>
+          <li>Diseño responsive: funciona perfecto en celular</li>
+          <li>Botón de WhatsApp que cierra el circuito de venta</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIVA -->
+<section id="comparativa" style="background:#fff">
+  <div class="section-inner reveal">
+    <span class="section-tag">02 · Análisis de competencia</span>
+    <h2 class="section-title">Su competencia tiene web, pero no la actualiza hace 15 años</h2>
+    <p class="section-subtitle">Revisé electricidadcurico.cl el 28 de mayo de 2026. Esto encontré, y esto es lo que ustedes pueden tener.</p>
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>electricidadcurico.cl</th>
+            <th class="win">Lo que ustedes pueden tener</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tecnología</td>
+            <td>HTML estático (.htm). Sin panel. Cada cambio depende de un programador.</td>
+            <td class="win">Panel propio: suben, editan y eliminan productos cuando quieran.</td>
+          </tr>
+          <tr>
+            <td>Diseño móvil</td>
+            <td>No se adapta. En celular se ve achicada e imposible de navegar.</td>
+            <td class="win">Diseño pensado primero para celular, donde navega la mayoría hoy.</td>
+          </tr>
+          <tr>
+            <td>Catálogo</td>
+            <td>No tiene. Sube PDFs sueltos de Roker, WEG, Vigylant como enlaces.</td>
+            <td class="win">Catálogo con categorías, fotos y buscador. El cliente encuentra solo.</td>
+          </tr>
+          <tr>
+            <td>Google</td>
+            <td>Sin optimización. No aparece cuando alguien busca en Curicó.</td>
+            <td class="win">Optimizado para búsquedas locales en Curicó y alrededores.</td>
+          </tr>
+          <tr>
+            <td>Imagen</td>
+            <td>Diseño anticuado que no refleja casi 20 años de experiencia.</td>
+            <td class="win">Sitio limpio, moderno, que transmite lo que la empresa realmente es.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:24px;padding:20px;background:var(--green-soft);border-radius:12px;font-style:italic;color:var(--ink)">
+      <strong>La oportunidad:</strong> con un sitio bien hecho, Electricidad RyR pasa a ser la opción más profesional y más fácil de encontrar en la zona. Sin necesidad de una inversión enorme.
+    </p>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<section id="modulos">
+  <div class="section-inner reveal">
+    <span class="section-tag">03 · Qué incluye y módulos opcionales</span>
+    <h2 class="section-title">Arme la combinación que le haga sentido</h2>
+    <p class="section-subtitle">El proyecto tiene una base obligatoria y módulos opcionales. Marque lo que quiera y vea el total actualizarse abajo.</p>
+
+    <div class="modules-intro">
+      <strong>Cómo funciona:</strong> haga clic en cada módulo para expandir el detalle. Marque o desmarque los opcionales para calcular su inversión personalizada. La base ya está incluida.
+    </div>
+
+    <div class="pricing-grid" id="modulesGrid">
+      <!-- BASE -->
+      <div class="module base open" data-price="580200" data-iva="690200" data-base="true">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-title">
+            <div class="module-check"></div>
+            <div>
+              <span class="module-name">Sitio web institucional con catálogo</span>
+              <span class="module-tag">BASE</span>
+            </div>
+          </div>
+          <div class="module-price">
+            <div class="net">$580.200 + IVA</div>
+            <div class="total">$690.200</div>
+          </div>
+          <button class="module-toggle">▼</button>
+        </div>
+        <div class="module-body">
+          <p><strong>Plazo estimado:</strong> 3 a 4 semanas hábiles · <strong>Esfuerzo:</strong> 60 a 75 horas</p>
+          <h4>Entregables concretos</h4>
+          <ul>
+            <li>Diseño personalizado (no plantilla genérica) + 1 ronda de ajustes</li>
+            <li>Diseño responsive: celular, tablet y computador</li>
+            <li>Hasta 6 páginas: Inicio, Quiénes somos, Catálogo, Servicios, Contacto, Noticias</li>
+            <li>Catálogo organizado por categorías con fotos y descripción</li>
+            <li>Panel de administración autogestionable (agregar/editar/eliminar productos)</li>
+            <li>Formulario de contacto funcional al correo que definan</li>
+            <li>Botón de WhatsApp flotante en todas las páginas</li>
+            <li>Certificado SSL incluido</li>
+            <li>Hosting y dominio el primer año incluidos (valor $80.000)</li>
+            <li>Capacitación de uso del panel (1 sesión de 1 hora)</li>
+          </ul>
+          <div class="module-why">
+            <strong>¿Por qué no una plantilla de WordPress o Wix?</strong> Porque limita. Una plantilla no se adapta a sus categorías, no tiene un panel pensado para su rubro, y queda igual a decenas de sitios. Con desarrollo propio, mañana se agregan funcionalidades sobre lo que ya existe, sin rehacer.
+          </div>
+        </div>
+      </div>
+
+      <!-- SEO -->
+      <div class="module" data-price="140000" data-iva="166600" data-id="seo">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-title">
+            <div class="module-check" onclick="event.stopPropagation();toggleSelect(this.parentElement.parentElement.parentElement)"></div>
+            <div>
+              <span class="module-name">4.1 · SEO Local (posicionamiento en Google)</span>
+            </div>
+          </div>
+          <div class="module-price">
+            <div class="net">$140.000 + IVA</div>
+            <div class="total">$166.600</div>
+          </div>
+          <button class="module-toggle">▼</button>
+        </div>
+        <div class="module-body">
+          <p>Trabajo técnico para que aparezcan cuando alguien busca "materiales eléctricos en Curicó".</p>
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Investigación de palabras clave reales en Curicó</li>
+            <li>Optimización de títulos, descripciones y etiquetas</li>
+            <li>Schema local (Google sabe que son un negocio físico)</li>
+            <li>Creación y verificación de Google Business Profile</li>
+            <li>Sitemap XML y robots.txt configurados</li>
+          </ul>
+          <div class="module-why">
+            <strong>Su competencia no tiene SEO.</strong> Con este módulo, Electricidad RyR aparece antes que electricidadcurico.cl en búsquedas locales. Son 13 a 17 horas de trabajo técnico.
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="module" data-price="90000" data-iva="107100" data-id="analytics">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-title">
+            <div class="module-check" onclick="event.stopPropagation();toggleSelect(this.parentElement.parentElement.parentElement)"></div>
+            <div>
+              <span class="module-name">4.2 · Google Analytics y Search Console</span>
+            </div>
+          </div>
+          <div class="module-price">
+            <div class="net">$90.000 + IVA</div>
+            <div class="total">$107.100</div>
+          </div>
+          <button class="module-toggle">▼</button>
+        </div>
+        <div class="module-body">
+          <p>Saber cuántas personas visitan, desde dónde llegan y qué productos miran. Las herramientas son gratis; se cobra la configuración correcta.</p>
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Google Analytics 4 con eventos (WhatsApp, formulario, productos)</li>
+            <li>Google Search Console (qué búsquedas traen gente)</li>
+            <li>Capacitación breve para leer reportes</li>
+          </ul>
+          <div class="module-why">
+            <strong>Sin esto, no hay forma de saber si la web está cumpliendo su función.</strong> 5 a 7 horas de configuración técnica.
+          </div>
+        </div>
+      </div>
+
+      <!-- WHATSAPP -->
+      <div class="module" data-price="80000" data-iva="95200" data-id="whatsapp">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-title">
+            <div class="module-check" onclick="event.stopPropagation();toggleSelect(this.parentElement.parentElement.parentElement)"></div>
+            <div>
+              <span class="module-name">4.3 · WhatsApp Business integrado al catálogo</span>
+            </div>
+          </div>
+          <div class="module-price">
+            <div class="net">$80.000 + IVA</div>
+            <div class="total">$95.200</div>
+          </div>
+          <button class="module-toggle">▼</button>
+        </div>
+        <div class="module-body">
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Botón "Cotizar por WhatsApp" en cada ficha de producto</li>
+            <li>Mensaje automático con el producto que el cliente miraba</li>
+            <li>Detección automática: celular abre WhatsApp, computador abre WhatsApp Web</li>
+            <li>Mensaje fuera de horario configurable</li>
+          </ul>
+          <div class="module-why">
+            <strong>El módulo que más retorno da por peso invertido.</strong> En el rubro eléctrico la venta pasa por la consulta directa. No es solo un botón: es un botón que llega con el producto ya identificado.
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <div class="module" data-price="170000" data-iva="202300" data-id="blog">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-title">
+            <div class="module-check" onclick="event.stopPropagation();toggleSelect(this.parentElement.parentElement.parentElement)"></div>
+            <div>
+              <span class="module-name">4.4 · Blog editable + 3 artículos iniciales</span>
+            </div>
+          </div>
+          <div class="module-price">
+            <div class="net">$170.000 + IVA</div>
+            <div class="total">$202.300</div>
+          </div>
+          <button class="module-toggle">▼</button>
+        </div>
+        <div class="module-body">
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Sección de blog con editor visual (escriben como en Word)</li>
+            <li>3 artículos iniciales redactados, optimizados para Google</li>
+            <li>Cada artículo trabajado con palabras clave del módulo SEO</li>
+          </ul>
+          <div class="module-why">
+            <strong>Un blog sin artículos es una sección vacía.</strong> Con 3 artículos buenos empieza a traer tráfico orgánico desde Google. Desarrollo: 6-8 horas; el resto cubre la redacción.
+          </div>
+        </div>
+      </div>
+
+      <!-- CARGA -->
+      <div class="module" data-price="120000" data-iva="142800" data-id="carga">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-title">
+            <div class="module-check" onclick="event.stopPropagation();toggleSelect(this.parentElement.parentElement.parentElement)"></div>
+            <div>
+              <span class="module-name">4.5 · Carga inicial de hasta 60 productos</span>
+            </div>
+          </div>
+          <div class="module-price">
+            <div class="net">$120.000 + IVA</div>
+            <div class="total">$142.800</div>
+          </div>
+          <button class="module-toggle">▼</button>
+        </div>
+        <div class="module-body">
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Hasta 60 productos con imagen, nombre, categoría y descripción</li>
+            <li>Organización por categorías según su inventario</li>
+          </ul>
+          <div class="module-why">
+            <strong>Para que el sitio salga con contenido real desde el día uno.</strong> Si prefieren cargarlos por su cuenta, este módulo no es necesario. Aprox. 6 horas de trabajo (5-8 min por producto bien hecho).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALCULADORA -->
+    <div class="calculator">
+      <div>
+        <div class="calc-label">Total seleccionado (con IVA)</div>
+        <div class="calc-total" id="calcTotal">$690.200</div>
+        <div class="calc-detail" id="calcDetail">Neto: $580.200 · 1 ítem · solo base</div>
+      </div>
+      <a href="#contacto" class="btn-primary">Avanzar con esta configuración</a>
+    </div>
+  </div>
+</section>
+
+<!-- COMBOS -->
+<section id="combos" style="background:#fff">
+  <div class="section-inner reveal">
+    <span class="section-tag">04 · Combinaciones sugeridas</span>
+    <h2 class="section-title">Tres configuraciones que tienen sentido</h2>
+    <p class="section-subtitle">Para que sea más fácil decidir. Haga clic en cualquiera para aplicarla en la calculadora.</p>
+    <div class="combos-grid">
+      <div class="combo" onclick="applyCombo('basic')">
+        <h3>Básica</h3>
+        <p class="combo-desc">Proyecto base + WhatsApp Business integrado al catálogo.</p>
+        <div class="combo-price">$785.400 <small>CLP c/IVA</small></div>
+        <button class="combo-btn">Seleccionar Básica</button>
+      </div>
+      <div class="combo featured" onclick="applyCombo('recommended')">
+        <h3>Recomendada</h3>
+        <p class="combo-desc">Base + SEO Local + Analytics + WhatsApp Business. La opción que da retorno medible.</p>
+        <div class="combo-price">$1.059.100 <small>CLP c/IVA</small></div>
+        <button class="combo-btn">Seleccionar Recomendada</button>
+      </div>
+      <div class="combo" onclick="applyCombo('complete')">
+        <h3>Completa</h3>
+        <p class="combo-desc">Todos los módulos: base + SEO + Analytics + WhatsApp + blog + carga de productos.</p>
+        <div class="combo-price">$1.404.200 <small>CLP c/IVA</small></div>
+        <button class="combo-btn">Seleccionar Completa</button>
+      </div>
+    </div>
+    <p style="margin-top:32px;padding:24px;background:var(--green-soft);border-left:4px solid var(--green);border-radius:8px;color:var(--ink)">
+      <strong>Mi sugerencia honesta:</strong> la opción <strong>Recomendada</strong>. Un sitio sin SEO no se encuentra en Google, y sin Analytics no hay forma de saber si está funcionando. El WhatsApp cierra el circuito de consulta. El blog y la carga de productos se pueden agregar después sin rehacer nada.
+    </p>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="section-inner reveal">
+    <span class="section-tag">05 · Proceso y plazos</span>
+    <h2 class="section-title">Así avanzamos, paso a paso</h2>
+    <p class="section-subtitle">Plazos desde la aprobación del diseño y entrega de contenidos. Configuración recomendada: 4 a 5 semanas hábiles.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>1. Aprobación de propuesta y primer pago (50%)</h4>
+        <p>Confirmación por escrito y transferencia. Se emite factura.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>2. Reunión inicial (1-2 horas)</h4>
+        <p>Definimos contenidos, estructura, preferencias visuales y módulos finales.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>3. Propuesta de diseño en 5-7 días hábiles</h4>
+        <p>Una propuesta visual + 1 ronda de ajustes. Aprobamos juntos antes de programar.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>4. Desarrollo y pruebas</h4>
+        <p>Frontend, backend, panel y pruebas en dispositivos reales. Reportes semanales de avance.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>5. Capacitación y entrega final</h4>
+        <p>Sesión de 1 hora (grabada), documentación, credenciales y segundo pago (50%).</p>
+      </div>
+      <div class="timeline-item">
+        <h4>6. Garantía de 30 días + soporte opcional</h4>
+        <p>Corrección de errores incluida. Plan mensual $50.000 o por hora $20.000 si lo necesitan después.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi" style="background:#fff">
+  <div class="section-inner reveal">
+    <span class="section-tag">06 · Quién está detrás</span>
+    <h2 class="section-title">Hablan directo conmigo, no con un equipo de ventas</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Cristian Salinas Orrego</h3>
+        <p>Desarrollador web independiente con formación en Ingeniería Comercial (UTFSM) y formación técnica en Desafío LATAM. Experiencia práctica en proyectos reales en producción.</p>
+        <p>No soy una agencia ni tengo un equipo de 20 personas. <strong>Trabajo de forma directa:</strong> usted habla conmigo, yo diseño, programo y entrego. Comunicación sin intermediarios, tiempos cortos y costo significativamente menor al de una agencia, sin sacrificar calidad técnica.</p>
+      </div>
+      <div>
+        <h4 style="color:var(--green-dark);margin-bottom:12px;font-size:14px;text-transform:uppercase;letter-spacing:1px">Portafolio</h4>
+        <a href="https://tinggoapp.cl" class="portfolio-item" target="_blank" rel="noopener">
+          <strong>tinggoapp.cl</strong>
+          <span>Plataforma e-commerce multi-vertical (reventa, arriendo, servicios) con Webpay, paneles de autogestión y gestión de usuarios. Mi proyecto más completo, +1 año en desarrollo activo.</span>
+        </a>
+        <a href="https://liderazgo-usm.github.io" class="portfolio-item" target="_blank" rel="noopener">
+          <strong>liderazgo-usm.github.io</strong>
+          <span>Sitio institucional para iniciativa universitaria. Entrega rápida, diseño limpio y responsive.</span>
+        </a>
+        <p style="font-size:13px;color:var(--muted);margin-top:16px;font-style:italic">
+          También participo en proyectos para un cine y una clínica en desarrollo. Por confidencialidad no muestro material, pero puedo ampliar referencias en conversación.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner reveal">
+    <span class="section-tag">07 · Preguntas frecuentes</span>
+    <h2 class="section-title">Lo que probablemente se están preguntando</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Cuál es la forma de pago?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">50% al aprobar la propuesta y entregar accesos. 50% al entregar el sitio publicado y funcionando. Vía transferencia electrónica con factura.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Qué NO incluye esta propuesta?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Textos finales y fotos de productos (los proveen ustedes), diseño de logo o manual de marca, gestión de redes sociales, publicidad pagada (Google Ads, Meta Ads), e-commerce con pagos en línea, integración con SII, y renovación de hosting/dominio desde el segundo año (~$60.000-$90.000/año a cargo del cliente).</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Hay garantía?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Sí. 30 días corridos desde la entrega para corregir errores o problemas técnicos. No cubre cambios de diseño ni funcionalidades nuevas fuera del alcance original.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Y el soporte después de la garantía?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Dos opciones, ninguna obligatoria: <strong>Plan mensual</strong> a $50.000 CLP/mes (incluye actualizaciones de seguridad, soporte por WhatsApp y hasta 3 horas/mes de cambios menores) o <strong>por hora</strong> a $20.000 CLP/hora sin compromiso. El sitio queda funcionando de forma autónoma; el panel es autogestionable.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Por qué no contratar Wix o WordPress por menos plata?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Porque limita. Una plantilla no se adapta a sus categorías de productos, no tiene panel pensado para su rubro y queda igual a decenas de sitios. Lo importante: si mañana necesitan algo nuevo, con plantilla hay que pagar para rehacer. Con desarrollo propio se agrega sobre lo que ya existe.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Puedo empezar con la base y agregar módulos después?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Sí, exactamente para eso está pensada la propuesta. Cada módulo se puede contratar ahora o en una segunda etapa, sin rehacer la web.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span>¿Y si más adelante quiero vender online?</span><span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">La base no incluye e-commerce porque para su modelo (cotización en tienda o por WhatsApp) agregaría complejidad innecesaria. Pero el sitio se construye preparado para que, si mañana quieren e-commerce con pagos en línea, se sume como módulo sin rehacer todo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="contacto">
+  <h2>¿Listo para que su sitio empiece a trabajar?</h2>
+  <p>Si esta propuesta hace sentido, el siguiente paso es una conversación de 20 minutos para resolver dudas y definir qué módulos incluir. Sin compromiso.</p>
+  <div class="cta-buttons">
+    <a href="https://wa.me/56993322519?text=Hola%20Cristian,%20vi%20tu%20propuesta%20para%20Electricidad%20RyR%20y%20me%20gustaría%20conversar." class="btn-primary" target="_blank" rel="noopener">📱 Escribir por WhatsApp</a>
+    <a href="mailto:ConCristianSalinasor@gmail.com?subject=Propuesta Electricidad RyR" class="btn-ghost">✉️ Enviar correo</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Cristian Salinas Orrego</strong>
+  Ingeniero Comercial · Desarrollador FullStack · UTFSM · Desafío LATAM
+  <div class="contact-row">
+    <a href="tel:+56993322519">📞 +56 9 9332 2519</a>
+    <a href="mailto:ConCristianSalinasor@gmail.com">✉️ ConCristianSalinasor@gmail.com</a>
+    <a href="https://tinggoapp.cl" target="_blank" rel="noopener">🌐 tinggoapp.cl</a>
+  </div>
+  <p style="font-size:12px;margin-top:16px;opacity:.6">Propuesta vigente por 30 días corridos desde el 28 de mayo de 2026.</p>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/56993322519?text=Hola%20Cristian,%20vi%20tu%20propuesta%20y%20me%20gustaría%20conversar." class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// MODULE TOGGLE (expand/collapse)
+function toggleModule(header){
+  header.parentElement.classList.toggle('open');
+}
+
+// SELECTION TOGGLE (checkbox) - only optional modules
+function toggleSelect(module){
+  if(module.dataset.base==='true') return;
+  module.classList.toggle('selected');
+  updateTotal();
+}
+
+// Make full header clickable for selection on optional modules
+document.querySelectorAll('.module:not(.base) .module-header').forEach(h=>{
+  h.addEventListener('click',function(e){
+    if(e.target.closest('.module-check') || e.target.closest('.module-toggle')) return;
+    // expand on click of header, but also toggle selection via check
+  });
+});
+
+// UPDATE TOTAL
+function updateTotal(){
+  let net=580200, iva=690200, count=1;
+  document.querySelectorAll('.module.selected').forEach(m=>{
+    net += parseInt(m.dataset.price);
+    iva += parseInt(m.dataset.iva);
+    count++;
+  });
+  document.getElementById('calcTotal').textContent = '$'+iva.toLocaleString('es-CL');
+  let label = count===1 ? 'solo base' : (count-1)+' módulo(s) opcional(es) + base';
+  document.getElementById('calcDetail').textContent = 'Neto: $'+net.toLocaleString('es-CL')+' · '+count+' ítem(s) · '+label;
+}
+
+// APPLY COMBO
+function applyCombo(type){
+  document.querySelectorAll('.module:not(.base)').forEach(m=>m.classList.remove('selected'));
+  const sets = {
+    basic:['whatsapp'],
+    recommended:['seo','analytics','whatsapp'],
+    complete:['seo','analytics','whatsapp','blog','carga']
+  };
+  sets[type].forEach(id=>{
+    const m = document.querySelector('.module[data-id="'+id+'"]');
+    if(m) m.classList.add('selected');
+  });
+  updateTotal();
+  document.getElementById('modulos').scrollIntoView({behavior:'smooth'});
+}
+
+// REVEAL ON SCROLL
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// NAV BG on scroll
+window.addEventListener('scroll',()=>{
+  const nav = document.querySelector('.nav');
+  if(window.scrollY>20) nav.style.boxShadow='0 2px 10px rgba(0,0,0,.05)';
+  else nav.style.boxShadow='none';
+});
+
+// Close nav on link click (mobile)
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open'));
+});
+
+// Init
+updateTotal();
+</script>
+
+</body>
+</html>
