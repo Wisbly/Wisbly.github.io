@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cristian Salinas · BDR Junior TCIT — Presentación</title>
+<style>
+  :root{
+    --bg:#070a0f;
+    --bg2:#0e1826;
+    --panel:rgba(255,255,255,.05);
+    --panel-2:rgba(255,255,255,.08);
+    --text:#f4f7fb;
+    --muted:#9fb0c3;
+    --line:rgba(255,255,255,.12);
+    --accent:#7ef0d0;
+    --accent2:#4db8ff;
+    --accent3:#ffb86b;
+    --shadow:0 20px 70px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
+  body{
+    background:
+      radial-gradient(circle at 15% 15%, rgba(126,240,208,.14), transparent 35%),
+      radial-gradient(circle at 85% 5%, rgba(77,184,255,.14), transparent 35%),
+      radial-gradient(circle at 50% 90%, rgba(255,184,107,.08), transparent 40%),
+      linear-gradient(180deg, var(--bg), var(--bg2));
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:34px 34px;
+    mask-image:radial-gradient(circle at center, black 30%, transparent 90%);
+    pointer-events:none;
+    opacity:.25;
+    z-index:0;
+  }
+
+  /* Deck */
+  .deck{position:relative;width:100vw;height:100vh;overflow:hidden;z-index:1}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:6vh 7vw;
+    opacity:0;transform:translateX(40px);
+    transition:opacity .45s ease, transform .45s ease;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .slide.active{opacity:1;transform:translateX(0);pointer-events:auto}
+  .slide.prev{transform:translateX(-40px)}
+
+  .slide-num{
+    position:absolute;top:28px;left:32px;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;
+  }
+  .slide-brand{
+    position:absolute;top:28px;right:32px;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
+    font-weight:700;
+    display:flex;align-items:center;gap:8px;
+  }
+  .slide-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+
+  .badge{
+    display:inline-flex;gap:10px;align-items:center;
+    padding:10px 16px;border:1px solid rgba(126,240,208,.3);
+    background:rgba(126,240,208,.08);color:var(--accent);
+    border-radius:999px;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;font-weight:700;
+    margin-bottom:24px;
+  }
+
+  h1.title{
+    font-size:clamp(40px,6.5vw,82px);line-height:.98;letter-spacing:-.04em;
+    font-weight:700;max-width:18ch;margin-bottom:22px;
+  }
+  h1.title .hl{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  h2.heading{
+    font-size:clamp(30px,4.5vw,56px);line-height:1.04;letter-spacing:-.035em;
+    font-weight:700;max-width:22ch;margin-bottom:18px;
+  }
+  h2.heading .hl{color:var(--accent)}
+  p.lead{
+    font-size:clamp(16px,1.6vw,21px);line-height:1.55;color:#d3deea;max-width:80ch;
+  }
+  p.sub{
+    font-size:clamp(15px,1.4vw,18px);line-height:1.6;color:var(--muted);max-width:80ch;
+    margin-bottom:28px;
+  }
+
+  /* Hero layout */
+  .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;margin-top:24px;align-items:start}
+  .panel{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:24px;padding:24px;backdrop-filter:blur(14px);
+    box-shadow:var(--shadow);
+  }
+  .mini{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px;font-weight:700}
+  .statement{font-size:22px;line-height:1.25;letter-spacing:-.02em;max-width:24ch;font-weight:500}
+  .bar{height:1px;background:linear-gradient(90deg,transparent,rgba(126,240,208,.4),transparent);margin:18px 0}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  .metric{padding:14px;background:var(--panel-2);border:1px solid var(--line);border-radius:14px}
+  .metric b{display:block;font-size:18px;color:var(--accent);margin-bottom:4px;letter-spacing:-.02em}
+  .metric span{color:var(--muted);font-size:12px;line-height:1.4}
+  .pill-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .pill{padding:6px 12px;border-radius:999px;background:rgba(126,240,208,.1);border:1px solid rgba(126,240,208,.3);font-size:12px;color:var(--accent);font-weight:500}
+  .contact-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;color:#d3deea;font-size:13px}
+
+  /* Stack grid */
+  .stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+  .stack{padding:20px;border-radius:18px;border:1px solid var(--line);background:var(--panel);text-align:left}
+  .stack .icon{font-size:24px;margin-bottom:8px;color:var(--accent)}
+  .stack b{display:block;font-size:15px;margin-bottom:6px;letter-spacing:-.01em}
+  .stack span{color:var(--muted);font-size:13px;line-height:1.45}
+
+  /* Compare */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;align-items:stretch}
+  .compare .card{padding:24px;border-radius:22px;border:1px solid var(--line);background:var(--panel)}
+  .compare .card.highlight{background:linear-gradient(180deg,rgba(126,240,208,.1),rgba(255,255,255,.04));border-color:rgba(126,240,208,.3)}
+  .compare h3{margin:0 0 14px;font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
+  .compare .card.highlight h3{color:var(--accent)}
+  .compare ul{list-style:none;display:grid;gap:10px}
+  .compare li{padding:11px 12px 11px 14px;border-left:3px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);border-radius:10px;color:#dce6f1;line-height:1.45;font-size:14px}
+  .compare .highlight li{border-left-color:var(--accent)}
+
+  /* Role map */
+  .role-map{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .role-item{padding:14px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+  .role-item .num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:rgba(126,240,208,.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:1px solid rgba(126,240,208,.3)}
+  .role-item .body b{display:block;font-size:14px;margin-bottom:3px;color:#fff}
+  .role-item .body span{color:var(--muted);font-size:13px;line-height:1.45}
+
+  /* Matrix */
+  .matrix{overflow:auto;border-radius:22px;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);max-height:62vh;margin-top:18px}
+  table{width:100%;border-collapse:collapse;min-width:780px}
+  th,td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top;font-size:14px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:rgba(255,255,255,.03);font-weight:700}
+  td.me{color:#e8fff5;background:rgba(126,240,208,.05);font-weight:500}
+  td.crit{font-weight:600;color:#fff}
+
+  /* Reasons */
+  .reason-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+  .reason{padding:24px;border-radius:22px;border:1px solid var(--line);background:var(--panel);position:relative;overflow:hidden}
+  .reason::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .reason .n{font-size:12px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+  .reason h4{font-size:20px;line-height:1.2;letter-spacing:-.02em;margin-bottom:10px;font-weight:600}
+  .reason p{color:var(--muted);line-height:1.55;font-size:14px}
+
+  /* Closing */
+  .closing-box{padding:36px;border-radius:28px;background:linear-gradient(180deg,rgba(126,240,208,.12),rgba(77,184,255,.06));border:1px solid rgba(126,240,208,.28);box-shadow:var(--shadow);max-width:1100px}
+  .closing-box h2{font-size:clamp(32px,5vw,60px);line-height:1;letter-spacing:-.04em;margin-bottom:14px;max-width:16ch;font-weight:700}
+  .closing-box p{font-size:17px;line-height:1.6;color:#d9e8f6;max-width:80ch}
+  .closing-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .closing-item{padding:18px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#dce6f1;line-height:1.45;font-size:14px}
+  .closing-item b{display:block;color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+  .footer-note{margin-top:22px;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:600}
+
+  /* Controls */
+  .controls{
+    position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+    display:flex;gap:10px;align-items:center;z-index:50;
+    background:rgba(7,10,15,.7);border:1px solid var(--line);
+    backdrop-filter:blur(12px);border-radius:999px;padding:8px 14px;
+  }
+  .controls button{
+    background:transparent;border:1px solid var(--line);color:var(--text);
+    width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;
+    display:flex;align-items:center;justify-content:center;transition:.2s;
+  }
+  .controls button:hover{border-color:var(--accent);color:var(--accent)}
+  .controls .count{font-size:13px;color:var(--muted);min-width:56px;text-align:center;letter-spacing:.06em}
+  .progress{
+    position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));
+    width:0%;transition:width .4s ease;z-index:60;
+  }
+  .hint{
+    position:fixed;bottom:22px;right:22px;color:var(--muted);font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;z-index:40;
+  }
+
+  @media (max-width:920px){
+    .hero-grid,.compare,.role-map,.closing-list{grid-template-columns:1fr}
+    .stack-grid,.reason-grid,.metrics{grid-template-columns:repeat(2,1fr)}
+    .slide{padding:10vh 6vw}
+    h1.title{font-size:38px}
+    h2.heading{font-size:28px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: PORTADA -->
+  <section class="slide active">
+    <span class="slide-num">01 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> TCIT · BDR Junior</span>
+    <div class="badge"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></span> Candidatura BDR Junior</div>
+    <h1 class="title">No soy un postulante más.<br><span class="hl">Soy quien transforma datos en oportunidades reales.</span></h1>
+    <p class="lead">Ingeniero Comercial UTFSM · Excel avanzado + VBA · SAP · Power BI · Fundador TingGo (Fondo SERCOTEC 2025) · Bootcamp Fullstack en curso.</p>
+    <div class="contact-row" style="margin-top:24px">
+      <span>📧 cristian.salinasor@gmail.com</span>
+      <span>📱 +56 9 9332 2519</span>
+      <span>📍 Santiago — Providencia OK</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: TESIS -->
+  <section class="slide">
+    <span class="slide-num">02 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Tesis central</span>
+    <h2 class="heading">Reduzco la fricción entre <span class="hl">el dato y la oportunidad.</span></h2>
+    <p class="sub">El rol pide administrar CRM, limpiar datos, segmentar y entregar leads accionables. Para hacerlo bien hay que combinar criterio comercial, dominio de datos y entendimiento del producto digital. Reúno las tres en un mismo perfil.</p>
+    <div class="hero-grid">
+      <div class="panel">
+        <div class="mini">Tesis central</div>
+        <div class="statement">Limpio, segmento y entrego leads listos para que SDR/ventas conviertan.</div>
+        <div class="bar"></div>
+        <p style="color:var(--muted);line-height:1.65;font-size:14px">Aporto el criterio del Ingeniero Comercial, el rigor del analista de datos y la mirada del founder que ya gestionó CRM y prospectos desde cero.</p>
+      </div>
+      <div class="panel">
+        <div class="mini">Encaje directo con el rol</div>
+        <div class="metrics">
+          <div class="metric"><b>Datos</b><span>Excel+VBA, Power BI, SAP.</span></div>
+          <div class="metric"><b>Comercial</b><span>Ing. Comercial UTFSM.</span></div>
+          <div class="metric"><b>CRM</b><span>Gestión real en TingGo.</span></div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Excel avanzado</span>
+          <span class="pill">VBA</span>
+          <span class="pill">Power BI</span>
+          <span class="pill">SAP</span>
+          <span class="pill">Bases de datos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: STACK -->
+  <section class="slide">
+    <span class="slide-num">03 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Stack del rol</span>
+    <h2 class="heading">El stack del rol <span class="hl">coincide con lo que ya hago.</span></h2>
+    <p class="sub">El aviso pide CRM, Excel avanzado, herramientas de prospección y conceptos de bases de datos. Mi formación y experiencia cubren cada punto.</p>
+    <div class="stack-grid">
+      <div class="stack">
+        <div class="icon">▣</div>
+        <b>Excel / Sheets avanzado</b>
+        <span>Tablas dinámicas, fórmulas complejas y macros VBA aplicadas a reportería real.</span>
+      </div>
+      <div class="stack">
+        <div class="icon">⬢</div>
+        <b>Bases de datos</b>
+        <span>Creación, mantención y limpieza de bases en UTFSM y TingGo.</span>
+      </div>
+      <div class="stack">
+        <div class="icon">◆</div>
+        <b>CRM</b>
+        <span>Gestión de prospectos, seguimiento y conversión en mi propia startup.</span>
+      </div>
+      <div class="stack">
+        <div class="icon">◈</div>
+        <b>Análisis de datos</b>
+        <span>Power BI y SAP para reportería en JetSmart y UTFSM.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: PIDE vs APORTO -->
+  <section class="slide">
+    <span class="slide-num">04 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Lo que pide vs lo que aporto</span>
+    <h2 class="heading">Lo que pide el cargo <span class="hl">vs lo que ya hice.</span></h2>
+    <div class="compare">
+      <div class="card">
+        <h3>Lo que pide el cargo</h3>
+        <ul>
+          <li>Administrar, actualizar y organizar bases en CRM.</li>
+          <li>Limpiar, normalizar, deduplicar y completar datos.</li>
+          <li>Clasificar por industria, tamaño, cargo, comportamiento.</li>
+          <li>Generar listados de leads para outbound.</li>
+          <li>Controlar duplicidad, completitud, rebote y vigencia.</li>
+          <li>Analizar patrones para marketing y ventas.</li>
+        </ul>
+      </div>
+      <div class="card highlight">
+        <h3>Lo que ya hice</h3>
+        <ul>
+          <li>Mantuve bases del personal en UTFSM y reportes de dotación en JetSmart.</li>
+          <li>Limpié y consolidé información en Excel avanzado y SAP.</li>
+          <li>Segmenté usuarios de TingGo por comportamiento real.</li>
+          <li>Gestioné prospectos y partners para activar el modelo P2P.</li>
+          <li>Construí indicadores de gestión con foco en calidad del dato.</li>
+          <li>Analicé datos operacionales con Power BI para apoyar decisiones.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: MAPEO FUNCIONES -->
+  <section class="slide">
+    <span class="slide-num">05 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Mapeo de funciones</span>
+    <h2 class="heading">Cada función del rol tiene <span class="hl">una experiencia concreta detrás.</span></h2>
+    <div class="role-map">
+      <div class="role-item"><div class="num">01</div><div class="body"><b>Administrar bases en CRM</b><span>Carpetas y registros en UTFSM + base de usuarios/partners en TingGo.</span></div></div>
+      <div class="role-item"><div class="num">02</div><div class="body"><b>Limpiar, deduplicar y completar</b><span>Excel + VBA aplicados a remuneraciones, asistencia y dotación.</span></div></div>
+      <div class="role-item"><div class="num">03</div><div class="body"><b>Segmentar por criterios</b><span>Segmentación de usuarios TingGo por comportamiento de uso.</span></div></div>
+      <div class="role-item"><div class="num">04</div><div class="body"><b>Generar listados outbound</b><span>Listas accionables en TingGo. Listo para Apollo y Sales Navigator.</span></div></div>
+      <div class="role-item"><div class="num">05</div><div class="body"><b>Integrar datos de múltiples fuentes</b><span>SAP + archivos internos + plataformas operativas en JetSmart y UTFSM.</span></div></div>
+      <div class="role-item"><div class="num">06</div><div class="body"><b>Analizar patrones y tendencias</b><span>Power BI en datos de vuelo + analítica de uso en TingGo.</span></div></div>
+      <div class="role-item"><div class="num">07</div><div class="body"><b>Coordinar con marketing y ventas</b><span>Lideré equipos comercial, diseño y desarrollo en TingGo.</span></div></div>
+      <div class="role-item"><div class="num">08</div><div class="body"><b>Aprender HubSpot rápido</b><span>Bootcamp Fullstack + SAP/Power BI/Bizagi: onboarding rápido.</span></div></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: COMPARACIÓN -->
+  <section class="slide">
+    <span class="slide-num">06 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Por qué yo</span>
+    <h2 class="heading">Por qué yo y no otro <span class="hl">BDR Junior sin experiencia.</span></h2>
+    <p class="sub">La diferencia no estará en años, sino en quién entrega bases más limpias y leads de mejor calidad desde el primer mes.</p>
+    <div class="matrix">
+      <table>
+        <thead><tr><th>Criterio</th><th>BDR Junior típico</th><th>Mi aporte a TCIT</th></tr></thead>
+        <tbody>
+          <tr><td class="crit">Excel / Sheets avanzado</td><td>Nivel intermedio universitario.</td><td class="me">Tablas dinámicas, fórmulas complejas y macros VBA en reportería real.</td></tr>
+          <tr><td class="crit">Bases de datos</td><td>Conoce el concepto.</td><td class="me">Construí y mantuve bases en UTFSM, JetSmart y TingGo.</td></tr>
+          <tr><td class="crit">Análisis y visualización</td><td>Excel básico, sin BI.</td><td class="me">Power BI en datos operacionales de vuelo y métricas de plataforma propia.</td></tr>
+          <tr><td class="crit">Entendimiento del producto TCIT</td><td>Aprende cloud desde cero.</td><td class="me">Bootcamp Fullstack + experiencia como fundador de un producto digital.</td></tr>
+          <tr><td class="crit">Mirada estratégica</td><td>Foco en volumen de contactos.</td><td class="me">Ing. Comercial UTFSM: pienso en segmentación, conversión y ROI.</td></tr>
+          <tr><td class="crit">Iniciativa</td><td>Más estructura para arrancar.</td><td class="me">Fundador ganador Fondo SERCOTEC 2025: ejecuto con poca supervisión.</td></tr>
+          <tr><td class="crit">Disponibilidad</td><td>Variable.</td><td class="me">100% presencial Providencia, L–J 08–18 y V 08–14.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: TRES RAZONES -->
+  <section class="slide">
+    <span class="slide-num">07 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Tres razones</span>
+    <h2 class="heading">Tres razones concretas <span class="hl">para contratarme.</span></h2>
+    <p class="sub">Ventajas que impactan directamente la calidad de la base, la segmentación y la generación de pipeline.</p>
+    <div class="reason-grid">
+      <article class="reason">
+        <div class="n">Razón 01</div>
+        <h4>Entrego bases limpias desde la semana uno.</h4>
+        <p>Excel + VBA, SAP y manejo de bases me permiten detectar duplicados, normalizar formatos y completar campos sin curva de aprendizaje. Menos rebotes, mejor pipeline.</p>
+      </article>
+      <article class="reason">
+        <div class="n">Razón 02</div>
+        <h4>Segmento con criterio comercial real.</h4>
+        <p>Ing. Comercial UTFSM + fundador TingGo: sé qué cortes importan (tamaño, industria, cargo, intención). Segmento para maximizar conversión.</p>
+      </article>
+      <article class="reason">
+        <div class="n">Razón 03</div>
+        <h4>Entiendo lo que TCIT vende.</h4>
+        <p>Bootcamp Fullstack + producto digital propio. Cuando segmento prospectos para una solución cloud, sé qué buscan los tomadores de decisión técnicos.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: QUÉ GANA TCIT -->
+  <section class="slide">
+    <span class="slide-num">08 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Qué gana TCIT</span>
+    <h2 class="heading">Qué gana TCIT <span class="hl">si me contrata.</span></h2>
+    <p class="sub">No solo un BDR Junior que ejecuta. Un perfil que aporta calidad de datos, criterio comercial y velocidad de aprendizaje en un solo paquete.</p>
+    <div class="compare">
+      <div class="card highlight">
+        <h3>Resultado esperado en 90 días</h3>
+        <ul>
+          <li>CRM con bases limpias, deduplicadas y enriquecidas.</li>
+          <li>Segmentación clara por industria, tamaño, cargo e intención.</li>
+          <li>Listados accionables y trazables para campañas outbound.</li>
+          <li>Indicadores de calidad (duplicidad, completitud, rebote) monitoreados.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Lo que me define</h3>
+        <ul>
+          <li>Rigor con los datos y obsesión por la calidad del registro.</li>
+          <li>Lenguaje de negocio + base técnica suficiente para el portafolio cloud.</li>
+          <li>Mentalidad de fundador: propongo, ejecuto y mejoro procesos.</li>
+          <li>Disciplina demostrada en UTFSM, JetSmart y TingGo.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: CIERRE -->
+  <section class="slide">
+    <span class="slide-num">09 / 09</span>
+    <span class="slide-brand"><span class="dot"></span> Cierre</span>
+    <div class="closing-box">
+      <h2>La razón para elegirme es simple.</h2>
+      <p>Hay candidatos que saben prospectar. Otros que dominan Excel. Otros que entienden tecnología. Yo combino las tres dimensiones: Ing. Comercial UTFSM con dominio real de datos, experiencia como fundador gestionando CRM y un bootcamp Fullstack que me acerca al producto cloud que TCIT vende.</p>
+      <div class="closing-list">
+        <div class="closing-item"><b>Datos</b>Excel avanzado, VBA, SAP, Power BI en empresas reales.</div>
+        <div class="closing-item"><b>Comercial</b>Ing. Comercial UTFSM con foco B2B tecnológico.</div>
+        <div class="closing-item"><b>Producto</b>Bootcamp Fullstack + TingGo: entiendo el problema cloud.</div>
+      </div>
+      <div class="footer-note">Cristian Salinas Orrego — listo para aportar desde el día uno</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="controls">
+  <button id="prev" aria-label="Anterior">‹</button>
+  <span class="count" id="count">1 / 9</span>
+  <button id="next" aria-label="Siguiente">›</button>
+</div>
+<div class="hint">← → · Espacio · Click</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const count = document.getElementById('count');
+  const progress = document.getElementById('progress');
+
+  function go(i){
+    if(i < 0 || i >= total || i === current) return;
+    current = i;
+    slides.forEach((s,idx)=>{
+      s.classList.remove('active','prev');
+      if(idx === current) s.classList.add('active');
+      else if(idx < current) s.classList.add('prev');
+    });
+    count.textContent = (current+1) + ' / ' + total;
+    progress.style.width = ((current+1)/total*100) + '%';
+  }
+
+  document.getElementById('next').onclick = ()=> go(current+1);
+  document.getElementById('prev').onclick = ()=> go(current-1);
+
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(current+1); }
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current-1); }
+    if(e.key === 'Home') go(0);
+    if(e.key === 'End') go(total-1);
+  });
+
+  document.addEventListener('click', e=>{
+    if(e.target.closest('.controls') || e.target.closest('a') || e.target.closest('button')) return;
+    const x = e.clientX;
+    if(x > window.innerWidth/2) go(current+1);
+    else go(current-1);
+  });
+
+  // Touch swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e=> touchX = e.touches[0].clientX);
+  document.addEventListener('touchend', e=>{
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 60) go(current + (dx < 0 ? 1 : -1));
+  });
+
+  progress.style.width = (1/total*100) + '%';
+</script>
+
+</body>
+</html>
