@@ -1,0 +1,108 @@
+flowchart LR
+    subgraph PWR["⚡ ALIMENTACIÓN"]
+        direction TB
+        Enchufe["🔌 Enchufe 220V<br/>(toma corriente del local)"]
+        Fuente["Fuente 12V · 3A<br/>(la que tenés)"]
+        BuckConv["Buck DC-DC LM2596<br/>12V → 5V<br/>(falta comprar)"]
+        Enchufe -->|"AC"| Fuente
+        Fuente -->|"12V (al solenoide)"| Rail12V[("Rail 12V<br/>+ cap 1000µF")]
+        Fuente -->|"12V"| BuckConv
+        BuckConv -->|"5V"| Rail5V[("Rail 5V")]
+    end
+
+    subgraph ESP["🧠 ESP32 DevKit v1"]
+        direction TB
+        VIN["VIN"]
+        V3["3V3<br/>(sale del ESP32)"]
+        GND["GND"]
+
+        subgraph PINS_OUT["Pines de SALIDA"]
+            GPIO16["GPIO 16<br/>→ Solenoide P0"]
+            GPIO17_2["GPIO 17<br/>→ Solenoide P1<br/>(2da puerta)"]
+            GPIO21["GPIO 21<br/>SDA (I2C)"]
+            GPIO22["GPIO 22<br/>SCL (I2C)"]
+            GPIO19["GPIO 19<br/>LED estado"]
+        end
+
+        subgraph PINS_IN["Pines de ENTRADA"]
+            GPIO34["GPIO 34<br/>Reed sensor P0<br/>(input-only)"]
+            GPIO35["GPIO 35<br/>Reed sensor P1"]
+        end
+
+        subgraph PINS_KP["Keypad (8 pines)"]
+            ROWS["Filas: GPIO 13, 17, 4, 27"]
+            COLS["Columnas: GPIO 26, 25, 33, 32"]
+        end
+    end
+
+    subgraph LCD["📺 Pantalla LCD 1602 I2C"]
+        LCDvcc["VCC → 5V"]
+        LCDgnd["GND → GND"]
+        LCDsda["SDA → GPIO 21"]
+        LCDscl["SCL → GPIO 22"]
+    end
+
+    subgraph KP["⌨️ Keypad 4x4"]
+        KProws["8 cables: 4 filas + 4 columnas"]
+    end
+
+    subgraph SOL["🔓 Solenoide (cerradura)"]
+        direction TB
+        SolPos["+ 12V"]
+        SolNeg["- MOSFET drain"]
+        Diodo["Diodo 1N4007 flyback<br/>⚠️ CRÍTICO — sin esto el MOSFET se quema"]
+        SolPos --> SolNeg
+        Diodo -.-> SolPos
+    end
+
+    subgraph MOSFET["🔌 Driver MOSFET IRFZ44N"]
+        direction TB
+        Gate["G (gate)<br/>← GPIO 16 vía R 220Ω"]
+        Drain["D (drain) → -solenoide"]
+        Source["S (source) → GND"]
+        PullDown["R pull-down 10kΩ<br/>gate ↔ GND<br/>⚠️ evita activación en boot"]
+    end
+
+    subgraph REED["🧲 Reed switch"]
+        direction TB
+        REEDa["Pata 1 → GPIO 34"]
+        REEDb["Pata 2 → GND"]
+        PullUp["R pull-up 10kΩ<br/>GPIO 34 ↔ 3.3V<br/>⚠️ OBLIGATORIA (GPIO34 no tiene interna)"]
+    end
+
+    subgraph LED["💡 LED estado (opcional)"]
+        LEDa["Ánodo → GPIO 19 vía R 220Ω"]
+        LEDb["Cátodo → GND"]
+    end
+
+    Rail5V ==>|"5V"| VIN
+    Rail5V ==>|"5V"| LCDvcc
+    GND -.->|"GND común"| LCDgnd
+    GND -.->|"GND común"| Source
+    GND -.->|"GND común"| REEDb
+    GND -.->|"GND común"| LEDb
+    GND -.->|"GND común"| Rail12V
+
+    V3 -.->|"3.3V"| PullUp
+
+    GPIO16 -->|"señal control"| Gate
+    Drain --> SolNeg
+    Rail12V ==>|"12V"| SolPos
+
+    GPIO34 <-- REEDa
+    GPIO21 --> LCDsda
+    GPIO22 --> LCDscl
+    GPIO19 --> LEDa
+
+    ROWS <-->|"8 cables"| KP
+    COLS <-->|"8 cables"| KP
+
+    classDef power fill:#ffcdd2,stroke:#b71c1c,color:#000
+    classDef esp fill:#c5e1a5,stroke:#33691e,color:#000
+    classDef periferico fill:#b3e5fc,stroke:#01579b,color:#000
+    classDef critico fill:#fff59d,stroke:#f57f17,color:#000
+
+    class Enchufe,Fuente,BuckConv,Rail12V,Rail5V power
+    class VIN,V3,GND,GPIO16,GPIO17_2,GPIO21,GPIO22,GPIO19,GPIO34,GPIO35,ROWS,COLS esp
+    class LCDvcc,LCDgnd,LCDsda,LCDscl,KProws,SolPos,SolNeg,Gate,Drain,Source,REEDa,REEDb,LEDa,LEDb periferico
+    class Diodo,PullDown,PullUp critico

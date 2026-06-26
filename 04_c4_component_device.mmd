@@ -1,0 +1,33 @@
+flowchart TB
+    subgraph Device["📦 Locker Device (ESP32)"]
+        direction TB
+        Main["main.cpp<br/>(setup/loop orquestador)"]
+
+        subgraph Modules["Módulos firmware"]
+            UI["UserInterface<br/>--LCD + Keypad--<br/>~500 líneas"]
+            FSM["StateMachine<br/>--14 estados + cola eventos--<br/>~570 líneas"]
+            HAL["LockerHardware<br/>--GPIO HAL--<br/>~70 líneas"]
+            NET["NetworkManager<br/>--WiFi + HTTP--<br/>~330 líneas"]
+        end
+
+        NVS[("NVS / Preferences<br/>estado + PINs ⚠️")]
+        Queue["Cola eventos RAM<br/>(8 slots, no persistente ⚠️)"]
+    end
+
+    Hardware["Hardware físico<br/>(Solenoide + Reed + LCD + Keypad)"]
+    Cloud["API Backend"]
+
+    Main --> UI
+    Main --> FSM
+    Main --> HAL
+    Main --> NET
+
+    UI --> FSM
+    FSM --> HAL
+    NET --> FSM
+    FSM --> Queue
+    Queue --> NET
+    FSM --> NVS
+
+    HAL <-->|"GPIO"| Hardware
+    NET <-.->|"HTTPS"| Cloud

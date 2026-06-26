@@ -1,0 +1,9 @@
+flowchart LR
+    Start["v3 actual<br/>HTTP polling"] --> P1["Fase 1<br/>Hardening seguridad<br/>(TLS, OTA, hash PINs)"]
+    P1 --> P2["Fase 2<br/>Multi-puerta + monitoreo<br/>(3-5 lockers)"]
+    P2 --> P3a["Fase 3a<br/>Stand up broker EMQX<br/>en paralelo"]
+    P3a --> P3b["Fase 3b<br/>Cert provisioning<br/>via QR + secret rotation"]
+    P3b --> P3c["Fase 3c<br/>Dual-protocol firmware<br/>(MQTT primary + HTTP fallback)"]
+    P3c --> P3d["Fase 3d<br/>Lockers nuevos arrancan<br/>solo MQTT"]
+    P3d --> P3e["Fase 3e<br/>Migrar viejos en<br/>próximo OTA cycle"]
+    P3e --> End["v4 MQTT v5 + mTLS<br/>100+ lockers"]

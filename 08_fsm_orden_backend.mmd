@@ -1,0 +1,13 @@
+stateDiagram-v2
+    [*] --> LOCKER_PENDIENTE_DEPOSITO: arriendo creado<br/>PIN depósito enviado al propietario
+    LOCKER_PENDIENTE_DEPOSITO --> LOCKER_OBJETO_DEPOSITADO: evento deposito_cerrado<br/>PIN retiro enviado al arrendatario
+    LOCKER_OBJETO_DEPOSITADO --> LOCKER_OBJETO_RETIRADO: evento retiro_cerrado<br/>(PIN devolución generado pero NO enviado)
+    LOCKER_OBJETO_RETIRADO --> LOCKER_PENDIENTE_DEVOLUCION: job cron + fechaDevolucion vencida<br/>PIN devolución enviado
+    LOCKER_PENDIENTE_DEVOLUCION --> LOCKER_OBJETO_DEVUELTO: evento devolucion_cerrada<br/>PIN recojo enviado al propietario
+    LOCKER_OBJETO_DEVUELTO --> LOCKER_COMPLETADO: evento recojo_cerrado
+    LOCKER_COMPLETADO --> [*]
+
+    LOCKER_PENDIENTE_DEPOSITO --> ALERTA_TIMEOUT: 24h sin depósito
+    LOCKER_OBJETO_DEPOSITADO --> ALERTA_TIMEOUT: 36h sin retiro
+    LOCKER_PENDIENTE_DEVOLUCION --> ALERTA_TIMEOUT: 48h sin devolución
+    LOCKER_OBJETO_DEVUELTO --> ALERTA_TIMEOUT: 72h sin recojo

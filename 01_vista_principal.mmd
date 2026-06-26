@@ -1,0 +1,88 @@
+flowchart TB
+    subgraph USR["👤 Usuario físico"]
+        Cliente["Cliente final<br/>(Cata/Diego/Vale)"]
+        Admin["Admin operaciones"]
+    end
+
+    subgraph DEV["📦 Device — Locker físico (ESP32)"]
+        subgraph HW["Hardware"]
+            Keypad["Keypad 4x4"]
+            LCD["LCD I2C 16x2"]
+            Reed["Reed sensor<br/>GPIO 34"]
+            Sol["Solenoide 12V<br/>GPIO 5 ⚠️"]
+        end
+        subgraph FW["Firmware"]
+            UI["UserInterface"]
+            FSM["StateMachine<br/>14 estados"]
+            HAL["LockerHardware"]
+            NET["NetworkManager"]
+            NVS[("NVS Flash<br/>⚠️ PINs plaintext")]
+        end
+    end
+
+    subgraph CLOUD["☁️ Backend — api.tinggoapp.cl"]
+        API["API REST<br/>Express + TypeScript"]
+        Auth["validateLockerSecret<br/>middleware"]
+        Routes["lockers.routes.ts<br/>+ admin-lockers + arriendos-locker"]
+        PinSvc["pin.service<br/>(crypto.randomInt)"]
+        EmailSvc["lockerEmail.service<br/>(Resend)"]
+        Jobs["Cron Jobs<br/>(setInterval 10 min)"]
+        DB[("PostgreSQL<br/>Prisma ORM")]
+        AdminPanel["Panel Admin Web<br/>(Next.js)"]
+    end
+
+    subgraph EXT["🌐 Servicios externos"]
+        Email["Provider Email<br/>(Resend/SMTP)"]
+        Webpay["Webpay<br/>(pagos)"]
+    end
+
+    Cliente -->|"Pulsa PIN 6 dígitos"| Keypad
+    Keypad -->|"char tecla"| UI
+    UI -->|"validarPIN()"| FSM
+    FSM -->|"abrirPuerta(id)"| HAL
+    HAL -->|"digitalWrite HIGH"| Sol
+    Reed -->|"digitalRead<br/>(debounce 60ms)"| HAL
+    HAL -->|"verificarSensor()"| FSM
+    FSM -->|"cambiarEstado()"| UI
+    UI -->|"texto"| LCD
+    LCD -->|"feedback visual"| Cliente
+
+    FSM -->|"persiste estado"| NVS
+    NVS -->|"restaura al boot"| FSM
+
+    FSM -->|"pushEvento()"| NET
+    NET -.->|"POST /eventos HTTPS"| Auth
+    NET -.->|"GET /comandos cada 5s/30s"| Auth
+    NET -.->|"POST /heartbeat cada 60s"| Auth
+    Auth --> Routes
+    Routes -->|"prisma queries"| DB
+    Routes -->|"generarPin()"| PinSvc
+    Routes -->|"enviarPin*()"| EmailSvc
+    EmailSvc -.->|"SMTP"| Email
+    Email -->|"Email con PIN"| Cliente
+
+    Jobs -->|"prisma queries"| DB
+    Jobs -->|"alertas timeout"| EmailSvc
+
+    Admin -->|"HTTPS"| AdminPanel
+    AdminPanel -->|"REST con JWT"| Routes
+
+    Routes -.->|"comandos pendientes<br/>(PINs plaintext)"| NET
+    NET -->|"procesarComandoAPI()"| FSM
+
+    Cliente -.->|"paga arriendo"| Webpay
+    Webpay -.->|"webhook"| Routes
+
+    classDef hwClass fill:#ffe0b2,stroke:#e65100,color:#000
+    classDef fwClass fill:#c5e1a5,stroke:#33691e,color:#000
+    classDef cloudClass fill:#b3e5fc,stroke:#01579b,color:#000
+    classDef userClass fill:#f8bbd0,stroke:#880e4f,color:#000
+    classDef extClass fill:#d1c4e9,stroke:#311b92,color:#000
+    classDef riskClass fill:#ffcdd2,stroke:#b71c1c,color:#000
+
+    class Keypad,LCD,Reed,Sol hwClass
+    class UI,FSM,HAL,NET fwClass
+    class API,Auth,Routes,PinSvc,EmailSvc,Jobs,DB,AdminPanel cloudClass
+    class Cliente,Admin userClass
+    class Email,Webpay extClass
+    class NVS riskClass

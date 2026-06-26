@@ -1,0 +1,16 @@
+flowchart TB
+    subgraph V3["v3 actual — HTTP polling"]
+        D1["ESP32 #1"] -.->|"GET cada 5s/30s"| API1["API REST"]
+        D2["ESP32 #2"] -.->|"GET cada 5s/30s"| API1
+        D3["ESP32 #N"] -.->|"GET cada 5s/30s"| API1
+        API1 --> DB1[("PostgreSQL")]
+    end
+
+    subgraph V4["v4 objetivo — MQTT v5 + mTLS"]
+        D4["ESP32 #1<br/>+ cert mTLS"] <-->|"sub/pub QoS 1"| Broker["EMQX Broker<br/>mTLS · LWT · retain"]
+        D5["ESP32 #2<br/>+ cert mTLS"] <-->|"sub/pub QoS 1"| Broker
+        D6["ESP32 #N<br/>+ cert mTLS"] <-->|"sub/pub QoS 1"| Broker
+        Broker <-->|"bridge"| API2["API Backend<br/>(suscriptor MQTT)"]
+        API2 --> DB2[("PostgreSQL")]
+        Broker -.->|"LWT auto-publish<br/>tinggo/lockers/X/status = OFFLINE"| Panel["Panel Admin<br/>(WebSocket)"]
+    end

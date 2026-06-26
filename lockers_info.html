@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>TingGo SmartLocker — Diagramas de arquitectura</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --card-soft: #1c2128;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-soft: #8b949e;
+    --accent: #58a6ff;
+    --warn: #f85149;
+    --money: #3fb950;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 24px;
+    line-height: 1.55;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  h1 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 12px;
+    margin-top: 0;
+    font-size: 2em;
+  }
+  h2 {
+    color: var(--accent);
+    margin-top: 48px;
+    border-left: 4px solid var(--accent);
+    padding-left: 14px;
+    font-size: 1.5em;
+  }
+  h2 .subtitle {
+    display: block;
+    color: var(--text-soft);
+    font-size: 0.65em;
+    font-weight: 400;
+    margin-top: 4px;
+  }
+  h3 {
+    color: #f0883e;
+    margin-top: 28px;
+    font-size: 1.15em;
+  }
+  .meta { color: var(--text-soft); font-size: 0.9em; margin-bottom: 32px; }
+
+  .glossary {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-bottom: 32px;
+  }
+  .glossary h3 { color: var(--accent); margin-top: 0; }
+  .glossary dl { margin: 0; }
+  .glossary dt {
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 12px;
+    font-family: "Consolas", "Monaco", monospace;
+  }
+  .glossary dd { margin: 4px 0 0 0; color: var(--text); }
+
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-bottom: 32px;
+  }
+  .toc h3 { margin-top: 0; color: var(--accent); }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc ol { padding-left: 24px; }
+  .toc li { margin: 6px 0; }
+  .toc .toc-sub { color: var(--text-soft); font-size: 0.85em; display: block; padding-left: 8px; }
+
+  .diagram-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .diagram-card img {
+    max-width: 100%;
+    height: auto;
+    background: white;
+    border-radius: 4px;
+    cursor: zoom-in;
+    transition: transform 0.2s;
+    display: block;
+    margin: 16px 0 0;
+  }
+  .diagram-card img:hover { transform: scale(1.005); }
+
+  .info-block {
+    background: var(--card-soft);
+    border-left: 4px solid var(--accent);
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 4px;
+  }
+  .info-block.que { border-left-color: var(--accent); }
+  .info-block.para { border-left-color: var(--money); }
+  .info-block.caja { border-left-color: #f0883e; }
+  .info-block.alerta { border-left-color: var(--warn); }
+  .info-block strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-block.que strong { color: var(--accent); }
+  .info-block.para strong { color: var(--money); }
+  .info-block.caja strong { color: #f0883e; }
+  .info-block.alerta strong { color: var(--warn); }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .tag-arch { background: #1f6feb33; color: #58a6ff; }
+  .tag-flow { background: #23863633; color: #3fb950; }
+  .tag-data { background: #db6d2833; color: #f0883e; }
+  .tag-warn { background: #da363333; color: #f85149; }
+  .tag-money { background: #3fb95033; color: #3fb950; }
+
+  .legend {
+    background: var(--card);
+    border-left: 4px solid var(--warn);
+    padding: 12px 16px;
+    margin: 24px 0;
+    border-radius: 4px;
+  }
+  .legend strong { color: var(--warn); }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-soft);
+    font-size: 0.85em;
+  }
+  code {
+    background: var(--card-soft);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    color: #f0883e;
+  }
+</style>
+</head>
+<body>
+
+<h1>📦 TingGo SmartLocker — Diagramas de arquitectura</h1>
+<p class="meta">Generados con Mermaid CLI · 2026-06-26 · click en cualquier imagen para ampliarla en pantalla completa</p>
+
+<div class="info-block que">
+<strong>💡 ¿Cómo leer este documento?</strong>
+Cada diagrama responde a una pregunta distinta sobre el sistema TingGo SmartLocker. Empezá por el glosario si los nombres técnicos no te suenan, después usá el índice para ir al que necesites. Los diagramas <strong>#1, #3 y #12</strong> son los más amigables si recién estás conociendo el sistema. Los <strong>#4, #5, #7 y #9</strong> son para programadores. El <strong>#12</strong> incluye el flujo de plata (cómo se mueve el dinero).
+</div>
+
+<!-- ============================================================== -->
+<!-- GLOSARIO -->
+<!-- ============================================================== -->
+<div class="glossary">
+<h3>📖 Glosario — palabras técnicas en español simple</h3>
+<dl>
+  <dt>C4 (Context · Container · Component)</dt>
+  <dd>Es una forma estándar de dibujar sistemas en <strong>4 niveles de zoom</strong>, como Google Maps. <em>Context</em> = vista satelital (qué es y quién lo usa). <em>Container</em> = vista de barrio (las piezas grandes que lo componen, como "el servidor", "la base de datos"). <em>Component</em> = vista de calle (qué hay adentro de cada pieza). El cuarto nivel (Code) ya es código fuente, lo saltamos.</dd>
+
+  <dt>FSM (Finite State Machine, "máquina de estados")</dt>
+  <dd>Un diagrama que muestra todos los <strong>"modos"</strong> en los que algo puede estar y cómo cambia de uno a otro. Ejemplo: un semáforo tiene 3 estados (verde, amarillo, rojo) y cambia con un temporizador. El locker tiene 14 estados (libre, esperando depósito, abierto, bloqueado…).</dd>
+
+  <dt>ER Diagram (Entity-Relationship)</dt>
+  <dd>El <strong>mapa de la base de datos</strong>. Muestra qué tablas existen, qué información guarda cada una, y cómo se conectan entre sí (por ejemplo "un Locker tiene muchas Puertas").</dd>
+
+  <dt>Sequence Diagram</dt>
+  <dd>Un <strong>"guión de teatro"</strong> donde cada actor (cliente, servidor, base de datos…) tiene una columna y las flechas horizontales muestran qué le dice a quién, en orden cronológico de arriba hacia abajo.</dd>
+
+  <dt>Flowchart (diagrama de flujo)</dt>
+  <dd>El típico diagrama de cajas con flechas que muestra <strong>el orden de los pasos</strong>. Los rombos son decisiones (¿pago OK? sí/no).</dd>
+
+  <dt>HTTP Polling</dt>
+  <dd>El casillero <strong>"pregunta al servidor cada cierto tiempo"</strong> (cada 5 o 30 segundos) si hay algo nuevo. Como llamar al colegio cada hora a preguntar si tu hijo está enfermo, en vez de que ellos te llamen cuando pasa algo.</dd>
+
+  <dt>MQTT</dt>
+  <dd>Lo opuesto al polling: el servidor le <strong>avisa instantáneamente al casillero</strong> cuando hay algo nuevo, sin necesidad de que pregunte. Es como WhatsApp vs revisar email. Más rápido, gasta menos datos, pero requiere un "broker" (intermediario) que mantiene todos conectados.</dd>
+
+  <dt>FSM / Estado de Orden</dt>
+  <dd>La "vida" de un arriendo: nace como <code>LOCKER_PENDIENTE_DEPOSITO</code>, pasa por varios estados, y termina en <code>LOCKER_COMPLETADO</code> o algún error. Es lo que el servidor usa para saber en qué punto del proceso está cada arriendo.</dd>
+
+  <dt>NVS (Non-Volatile Storage)</dt>
+  <dd>La <strong>memoria del casillero que sobrevive a cortes de luz</strong>. Si se va la luz a la mitad de un arriendo, al volver el casillero lee el NVS y sigue donde quedó.</dd>
+
+  <dt>Cron Job</dt>
+  <dd>Una <strong>tarea automática que el servidor ejecuta cada cierto tiempo</strong> (acá: cada 10 minutos). Sirven para cosas como "revisá si algún arriendo ya venció y manda el PIN de devolución".</dd>
+
+  <dt>Webpay Plus</dt>
+  <dd>El servicio de Transbank que <strong>procesa los pagos con tarjeta</strong> en Chile. TingGo redirige al cliente a Webpay, este cobra, y vuelve al servidor con "OK pagado" o "rechazado".</dd>
+
+  <dt>API REST</dt>
+  <dd>La <strong>"recepción"</strong> del servidor: un conjunto de URLs donde el casillero (o la web, o la app móvil) hace pedidos. Ejemplo: <code>GET /comandos</code> = "dame los comandos pendientes".</dd>
+
+  <dt>GPIO (General Purpose Input/Output)</dt>
+  <dd>Cada uno de los <strong>"pines" físicos del ESP32</strong> que se pueden programar para mandar señal (encender un LED, activar una cerradura) o leer una señal (un sensor, un botón). El ESP32 DevKit v1 tiene ~30 GPIOs útiles, pero <strong>no todos sirven para todo</strong>: algunos son "input-only" (GPIO 34-39, solo leen, no escriben), otros son "strapping" (GPIO 0, 2, 5, 12, 15 — tienen un rol especial al encender el chip y si los usás mal el ESP32 puede no arrancar). Los GPIO se identifican por número y se conectan al hardware externo (sensores, displays, cerraduras) con cables.</dd>
+
+  <dt>MOSFET (transistor de potencia)</dt>
+  <dd>Es un <strong>"switch electrónico"</strong>. El ESP32 no puede prender una cerradura directamente porque solo entrega 3.3V y poca corriente (40mA), pero la cerradura necesita 12V y ~500mA-1A. El MOSFET hace de intermediario: el ESP32 le manda una pequeña señal y el MOSFET "abre el grifo" que deja pasar los 12V de la fuente al solenoide. El que tenés (IRFZ44N) aguanta hasta 49A — más que suficiente.</dd>
+
+  <dt>Diodo flyback / Diodo de protección</dt>
+  <dd>Un componente de <strong>1 sentido único</strong> (deja pasar corriente en una dirección, no en la otra). Va en paralelo con el solenoide y sirve para <strong>absorber el "pico de voltaje inverso"</strong> que se genera cuando la bobina del solenoide se desactiva (esto puede llegar a 100V por unos microsegundos y quema el MOSFET). Es barato (~$50 chilenos) pero <strong>imprescindible</strong>: sin diodo, el MOSFET se quema entre 100 y 1000 aperturas. El 1N4007 es el típico.</dd>
+
+  <dt>Pull-up / Pull-down (resistencia)</dt>
+  <dd>Una resistencia que "tira" un pin a un valor por defecto cuando no hay señal activa. <strong>Pull-up</strong> = lo mantiene en 3.3V (HIGH) cuando nadie lo activa; <strong>pull-down</strong> = lo mantiene en 0V (LOW). Sin esto, los pines flotan en valores aleatorios y leen basura.</dd>
+
+  <dt>Reed switch (sensor magnético)</dt>
+  <dd>Un sensor <strong>pasivo</strong> (no necesita alimentación) con 2 pines. Cuando hay un imán cerca, se cierra el circuito (HIGH); cuando se aleja, se abre (LOW). Es lo que usa el locker para saber si la puerta está cerrada (imán pegado al sensor) o abierta (imán lejos).</dd>
+
+  <dt>I2C</dt>
+  <dd>Un <strong>protocolo de comunicación con solo 2 cables</strong> (SDA = datos, SCL = reloj) que permite conectar varios dispositivos al ESP32 sin gastar muchos GPIOs. La pantalla LCD usa I2C con su "backpack" PCF8574. Si querés agregar más cosas al sistema (sensor de temperatura, expansor de pines), todas pueden ir en el mismo bus I2C compartiendo SDA/SCL.</dd>
+
+  <dt>Buck Converter (DC-DC step-down)</dt>
+  <dd>Un módulo pequeño que <strong>baja un voltaje a otro más bajo</strong> de forma eficiente. Te sirve para convertir los 12V de la fuente a los 5V que necesita el ESP32 (alimentado por su pin VIN). El modelo típico es <strong>LM2596</strong>, cuesta ~$1.500 chilenos y tiene un potenciómetro para ajustar el voltaje de salida.</dd>
+
+  <dt>Protoboard (breadboard)</dt>
+  <dd>Una placa con agujeros conectados internamente que permite <strong>armar circuitos sin soldar</strong>. Los componentes se enchufan en los agujeros y los rieles laterales (rojo + / azul −) sirven para distribuir alimentación. Es ideal para prototipos; para producción real conviene migrar a una PCB impresa.</dd>
+</dl>
+</div>
+
+<!-- ============================================================== -->
+<!-- ALERTA SEGURIDAD -->
+<!-- ============================================================== -->
+<div class="legend">
+<strong>⚠️ Vectores de seguridad identificados:</strong> los íconos ⚠️ en los diagramas marcan puntos donde el análisis encontró riesgos (TLS sin validación de certificado, PINs guardados sin encriptar, pin GPIO mal elegido para el solenoide). Ver <code>ANALISIS_IOT_SMARTLOCKER.md</code> y <code>DIAGRAMAS_ARQUITECTURA.md</code> para el detalle completo y los fixes.
+</div>
+
+<!-- ============================================================== -->
+<!-- TOC -->
+<!-- ============================================================== -->
+<div class="toc">
+<h3>📑 Índice</h3>
+<ol>
+  <li><a href="#d1">Vista principal — Mapa general de todo el sistema</a><span class="toc-sub">Cómo se conectan el cliente, el casillero, el servidor y los servicios externos.</span></li>
+  <li><a href="#d2">Vista satelital (C4 Context) — ¿Quién usa el sistema?</a><span class="toc-sub">El sistema como caja negra + actores y servicios externos.</span></li>
+  <li><a href="#d3">Vista de barrio (C4 Container) — Las piezas grandes</a><span class="toc-sub">Las 6 partes principales del sistema (casillero, servidor, web, DB, etc).</span></li>
+  <li><a href="#d4">Vista de calle: Adentro del Casillero (C4 Component)</a><span class="toc-sub">Los 4 módulos que corren en el ESP32.</span></li>
+  <li><a href="#d5">Vista de calle: Adentro del Servidor (C4 Component)</a><span class="toc-sub">Cómo está organizado el código del backend.</span></li>
+  <li><a href="#d6">Modos del Casillero — los 14 estados internos</a><span class="toc-sub">"Vida" del firmware: libre, esperando, abierto, bloqueado…</span></li>
+  <li><a href="#d7">Guión paso a paso de un arriendo</a><span class="toc-sub">Quién le habla a quién y en qué orden, durante todo el arriendo.</span></li>
+  <li><a href="#d8">Modos de una Orden en el servidor</a><span class="toc-sub">"Vida" de un arriendo en la base de datos.</span></li>
+  <li><a href="#d9">Mapa de la base de datos (ER)</a><span class="toc-sub">Qué tablas existen y cómo se conectan.</span></li>
+  <li><a href="#d10">Comparativa: arquitectura actual vs propuesta</a><span class="toc-sub">HTTP polling (hoy) vs MQTT push (a futuro).</span></li>
+  <li><a href="#d11">Hoja de ruta: cómo migrar de HTTP a MQTT</a><span class="toc-sub">Plan en 5 sub-fases para escalar a 100+ lockers.</span></li>
+  <li><a href="#d12">⭐ Flujo de arriendo completo (con flujo de plata)</a><span class="toc-sub">El recorrido del cliente desde que busca el producto hasta que el dueño cobra.</span></li>
+</ol>
+<h3 style="margin-top: 20px; color: var(--money);">🔧 Hardware — diagramas físicos</h3>
+<ol start="13">
+  <li><a href="#d13">Cableado general — qué pin del ESP32 va a qué componente</a><span class="toc-sub">Mapa de conexiones físicas: ESP32 ↔ solenoide / sensor / LCD / keypad.</span></li>
+  <li><a href="#d14">⭐ Circuito del solenoide (lo más crítico)</a><span class="toc-sub">MOSFET + diodo flyback + resistencias. Esta parte es donde se queman las cosas.</span></li>
+  <li><a href="#d15">Layout del protoboard — dónde va cada cosa</a><span class="toc-sub">Vista superior con las zonas del protoboard.</span></li>
+  <li><a href="#bom">Componentes para 1 locker — lo que tenés y lo que falta</a><span class="toc-sub">Checklist completo + qué comprar en SR Electrónica / DigiKey / MercadoLibre.</span></li>
+  <li><a href="#escalar">Componentes para escalar a más lockers (4-8-24 puertas)</a><span class="toc-sub">Qué se multiplica y qué hay que agregar nuevo.</span></li>
+</ol>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 1 -->
+<!-- ============================================================== -->
+<h2 id="d1">1. Vista principal — Mapa general de todo el sistema
+<span class="subtitle">"Una sola imagen con todo lo que hay y cómo se conecta"</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">Arquitectura general</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Es el <strong>mapa completo de TingGo SmartLocker en una sola imagen</strong>. Arriba está el usuario que pulsa botones, en el medio el casillero físico con sus partes (keypad, pantalla, sensor, cerradura) y abajo el servidor en internet con todas sus piezas. Las flechas muestran cómo viaja la información.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para que <strong>cualquier persona nueva</strong> (técnica o no) entienda en 30 segundos de qué piezas se compone el sistema y qué le habla a quién. Es el primer diagrama que mostrarías a un inversionista o a un proveedor.
+  </div>
+  <div class="info-block alerta">
+    <strong>⚠️ Mirá los íconos rojos:</strong> "GPIO 5" en el solenoide y "PINs plaintext" en la memoria del casillero — son los 2 problemas críticos de seguridad detectados en el análisis.
+  </div>
+  <a href="01_vista_principal.png" target="_blank"><img src="01_vista_principal.png" alt="Vista principal"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 2 -->
+<!-- ============================================================== -->
+<h2 id="d2">2. Vista satelital — ¿Quién usa el sistema y de qué depende?
+<span class="subtitle">Nivel C4 "Context" — el sistema como caja negra</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">C4 nivel 1</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Una vista <strong>desde muy lejos</strong>: TingGo se ve como una sola caja, y alrededor están todas las personas que la usan (cliente arrendatario, dueño del producto, admin) y todos los servicios externos de los que depende (WiFi del local, proveedor de email, Webpay para cobrar, Let's Encrypt para certificados de seguridad).
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para responder rápido: "¿qué se rompe si se cae internet?", "¿qué pasa si Webpay tiene problemas?", "¿qué tan dependientes somos del WiFi del comercio?". Es la vista que necesita un gerente o quien decide presupuesto.
+  </div>
+  <a href="02_c4_context.png" target="_blank"><img src="02_c4_context.png" alt="C4 Context"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 3 -->
+<!-- ============================================================== -->
+<h2 id="d3">3. Vista de barrio — Las 6 piezas grandes
+<span class="subtitle">Nivel C4 "Container" — la caja se abre y vemos su interior</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">C4 nivel 2</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Acercamos el zoom: ahora la caja "TingGo" se abre y se ven las <strong>6 piezas grandes que la componen</strong>: el casillero físico (ESP32), el servidor API en internet, el panel web para administradores, la web pública donde el cliente busca productos, la base de datos donde se guarda todo, y los jobs automáticos que corren en segundo plano.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para entender <strong>cómo está estructurado el sistema sin entrar al código</strong>. Útil cuando alguien pregunta "¿dónde se guardan los datos?", "¿qué partes podríamos contratar a terceros?", "¿cuáles podríamos escalar primero?".
+  </div>
+  <a href="03_c4_container.png" target="_blank"><img src="03_c4_container.png" alt="C4 Container"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 4 -->
+<!-- ============================================================== -->
+<h2 id="d4">4. Vista de calle: Adentro del Casillero
+<span class="subtitle">Nivel C4 "Component" — qué módulos tiene el firmware del ESP32</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">C4 nivel 3 · Device</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El zoom máximo dentro del <strong>casillero físico</strong>. Se ven los 4 módulos del programa que corre en el ESP32: <em>UserInterface</em> (maneja la pantalla y el teclado), <em>StateMachine</em> (la lógica del arriendo), <em>LockerHardware</em> (controla la cerradura y lee el sensor), y <em>NetworkManager</em> (habla con el servidor).
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para programadores que vayan a tocar el firmware. Muestra cómo están separadas las responsabilidades y qué módulo llama a qué otro.
+  </div>
+  <a href="04_c4_component_device.png" target="_blank"><img src="04_c4_component_device.png" alt="C4 Component Device"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 5 -->
+<!-- ============================================================== -->
+<h2 id="d5">5. Vista de calle: Adentro del Servidor
+<span class="subtitle">Nivel C4 "Component" — cómo está organizado el código del backend</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">C4 nivel 3 · Backend</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El zoom máximo dentro del <strong>servidor en internet (api.tinggoapp.cl)</strong>. Muestra las capas: cómo entra una request, qué middleware la verifica (auth de usuario vs auth de casillero), qué ruta la atiende, qué servicios usa (generar PIN, enviar email), y los jobs automáticos que corren en segundo plano.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para programadores del backend. Útil cuando hay que agregar un endpoint nuevo, cambiar una validación o entender por qué tal email no se manda.
+  </div>
+  <a href="05_c4_component_backend.png" target="_blank"><img src="05_c4_component_backend.png" alt="C4 Component Backend"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 6 -->
+<!-- ============================================================== -->
+<h2 id="d6">6. Los 14 modos del Casillero
+<span class="subtitle">Máquina de estados (FSM) — toda la "vida" del firmware</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-flow">FSM Device</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Cada burbuja es un <strong>modo</strong> en el que puede estar el casillero: <em>LIBRE</em>, <em>ESPERANDO_DEPOSITO</em>, <em>ABIERTO</em>, <em>BLOQUEADO</em>, <em>MANTENIMIENTO</em>… Las flechas muestran qué tiene que pasar para cambiar de un modo a otro (PIN correcto, puerta cerrada, timeout de 60s, etc).
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para responder "¿por qué el casillero no me deja abrir?" o "¿qué pasa si me equivoco 3 veces?". También para debug: si soporte dice "está en MANTENIMIENTO", este diagrama dice cómo salió y cómo sacarlo.
+  </div>
+  <div class="info-block alerta">
+    <strong>⚠️ Notar:</strong> los estados <code>OFFLINE</code> y <code>ANOMALIA_SENSOR</code> están declarados pero <strong>el código nunca los activa</strong>. Es un bug latente.
+  </div>
+  <a href="06_fsm_device.png" target="_blank"><img src="06_fsm_device.png" alt="FSM Device"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 7 -->
+<!-- ============================================================== -->
+<h2 id="d7">7. Guión paso a paso de un arriendo
+<span class="subtitle">Sequence Diagram — quién le habla a quién, en orden cronológico</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-flow">Sequence</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Un "guión de teatro" con 8 columnas (Propietario, Arrendatario, Web, Servidor, Base de Datos, Email, Casillero, Lógica interna del casillero). Cada flecha horizontal es un mensaje en orden cronológico, de arriba hacia abajo. Cubre <strong>los 50+ pasos</strong> entre que se crea el arriendo y se completa.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para debug. Si algo falla a mitad del arriendo, este diagrama te dice exactamente qué mensajes deberían haber pasado. También sirve para programar nuevas features sin romper el orden actual.
+  </div>
+  <a href="07_sequence_arriendo.png" target="_blank"><img src="07_sequence_arriendo.png" alt="Sequence arriendo"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 8 -->
+<!-- ============================================================== -->
+<h2 id="d8">8. Los modos de una Orden de arriendo
+<span class="subtitle">FSM del backend — "vida" del arriendo en la base de datos</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-flow">FSM Backend</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Lo mismo que el #6 pero para el <strong>arriendo</strong>, no el casillero. Cada orden nace como <code>LOCKER_PENDIENTE_DEPOSITO</code> (esperando que el dueño deposite), pasa por varios estados (depositado, retirado, devuelto…) y termina en <code>LOCKER_COMPLETADO</code>. Si alguno tarda demasiado, se dispara una alerta al admin.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para responder "¿en qué etapa está mi arriendo?" sin abrir la base de datos. El estado de la orden es lo que el panel admin muestra al operador.
+  </div>
+  <a href="08_fsm_orden_backend.png" target="_blank"><img src="08_fsm_orden_backend.png" alt="FSM Orden Backend"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 9 -->
+<!-- ============================================================== -->
+<h2 id="d9">9. Mapa de la Base de Datos
+<span class="subtitle">ER Diagram — qué tablas existen y cómo se relacionan</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-data">Base de datos</span><span class="tag tag-warn">⚠️ PINs sin encriptar</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El plano de la <strong>base de datos PostgreSQL</strong>. Cada caja es una tabla con sus columnas; las líneas muestran cómo se relacionan: <em>un Locker tiene muchas Puertas</em>, <em>cada Puerta puede tener una orden activa</em>, <em>cada Orden genera muchos Comandos y muchos Eventos</em>.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para hacer queries, reportes, exportar datos a Excel, o cuando alguien pregunta "¿guardamos el RUT del cliente?", "¿cuántos arriendos hubo el mes pasado?".
+  </div>
+  <div class="info-block alerta">
+    <strong>⚠️ Crítico:</strong> las 4 columnas <code>pin_*</code> en las tablas <code>ComandoLocker</code> y <code>OrdenArriendo</code> guardan los PINs <strong>en texto plano</strong>. Cualquier backup o dump SQL expone los PINs activos. Hay que migrar a hash con sal — está en el plan de hardening.
+  </div>
+  <a href="09_er_db.png" target="_blank"><img src="09_er_db.png" alt="ER Diagram"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 10 -->
+<!-- ============================================================== -->
+<h2 id="d10">10. Arquitectura actual vs propuesta — Comparativa
+<span class="subtitle">HTTP polling (hoy) vs MQTT push (objetivo a futuro)</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">Migración técnica</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    Lado a lado: arriba la arquitectura <strong>actual (HTTP polling)</strong>, donde cada casillero le pregunta al servidor cada 5-30 segundos si hay novedades; abajo la <strong>propuesta a futuro (MQTT)</strong>, donde un "broker" intermediario empuja los mensajes al instante.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para decidir <strong>cuándo migrar</strong>. La arquitectura actual aguanta hasta ~20 lockers; pasado ese número, el servidor se satura y conviene migrar a MQTT. Sirve para justificar el cambio a un equipo o inversionista.
+  </div>
+  <a href="10_mqtt_comparativa.png" target="_blank"><img src="10_mqtt_comparativa.png" alt="HTTP vs MQTT"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 11 -->
+<!-- ============================================================== -->
+<h2 id="d11">11. Hoja de ruta: cómo migrar de HTTP a MQTT
+<span class="subtitle">Plan en 5 sub-fases para llegar a 100+ lockers sin reescribir todo</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-arch">Roadmap</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El <strong>camino paso a paso</strong> desde la arquitectura actual hasta la objetivo: primero asegurar (Fase 1), después escalar a varias puertas y monitoreo (Fase 2), después montar el broker MQTT en paralelo (Fase 3a), provisionar certificados (3b), migrar gradualmente (3c-3d-3e).
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para planificar el roadmap técnico del próximo año. Cada cuadrito puede ser un sprint o un objetivo trimestral. Sirve para alinear al equipo sobre el orden de las cosas.
+  </div>
+  <a href="11_plan_migracion.png" target="_blank"><img src="11_plan_migracion.png" alt="Plan migración"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 12 — EL MÁS IMPORTANTE -->
+<!-- ============================================================== -->
+<h2 id="d12">12. ⭐ Flujo de arriendo completo — Cliente, Casillero y Dinero
+<span class="subtitle">Las 8 fases del arriendo desde que se busca el producto hasta que el dueño cobra</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-flow">Journey</span><span class="tag tag-arch">End-to-end</span><span class="tag tag-money">💰 Incluye flujo de plata</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El <strong>recorrido completo de un arriendo</strong>, mostrado como un viaje de izquierda a derecha. Las 8 fases (descubrimiento → pago → depósito → retiro → uso → devolución → recojo → cierre) tienen cada una su color. A la derecha, las ramas de excepción (timeouts, bloqueos, errores) que pueden disparar alertas al admin en cualquier fase.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Es el <strong>diagrama más amigable</strong> de todos. Sirve para mostrar a inversionistas, a aliados (dueños de productos, sucursales), o para entrenar a un nuevo agente de soporte. Cualquiera puede entender en qué fase está un arriendo y qué pasa después.
+  </div>
+
+  <div class="info-block caja">
+    <strong>💰 Flujo de plata (cash flow)</strong>
+    <ol style="margin: 4px 0 0 20px; padding: 0;">
+      <li><strong>Fase 2 (Pago):</strong> el Arrendatario paga el monto completo a Webpay (precio del arriendo + comisión de TingGo). Webpay transfiere a la cuenta de TingGo.</li>
+      <li><strong>Fase 5 (Uso):</strong> TingGo retiene los fondos durante todo el período del arriendo (escrow). El Propietario aún no cobra.</li>
+      <li><strong>Fase 8 (Cierre y Pago):</strong> una vez confirmado el recojo final (el objeto vuelve a manos del dueño en buen estado), TingGo <strong>retiene su comisión</strong> y <strong>libera el resto al Propietario</strong> vía transferencia bancaria (payout).</li>
+    </ol>
+    <strong style="margin-top: 12px;">⚠️ Si el arriendo falla</strong> (objeto no devuelto, daño, disputa), el flujo de payout se pausa y debe resolverse manualmente por soporte. Este caso <strong>no está completamente implementado en código todavía</strong> — es deuda de producto pendiente.
+  </div>
+
+  <a href="12_flujo_arriendo_completo.png" target="_blank"><img src="12_flujo_arriendo_completo.png" alt="Flujo arriendo completo"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- SECCIÓN HARDWARE -->
+<!-- ============================================================== -->
+<h1 style="margin-top: 60px;">🔧 Sección Hardware — Cómo armar el locker físicamente</h1>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 13 -->
+<!-- ============================================================== -->
+<h2 id="d13">13. Cableado general — qué pin del ESP32 va a qué componente
+<span class="subtitle">Mapa de conexiones físicas con números de GPIO etiquetados</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-data">Hardware</span><span class="tag tag-arch">Cableado</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El plano de <strong>qué cable va dónde</strong>. En el centro está el ESP32; alrededor cada componente externo (solenoide, sensor, LCD, keypad, LED) con la indicación exacta de qué GPIO usa y qué voltaje recibe. Las líneas gruesas son alimentación (12V/5V/3.3V/GND), las finas son señal.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Es el documento que abrís al momento de armar el locker físicamente. Te dice exactamente: "del GPIO 16 sale un cable que pasa por una resistencia de 220Ω y llega al pin G del MOSFET". Sin esto, hay que adivinar.
+  </div>
+  <div class="info-block alerta">
+    <strong>⚠️ Notas:</strong> el código original usaba GPIO 5 para el solenoide pero <strong>es un strapping pin</strong> (causa boots inestables) — en este diagrama ya está cambiado a GPIO 16 (libre y sin riesgo). Mismo cambio aplicar en <code>config.h</code>.
+  </div>
+  <a href="13_cableado_general.png" target="_blank"><img src="13_cableado_general.png" alt="Cableado general"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 14 — EL MÁS CRÍTICO PARA HARDWARE -->
+<!-- ============================================================== -->
+<h2 id="d14">14. ⭐ Circuito del solenoide (lo más crítico)
+<span class="subtitle">MOSFET + diodo flyback + resistencias gate — donde se queman las cosas si está mal</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-data">Circuito eléctrico</span><span class="tag tag-warn">⚠️ Crítico</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El detalle del <strong>circuito que controla una cerradura</strong>. Es el más importante porque combina alta tensión (12V), corriente fuerte (1A pico) y picos eléctricos peligrosos que pueden quemar el MOSFET si falta un componente. El diagrama muestra los 5 componentes necesarios + la explicación paso a paso de cómo funciona.
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para entender por qué cada componente está donde está. Si vas a comprar repuestos o explicarle a un técnico, este es el diagrama de referencia. <strong>Los rectángulos rojos son los 2 componentes que te faltan comprar.</strong>
+  </div>
+  <div class="info-block alerta">
+    <strong>🔥 IMPORTANTE — no lo conectes sin estos componentes:</strong>
+    <ol style="margin: 4px 0 0 20px;">
+      <li><strong>Diodo 1N4007 (~$50 c/u):</strong> sin este, el MOSFET se quema entre la apertura #100 y #1000. Es 1 componente baratísimo que evita reemplazar el MOSFET cada 2 meses.</li>
+      <li><strong>Capacitor electrolítico 1000µF/25V (~$300):</strong> sin este, cuando el solenoide arranca tira tanta corriente que el voltaje cae y el ESP32 se reinicia (brownout).</li>
+      <li><strong>Resistencia 10kΩ pull-down en gate del MOSFET (las tenés en el kit):</strong> sin esta, el solenoide se activa unos milisegundos cada vez que enciende el ESP32 (la puerta "salta").</li>
+    </ol>
+  </div>
+  <a href="14_circuito_solenoide.png" target="_blank"><img src="14_circuito_solenoide.png" alt="Circuito solenoide"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- DIAGRAMA 15 -->
+<!-- ============================================================== -->
+<h2 id="d15">15. Layout del protoboard — dónde va cada cosa
+<span class="subtitle">Vista superior con las zonas y los rieles de alimentación</span>
+</h2>
+<div class="diagram-card">
+  <span class="tag tag-data">Hardware</span><span class="tag tag-arch">Layout físico</span>
+  <div class="info-block que">
+    <strong>¿Qué es esto?</strong>
+    El plano del protoboard mirado <strong>desde arriba</strong>. Te indica en qué zona poner cada componente: el ESP32 a la izquierda montado a caballo del canal central; el MOSFET y sus resistencias a la derecha; los rieles laterales para distribuir 5V (arriba) y 12V (abajo); GND común a todo. También indica qué cables salen del protoboard hacia los componentes externos (solenoide, sensor, LCD, keypad).
+  </div>
+  <div class="info-block para">
+    <strong>¿Para qué sirve?</strong>
+    Para no confundirte al armar. Si seguís este layout vas a poder probar el sistema en una hora, y si algo falla sabés dónde mirar.
+  </div>
+  <div class="info-block que">
+    <strong>💡 Tips de armado:</strong>
+    <ul style="margin: 4px 0 0 20px;">
+      <li>Empezá conectando <strong>solo la alimentación</strong> (fuente + buck → rieles del protoboard). Verificá con multímetro que tenés 12V abajo y 5V arriba antes de enchufar nada más.</li>
+      <li>Enchufá el ESP32 por USB primero, sin la alimentación externa, para subir el firmware.</li>
+      <li>Después conectá los componentes uno por uno y andá probando: keypad → LCD → reed → MOSFET sin solenoide → MOSFET con solenoide.</li>
+      <li>Usá <strong>jumper wires de colores distintos</strong>: rojo = +V, negro = GND, amarillo/verde = señales. Te ahorrás horas de debug.</li>
+    </ul>
+  </div>
+  <a href="15_protoboard_layout.png" target="_blank"><img src="15_protoboard_layout.png" alt="Protoboard layout"></a>
+</div>
+
+<!-- ============================================================== -->
+<!-- BOM — COMPONENTES PARA 1 LOCKER -->
+<!-- ============================================================== -->
+<h2 id="bom">16. Componentes para 1 locker (1 puerta) — checklist
+<span class="subtitle">Lo que tenés ✅ · Lo que falta crítico ❌ · Lo recomendado 💡</span>
+</h2>
+
+<div class="diagram-card">
+  <span class="tag tag-data">Bill of Materials</span>
+  <h3 style="color: var(--money); margin-top: 0;">✅ LO QUE YA TENÉS (suficiente para arrancar)</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+    <thead style="background: var(--card-soft);">
+      <tr><th style="text-align: left; padding: 8px;">Componente</th><th style="text-align: left; padding: 8px;">Cantidad</th><th style="text-align: left; padding: 8px;">Función</th></tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>ESP32 DevKit v1 30 pines microUSB</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">Cerebro del locker, procesador + WiFi</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Teclado matriz 4x4 con base</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">Ingreso de PIN del usuario (16 teclas)</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Pantalla LCD 1602 azul</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">Feedback visual al usuario (16 chars × 2 líneas)</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Cerradura solenoide 12V</strong></td><td style="padding: 8px;">2 (usás 1)</td><td style="padding: 8px;">Apertura electromecánica de la puerta</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Sensor magnético reed</strong></td><td style="padding: 8px;">2 (usás 1)</td><td style="padding: 8px;">Detecta si la puerta está cerrada o abierta</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>MOSFET IRFZ44N</strong></td><td style="padding: 8px;">4 (usás 1)</td><td style="padding: 8px;">"Switch electrónico" que controla el solenoide</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Fuente 12V · 3A · 36W</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">Alimenta solenoide directo + ESP32 vía buck converter</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Enchufe macho 3 cables + cables varios</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">Conexión a la red eléctrica del local</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Kit 600 resistencias 1/4W</strong></td><td style="padding: 8px;">~10 usadas</td><td style="padding: 8px;">220Ω (gate MOSFET + LEDs) · 10kΩ (pull-up reed + pull-down gate)</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Kit 50 LEDs 5mm</strong></td><td style="padding: 8px;">~2 usados</td><td style="padding: 8px;">Indicadores de estado (verde = libre, rojo = ocupado) — opcional</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Cable 24AWG</strong></td><td style="padding: 8px;">~3m</td><td style="padding: 8px;">Conexiones internas en protoboard y a periféricos</td></tr>
+      <tr><td style="padding: 8px;"><strong>Protoboard</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">Plataforma para armar el circuito sin soldar</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color: var(--warn);">❌ LO QUE TE FALTA CRÍTICO (sin esto NO armes, el MOSFET se quema)</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+    <thead style="background: var(--card-soft);">
+      <tr><th style="text-align: left; padding: 8px;">Componente</th><th style="text-align: left; padding: 8px;">Cant.</th><th style="text-align: left; padding: 8px;">Precio aprox CL</th><th style="text-align: left; padding: 8px;">Por qué lo necesitás</th></tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border); background: #2a1f1f;"><td style="padding: 8px;"><strong>Diodo 1N4007</strong> (o 1N5408)</td><td style="padding: 8px;">2 (al menos)</td><td style="padding: 8px;">~$50 c/u</td><td style="padding: 8px;">🔥 <strong>Flyback</strong> del solenoide. Sin esto el MOSFET se quema en ~500 aperturas. Imprescindible.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border); background: #2a1f1f;"><td style="padding: 8px;"><strong>Capacitor electrolítico 1000µF / 25V</strong></td><td style="padding: 8px;">1-2</td><td style="padding: 8px;">~$300 c/u</td><td style="padding: 8px;">⚡ <strong>Amortigua brownouts</strong> cuando el solenoide arranca. Sin esto el ESP32 se reinicia cada apertura.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border); background: #2a1f1f;"><td style="padding: 8px;"><strong>Módulo Buck Converter LM2596</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">~$1.500</td><td style="padding: 8px;">🔌 Baja 12V → 5V para alimentar el ESP32 desde la fuente principal. Sin esto necesitás USB conectado permanente.</td></tr>
+      <tr style="background: #2a1f1f;"><td style="padding: 8px;"><strong>Backpack I2C PCF8574 para LCD</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">~$1.500</td><td style="padding: 8px;">📺 Adapta el LCD 1602 al protocolo I2C. <strong>Si tu LCD ya viene con el módulo soldado atrás (con potenciómetro azul), no lo necesitás.</strong> Verificá.</td></tr>
+    </tbody>
+  </table>
+  <p style="color: var(--text-soft); font-size: 0.9em; margin-top: 8px;"><strong>Total faltante crítico:</strong> ~$3.500–4.000 CLP. En SR Electrónica, Casa Royal o MercadoLibre lo encontrás todo. También llevá un <strong>multímetro</strong> básico (~$8.000) si no tenés — es indispensable para debugear.</p>
+
+  <h3 style="color: #f0883e;">💡 LO RECOMENDADO (mejora pero no es bloqueante)</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+    <thead style="background: var(--card-soft);">
+      <tr><th style="text-align: left; padding: 8px;">Componente</th><th style="text-align: left; padding: 8px;">Cant.</th><th style="text-align: left; padding: 8px;">Precio aprox</th><th style="text-align: left; padding: 8px;">Beneficio</th></tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Pantalla OLED 0.96" I2C SSD1306</strong> (la que querés comprar)</td><td style="padding: 8px;">1</td><td style="padding: 8px;">~$3.500</td><td style="padding: 8px;">Reemplazo del LCD 1602. Mejor contraste, más legible al sol, gasta menos energía. <strong>Requiere cambiar la librería del firmware</strong> (de <code>LiquidCrystal_I2C</code> a <code>Adafruit_SSD1306</code>).</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Fusible 1A en línea</strong></td><td style="padding: 8px;">2</td><td style="padding: 8px;">~$300 c/u</td><td style="padding: 8px;">Protege la fuente y el cableado si hay un corto. Va entre la fuente y el rail 12V.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Caja de proyecto (enclosure)</strong> ABS 15×10×6cm</td><td style="padding: 8px;">1</td><td style="padding: 8px;">~$3.000</td><td style="padding: 8px;">Cuando salgas del protoboard, te protege la electrónica del polvo / humedad / dedos curiosos.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;"><strong>Borneras atornillables</strong> (terminal block 2 pines)</td><td style="padding: 8px;">4</td><td style="padding: 8px;">~$400 c/u</td><td style="padding: 8px;">Conexiones firmes a solenoide y sensor (los cables del protoboard se sueltan fácil).</td></tr>
+      <tr><td style="padding: 8px;"><strong>Multímetro digital básico</strong></td><td style="padding: 8px;">1</td><td style="padding: 8px;">~$8.000</td><td style="padding: 8px;">Indispensable para verificar voltajes, continuidad y debug. Si no tenés, comprá primero esto.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================================== -->
+<!-- ESCALAR -->
+<!-- ============================================================== -->
+<h2 id="escalar">17. Componentes para escalar a más lockers (4-8-24 puertas)
+<span class="subtitle">Qué se multiplica y qué hay que agregar nuevo</span>
+</h2>
+
+<div class="diagram-card">
+  <span class="tag tag-data">Escalado</span><span class="tag tag-arch">Multi-puerta</span>
+
+  <h3 style="color: var(--accent); margin-top: 0;">📈 Por cada PUERTA adicional</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead style="background: var(--card-soft);">
+      <tr><th style="text-align: left; padding: 8px;">Componente</th><th style="text-align: left; padding: 8px;">Notas</th></tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 cerradura solenoide 12V</td><td style="padding: 8px;">Ya tenés la segunda — para puerta 3+ comprar más.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 MOSFET IRFZ44N</td><td style="padding: 8px;">Tenés 4. Te alcanza hasta 4 puertas.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 diodo flyback 1N4007</td><td style="padding: 8px;">Comprar uno por cada cerradura.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 reed sensor magnético</td><td style="padding: 8px;">Ya tenés el segundo.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">2 resistencias (220Ω + 10kΩ)</td><td style="padding: 8px;">Del kit. Cubre 100+ puertas sin preocuparte.</td></tr>
+      <tr><td style="padding: 8px;">~3 GPIOs (1 solenoide + 1 sensor + opcionalmente 1 LED)</td><td style="padding: 8px;">⚠️ <strong>Acá está el cuello de botella.</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color: var(--warn);">⚠️ Más allá de 5-6 puertas — el ESP32 NO alcanza</h3>
+  <p>El ESP32 DevKit v1 tiene ~18 GPIO útiles después de descontar pines de boot/USB/I2C/keypad. Cada puerta consume 2-3 GPIOs. Cuentas:</p>
+  <ul>
+    <li><strong>Hasta ~5 puertas:</strong> con el ESP32 solo. Hay que elegir bien los pines (evitar strapping y input-only).</li>
+    <li><strong>De 6 a 16 puertas:</strong> agregar <strong>1 expansor MCP23017</strong> (16 GPIO extra vía I2C, ~$2.500 CLP). El ESP32 sigue siendo el cerebro pero le "presta" pines al expansor.</li>
+    <li><strong>De 17 a 24 puertas:</strong> <strong>2 expansores MCP23017</strong> en el mismo bus I2C. Cada uno tiene una dirección distinta (configurable con 3 pines).</li>
+    <li><strong>De 25 a 128 puertas:</strong> hasta 8 expansores MCP23017 en el bus I2C. Pasado eso, conviene migrar a un ESP32-S3 o usar varios ESP32 esclavos.</li>
+  </ul>
+
+  <h3 style="color: #f0883e;">🔌 Lo que hay que SUMAR sí o sí al escalar</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead style="background: var(--card-soft);">
+      <tr><th style="text-align: left; padding: 8px;">A partir de</th><th style="text-align: left; padding: 8px;">Componente nuevo</th><th style="text-align: left; padding: 8px;">Por qué</th></tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">3 puertas</td><td style="padding: 8px;"><strong>Fuente más grande</strong> (12V 5A o 12V 8A)</td><td style="padding: 8px;">Cada solenoide tira 0.5-1A pico. Si se activan 2 al mismo tiempo (caso de timeout simultáneo) la fuente de 3A no alcanza.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">6 puertas</td><td style="padding: 8px;"><strong>1 MCP23017</strong> (~$2.500)</td><td style="padding: 8px;">Expansor de GPIO vía I2C. Comparte SDA/SCL con el LCD sin conflicto.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">8 puertas</td><td style="padding: 8px;"><strong>PCB impresa</strong> en vez de protoboard</td><td style="padding: 8px;">Un protoboard con 30+ componentes es muy frágil. Diseñar la PCB en KiCad (gratis) y mandarla a fabricar (JLCPCB / PCBWay) cuesta ~$30 USD por 10 unidades.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">10 puertas</td><td style="padding: 8px;"><strong>Caja metálica + ventilación</strong></td><td style="padding: 8px;">Los MOSFETs disipan calor. Para >10 puertas conviene caja con rejilla o ventilador 12V de PC.</td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">15 puertas</td><td style="padding: 8px;"><strong>UPS pequeño</strong> (1000VA)</td><td style="padding: 8px;">Cortes de luz dejan a todos los clientes sin acceso. Con UPS el sistema sigue operando 30+ min.</td></tr>
+      <tr><td style="padding: 8px;">20 puertas</td><td style="padding: 8px;"><strong>Migrar a MQTT v5</strong> (ver diagrama #10)</td><td style="padding: 8px;">El HTTP polling deja de escalar acá. Broker EMQX self-hosted ~$15 USD/mes en VPS.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color: var(--accent);">💸 Estimación de costos por escala</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead style="background: var(--card-soft);">
+      <tr><th style="text-align: left; padding: 8px;">Configuración</th><th style="text-align: left; padding: 8px;">Componentes electrónica</th><th style="text-align: left; padding: 8px;">Cerraduras + estructura</th><th style="text-align: left; padding: 8px;">Total aprox</th></tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 locker · 1 puerta (lo que tenés ahora)</td><td style="padding: 8px;">~$25.000 CLP</td><td style="padding: 8px;">~$15.000</td><td style="padding: 8px;"><strong>~$40.000 CLP</strong></td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 locker · 4 puertas</td><td style="padding: 8px;">~$45.000 CLP</td><td style="padding: 8px;">~$60.000</td><td style="padding: 8px;"><strong>~$105.000 CLP</strong></td></tr>
+      <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px;">1 locker · 8 puertas + PCB</td><td style="padding: 8px;">~$75.000 CLP</td><td style="padding: 8px;">~$120.000</td><td style="padding: 8px;"><strong>~$195.000 CLP</strong></td></tr>
+      <tr><td style="padding: 8px;">1 locker · 24 puertas + PCB + UPS</td><td style="padding: 8px;">~$180.000 CLP</td><td style="padding: 8px;">~$350.000</td><td style="padding: 8px;"><strong>~$530.000 CLP</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="color: var(--text-soft); font-size: 0.85em;"><em>Estimaciones referenciales en pesos chilenos · sin contar mano de obra ni mueble del locker · al 2026-06.</em></p>
+</div>
+
+<footer>
+<p>Archivos fuente: <code>*.mmd</code> (Mermaid editable) + <code>*.png</code> (rendered).<br>
+Para regenerar cualquier diagrama: <code>npx -y @mermaid-js/mermaid-cli@latest -i NOMBRE.mmd -o NOMBRE.png -b white -w ANCHO -H ALTO</code></p>
+<p>Generado por skill <code>system-diagram-generator</code> (Claude Code) — 2026-06-26<br>
+Documentos relacionados: <code>ANALISIS_IOT_SMARTLOCKER.md</code> (análisis técnico) · <code>DIAGRAMAS_ARQUITECTURA.md</code> (versión markdown de todos los diagramas).</p>
+</footer>
+
+</body>
+</html>

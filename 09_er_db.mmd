@@ -1,0 +1,76 @@
+erDiagram
+    Locker ||--o{ PuertaLocker : "tiene N"
+    Locker ||--o{ ComandoLocker : "encola"
+    Locker ||--o{ EventoLocker : "registra"
+    Locker ||--o{ OrdenArriendo : "alberga"
+    Sucursal ||--o| Locker : "ubicado en"
+    PuertaLocker }o--o| OrdenArriendo : "ocupada por (activa)"
+    OrdenArriendo ||--o{ ComandoLocker : "genera"
+    OrdenArriendo ||--o{ EventoLocker : "genera"
+    OrdenArriendo ||--o{ OrdenHistorial : "historial"
+    OrdenArriendo }o--|| Usuario : "cliente"
+    OrdenArriendo }o--|| Producto : "objeto"
+    Producto }o--|| Usuario : "propietarioId"
+
+    Locker {
+        string id PK
+        string nombre
+        string estado "activo o mantenimiento"
+        datetime ultimo_heartbeat
+        int wifi_rssi
+        datetime creadoEn
+    }
+    PuertaLocker {
+        int id PK
+        string lockerId FK
+        int numero
+        string estado "libre ocupado error mant"
+        float alto_cm
+        float ancho_cm
+        float profundo_cm
+        float peso_max_kg
+        bool tiene_reed
+        bool tiene_ir
+        bool tiene_camara
+        bool tiene_peso
+        string ordenActivaId FK
+    }
+    ComandoLocker {
+        int id PK
+        string lockerId FK
+        int puerta
+        string tipo
+        string ordenId FK
+        string pinDeposito "PLAINTEXT"
+        string pinRetiro "PLAINTEXT"
+        string pinDevolucion "PLAINTEXT"
+        string pinRecojo "PLAINTEXT"
+        bool ejecutado
+        datetime creadoEn
+    }
+    EventoLocker {
+        int id PK
+        string lockerId FK
+        string tipo
+        int puerta
+        string ordenId FK
+        bigint tsLocal
+        datetime tsRecibido
+    }
+    OrdenArriendo {
+        string id PK
+        string clienteId FK
+        string productoId FK
+        string lockerId FK
+        int lockerPuerta
+        enum estado "LOCKER_pendiente_etc"
+        string pinDeposito
+        string pinRetiro
+        string pinDevolucion
+        string pinRecojo
+        datetime tsDeposito
+        datetime tsRetiroLocker
+        datetime tsDevolucion
+        datetime tsRecojo
+        datetime fechaDevolucion
+    }
