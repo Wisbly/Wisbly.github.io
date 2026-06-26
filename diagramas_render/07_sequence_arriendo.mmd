@@ -1,0 +1,92 @@
+sequenceDiagram
+    autonumber
+    actor Prop as 👤 Propietario
+    actor Arr as 👤 Arrendatario
+    participant ClientWeb as 💻 Web TingGo
+    participant API as 🌐 API Backend
+    participant DB as 🗄️ PostgreSQL
+    participant Email as 📧 Resend
+    participant Device as 📦 ESP32
+    participant FSM as 🧠 FSM
+
+    Note over Arr,ClientWeb: 🟢 Reserva inicial
+    Arr->>ClientWeb: navega + reserva producto
+    ClientWeb->>API: POST /arriendos-locker
+    API->>API: asigna puerta libre
+    API->>DB: INSERT OrdenArriendo
+    API->>API: generarPin → pinDeposito
+    API->>DB: INSERT ComandoLocker tipo=crear_arriendo
+    API->>DB: UPDATE PuertaLocker estado=reservada
+    API-->>Email: enviarPinDeposito
+    Email-->>Prop: 📧 PIN de depósito
+
+    Note over Device,FSM: 🔄 Polling cada 30s (libre)
+    Device->>API: GET /comandos
+    API->>DB: SELECT comandos ejecutado=false
+    API-->>Device: crear_arriendo + pinDeposito
+    Device->>FSM: procesarComandoAPI
+    FSM->>FSM: estado=ESPERANDO_DEPOSITO + NVS
+    Device->>API: POST /comandos/ack
+
+    Note over Prop,FSM: 📥 Depósito físico
+    Prop->>Device: ingresa PIN keypad
+    Device->>FSM: validarPIN OK
+    FSM->>Device: abrirPuerta solenoide
+    FSM->>FSM: estado=ABIERTO_DEPOSITO
+    Prop->>Device: deposita + cierra
+    Device->>FSM: reed sensor cerrada
+    FSM->>FSM: estado=OCUPADO_RETIRO
+    Device->>API: POST /eventos deposito_cerrado
+    API->>API: handleDepositoCerrado + generarPin
+    API->>DB: UPDATE Orden + INSERT ComandoLocker
+    API-->>Email: enviarPinRetiro
+    Email-->>Arr: 📧 PIN retiro
+
+    Note over Device,FSM: 🔄 Polling cada 5s
+    Device->>API: GET /comandos
+    API-->>Device: set_pin_retiro
+    Device->>FSM: guarda pinRetiro
+
+    Note over Arr,FSM: 📤 Retiro
+    Arr->>Device: ingresa PIN
+    Device->>FSM: validarPIN OK
+    FSM->>Device: abrirPuerta
+    Arr->>Device: retira + cierra
+    Device->>API: POST /eventos retiro_cerrado
+    API->>API: handleRetiroCerrado + generarPin
+    API->>DB: UPDATE estado=LOCKER_OBJETO_RETIRADO
+    Note over API: ⏸️ PIN devolución NO se envía aún
+
+    Note over Arr,Email: ⏰ Vence período (24h-72h)
+    par Job cron cada 10 min
+        API->>API: procesarPeriodosVencidos
+        API->>DB: SELECT fechaDevolucion vencidas
+        API->>DB: UPDATE estado=LOCKER_PENDIENTE_DEVOLUCION
+        API-->>Email: enviarPinDevolucion
+        Email-->>Arr: 📧 PIN devolución
+    end
+
+    Note over Arr,FSM: 🔄 Devolución
+    Arr->>Device: ingresa PIN
+    Device->>FSM: validarPIN OK
+    FSM->>Device: abrirPuerta
+    Arr->>Device: deposita + cierra
+    Device->>API: POST /eventos devolucion_cerrada
+    API->>API: generarPin pinRecojo
+    API->>DB: UPDATE + INSERT ComandoLocker
+    API-->>Email: enviarPinRecojo
+    Email-->>Prop: 📧 PIN recojo
+
+    Note over Prop,FSM: 📥 Recojo final
+    Prop->>Device: ingresa PIN
+    Device->>FSM: validarPIN OK
+    FSM->>Device: abrirPuerta
+    Prop->>Device: retira + cierra
+    FSM->>FSM: estado=LIBRE + borra NVS
+    Device->>API: POST /eventos recojo_cerrado
+    API->>DB: UPDATE estado=LOCKER_COMPLETADO
+    API-->>Email: notifica completado
+
+    Note over Device,API: 💓 Heartbeat 60s (paralelo)
+    Device-->>API: POST /heartbeat
+    API->>DB: UPDATE ultimo_heartbeat

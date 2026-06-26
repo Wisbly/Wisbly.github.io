@@ -1,0 +1,65 @@
+flowchart TB
+    subgraph PB["🟦 PROTOBOARD — Vista superior (zonas)"]
+        direction TB
+
+        subgraph RAIL_TOP["📍 Rieles horizontales SUPERIORES"]
+            direction LR
+            RT1["+ (rojo)<br/>= rail 5V<br/>desde Buck Converter"]
+            RT2["− (azul)<br/>= GND común<br/>(todo va acá)"]
+        end
+
+        subgraph CENTRO["📍 ZONA CENTRAL (a-e y f-j)"]
+            direction LR
+
+            subgraph IZQ["MITAD IZQUIERDA"]
+                direction TB
+                ZONA_ESP["🧠 ESP32 DevKit v1<br/>(montado a caballo del canal central<br/>columnas 1-15, ambas mitades)"]
+                ZONA_RES1["Resistencias asociadas al ESP32:<br/>· 10kΩ pull-up reed → GPIO 34 + 3.3V<br/>· 220Ω LED → GPIO 19"]
+            end
+
+            subgraph DER["MITAD DERECHA"]
+                direction TB
+                ZONA_MOSFET["🔌 Driver del solenoide:<br/>· MOSFET IRFZ44N (col 20-22)<br/>· R 220Ω gate (entre GPIO 16 y G)<br/>· R 10kΩ pull-down (entre G y GND)"]
+                ZONA_DIODO["Diodo 1N4007 (col 25)<br/>en paralelo con el solenoide"]
+                ZONA_CAP["Capacitor 1000µF/25V (col 28)<br/>entre rail 12V y GND"]
+            end
+        end
+
+        subgraph RAIL_BOTTOM["📍 Rieles horizontales INFERIORES"]
+            direction LR
+            RB1["+ (rojo)<br/>= rail 12V<br/>desde fuente directa"]
+            RB2["− (azul)<br/>= GND común<br/>(unido al rail superior con jumper)"]
+        end
+
+        subgraph EXTERNOS["📍 CABLES QUE SALEN DEL PROTOBOARD"]
+            direction TB
+            CABLE_SOL["⬜ Al solenoide:<br/>· cable rojo: rail 12V → +solenoide<br/>· cable negro: drain MOSFET → −solenoide"]
+            CABLE_REED["⬜ Al reed sensor:<br/>· 2 cables (sensor pasivo, sin polaridad)<br/>· uno a GPIO 34, otro a GND"]
+            CABLE_LCD["⬜ Al LCD I2C:<br/>· 4 cables: VCC, GND, SDA (GPIO21), SCL (GPIO22)"]
+            CABLE_KP["⬜ Al keypad 4x4:<br/>· 8 cables (4 filas + 4 columnas)<br/>· directo a GPIOs sin resistencias"]
+            CABLE_LED["⬜ Al LED de estado:<br/>· 2 cables: GPIO 19 vía R 220Ω → ánodo<br/>· cátodo → GND"]
+        end
+    end
+
+    subgraph FUERA_PB["📦 FUERA del protoboard"]
+        direction TB
+        FUENTE["Fuente 12V 3A<br/>(con su enchufe)"]
+        BUCK["Buck LM2596<br/>12V → 5V regulable"]
+        FUENTE --> BUCK
+        FUENTE -->|"12V directo"| RB1
+        BUCK -->|"5V"| RT1
+        FUENTE -.->|"GND"| RT2
+        FUENTE -.->|"GND"| RB2
+    end
+
+    classDef rail fill:#ffebee,stroke:#c62828,color:#000
+    classDef zonaEsp fill:#c5e1a5,stroke:#33691e,color:#000
+    classDef zonaSol fill:#fff3e0,stroke:#e65100,color:#000
+    classDef cables fill:#e3f2fd,stroke:#0d47a1,color:#000
+    classDef externo fill:#f3e5f5,stroke:#4a148c,color:#000
+
+    class RT1,RT2,RB1,RB2 rail
+    class ZONA_ESP,ZONA_RES1 zonaEsp
+    class ZONA_MOSFET,ZONA_DIODO,ZONA_CAP zonaSol
+    class CABLE_SOL,CABLE_REED,CABLE_LCD,CABLE_KP,CABLE_LED cables
+    class FUENTE,BUCK externo

@@ -1,0 +1,69 @@
+flowchart TB
+    subgraph Backend["🌐 API Backend (Node.js + Express + TS)"]
+        direction TB
+
+        subgraph Entry["Entry layer"]
+            App["app.ts<br/>(Express init, CORS, error handler)"]
+            Server["server.ts<br/>(listen)"]
+        end
+
+        subgraph Middleware["Middleware"]
+            AuthLocker["validateLockerSecret<br/>(X-Locker-Secret header)"]
+            AuthUser["auth.middleware<br/>(JWT usuario)"]
+            AuthAdmin["admin.auth.middleware<br/>(rol ADMIN)"]
+        end
+
+        subgraph Routes["Routes — device-facing"]
+            LRoutes["lockers.routes.ts<br/>GET /comandos · POST /eventos · POST /heartbeat<br/>POST /ack · GET /disponibilidad"]
+            ARRoutes["arriendos-locker.routes.ts<br/>(crear arriendo, asignar puerta)"]
+            ALRoutes["admin-lockers.routes.ts<br/>(CRUD lockers, forzar comandos)"]
+        end
+
+        subgraph Services["Services"]
+            PinSvc["pin.service<br/>(crypto.randomInt)"]
+            EmailSvc["lockerEmail.service<br/>(PIN retiro/dev/recojo + alertas)"]
+            NotifSvc["NotificacionService<br/>(crear notificación in-app)"]
+            AnalyticsSvc["analytics.service"]
+            MetaCAPI["metaCapi.service<br/>(eventos Meta Pixel)"]
+        end
+
+        subgraph CronJobs["Cron Jobs (setInterval in-process)"]
+            JobTimeouts["verificarTimeoutsLockers<br/>(cada 10 min)"]
+            JobArriendos["verificarArriendosLocker"]
+            JobConfirma["autoConfirmarRecepcion"]
+        end
+
+        Prisma["Prisma Client<br/>(ORM)"]
+    end
+
+    DB[("PostgreSQL")]
+    Email["Resend"]
+    Device["ESP32"]
+    AdminWeb["Panel Admin"]
+    ClientWeb["Web pública"]
+
+    Device -.->|"HTTPS"| AuthLocker
+    AdminWeb -->|"HTTPS + JWT"| AuthAdmin
+    ClientWeb -->|"HTTPS + JWT"| AuthUser
+
+    AuthLocker --> LRoutes
+    AuthUser --> ARRoutes
+    AuthAdmin --> ALRoutes
+
+    LRoutes --> PinSvc
+    LRoutes --> EmailSvc
+    LRoutes --> NotifSvc
+    ARRoutes --> PinSvc
+    ARRoutes --> EmailSvc
+
+    JobTimeouts --> PinSvc
+    JobTimeouts --> EmailSvc
+    JobTimeouts --> Prisma
+
+    LRoutes --> Prisma
+    ARRoutes --> Prisma
+    ALRoutes --> Prisma
+    EmailSvc -.-> Email
+    Prisma -.-> DB
+    App --> Middleware
+    App --> Routes

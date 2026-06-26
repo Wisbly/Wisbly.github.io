@@ -1,0 +1,20 @@
+flowchart LR
+    Cliente["👤 Cliente<br/>arrendatario"]
+    Propietario["👤 Propietario<br/>del objeto"]
+    Admin["👤 Admin TingGo"]
+
+    TingGo["🎯 TingGo SmartLocker System<br/>(arriendos peer-to-peer<br/>vía locker auto-servicio)"]
+
+    WiFi["📡 WiFi del comercio<br/>(infra de terceros)"]
+    EmailProv["📧 Provider Email<br/>(Resend)"]
+    Webpay["💳 Webpay Plus<br/>(Transbank)"]
+    CA["🔐 Let's Encrypt"]
+
+    Cliente -->|"Keypad físico + recibe email"| TingGo
+    Propietario -->|"Keypad físico + recibe email"| TingGo
+    Admin -->|"Panel web"| TingGo
+
+    TingGo -->|"depende WiFi"| WiFi
+    TingGo -->|"envía emails con PIN"| EmailProv
+    TingGo -->|"cobra arriendos"| Webpay
+    TingGo -.->|"⚠️ cert no validado en device"| CA

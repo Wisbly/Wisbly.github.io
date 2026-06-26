@@ -1,0 +1,33 @@
+flowchart TB
+    Cliente["👤 Cliente"]
+    Admin["👤 Admin"]
+
+    subgraph TingGo["TingGo System"]
+        direction TB
+        Device["📦 Locker Device<br/>(ESP32 + firmware C++)<br/>--lockers/--"]
+        API["🌐 API Backend<br/>(Node.js + Express + TS)<br/>--api.tinggoapp.cl--"]
+        AdminWeb["💻 Panel Admin<br/>(Next.js)<br/>--actual/frontend--"]
+        ClientWeb["💻 Web pública<br/>(Next.js SSR pendiente ⚠️)<br/>--actual/frontend--"]
+        DB[("🗄️ PostgreSQL<br/>órdenes + lockers + usuarios")]
+        Jobs["⏰ Cron Jobs<br/>(setInterval in-process)"]
+    end
+
+    EmailProv["📧 Resend"]
+    Webpay["💳 Webpay"]
+
+    Cliente -->|"PIN físico"| Device
+    Cliente -->|"navega catálogo"| ClientWeb
+    Admin -->|"HTTPS + JWT"| AdminWeb
+
+    ClientWeb -->|"REST"| API
+    AdminWeb -->|"REST"| API
+    Device <-.->|"HTTPS polling<br/>X-Locker-Secret"| API
+
+    API -->|"SQL via Prisma"| DB
+    API -->|"envía PIN"| EmailProv
+    API <-.->|"checkout + webhook"| Webpay
+    Jobs -->|"queries de timeout"| DB
+    Jobs -->|"alertas"| EmailProv
+    Jobs -->|"crea comandos"| DB
+    API -.->|"emails al cliente/propietario"| EmailProv
+    EmailProv -->|"Email con PIN"| Cliente

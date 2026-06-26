@@ -1,0 +1,133 @@
+flowchart LR
+    Start(["🎯 INICIO"])
+    End(["🏁 FIN"])
+
+    subgraph F1["📱 1. DESCUBRIMIENTO"]
+        direction TB
+        F1a["Arrendatario busca<br/>producto en tinggoapp.cl"]
+        F1b["Filtra zona + fechas +<br/>tamaño del objeto"]
+        F1c["Selecciona<br/>'Arrendar con locker'"]
+        F1a --> F1b --> F1c
+    end
+
+    subgraph F2["💳 2. PAGO"]
+        direction TB
+        F2a["Backend asigna<br/>puerta libre"]
+        F2b["Webpay Plus<br/>cobra al cliente"]
+        F2c{"¿Pago OK?"}
+        F2d["Orden →<br/>LOCKER_PENDIENTE_DEPOSITO"]
+        F2e["Liberar puerta<br/>+ cancelar"]
+        F2a --> F2b --> F2c
+        F2c -->|"OK"| F2d
+        F2c -->|"FAIL"| F2e
+    end
+
+    subgraph F3["📦 3. DEPÓSITO<br/>(Propietario)"]
+        direction TB
+        F3a["Backend genera pinDeposito<br/>+ INSERT ComandoLocker"]
+        F3b["📧 Email + 🔔 al<br/>Propietario con PIN"]
+        F3c["Va al locker<br/>+ ingresa PIN keypad"]
+        F3d["Solenoide abre<br/>deposita objeto + cierra"]
+        F3e["Reed detecta cierre<br/>FSM → OCUPADO_RETIRO"]
+        F3f["POST /eventos<br/>deposito_cerrado"]
+        F3a --> F3b --> F3c --> F3d --> F3e --> F3f
+    end
+
+    subgraph F4["🚶 4. RETIRO<br/>(Arrendatario)"]
+        direction TB
+        F4a["Backend genera pinRetiro<br/>+ envía email + notif"]
+        F4b["Arrendatario va al locker<br/>ingresa PIN + abre"]
+        F4c["Retira objeto + cierra"]
+        F4d["Orden →<br/>LOCKER_OBJETO_RETIRADO<br/>+ fechaDevolucion"]
+        F4e["⏸️ pinDevolucion generado<br/>pero NO enviado aún"]
+        F4a --> F4b --> F4c --> F4d --> F4e
+    end
+
+    subgraph F5["⏱️ 5. USO"]
+        direction TB
+        F5a["Arrendatario usa<br/>el objeto fuera"]
+        F5b["Puerta queda LIBRE<br/>(reutilizable)"]
+        F5c["Período: 24h-N días"]
+        F5d{"Job cron 10 min:<br/>¿venció fecha?"}
+        F5a --> F5b --> F5c --> F5d
+        F5d -->|"No"| F5d
+    end
+
+    subgraph F6["🔄 6. DEVOLUCIÓN<br/>(Arrendatario)"]
+        direction TB
+        F6a["Orden →<br/>LOCKER_PENDIENTE_DEVOLUCION<br/>+ envía pinDevolucion"]
+        F6b["Arrendatario va al locker<br/>+ PIN + abre"]
+        F6c["Deposita objeto + cierra"]
+        F6d["FSM →<br/>OCUPADO_RECOJO"]
+        F6e["POST /eventos<br/>devolucion_cerrada"]
+        F6a --> F6b --> F6c --> F6d --> F6e
+    end
+
+    subgraph F7["✅ 7. RECOJO<br/>(Propietario)"]
+        direction TB
+        F7a["Backend genera pinRecojo<br/>+ envía email al Propietario"]
+        F7b["Propietario va al locker<br/>+ PIN + abre"]
+        F7c["Retira objeto + cierra"]
+        F7d["FSM → LIBRE<br/>borra NVS"]
+        F7e["Orden →<br/>LOCKER_COMPLETADO"]
+        F7a --> F7b --> F7c --> F7d --> F7e
+    end
+
+    subgraph F8["💰 8. CIERRE Y PAGO"]
+        direction TB
+        F8a["📧 Notif a ambas partes<br/>'Arriendo completado'"]
+        F8b["⭐ Solicitud de review<br/>arrendatario → propietario"]
+        F8c["TingGo retiene comisión"]
+        F8d["💵 Payout al<br/>Propietario"]
+        F8a --> F8b
+        F8a --> F8c --> F8d
+    end
+
+    subgraph FX["⚠️ EXCEPCIONES (paralelo en todas las fases)"]
+        direction TB
+        FXa["Timeouts: 24/36/48/72h<br/>→ alerta admin"]
+        FXb["3 PINs incorrectos<br/>→ BLOQUEADO 5min"]
+        FXc["3 bloqueos<br/>→ MANTENIMIENTO"]
+        FXd["Puerta abierta &gt;60s<br/>→ ERROR_CIERRE"]
+        FXe["Admin: forzar_libre<br/>o forzar_mantenimiento"]
+        FXa -.-> FXe
+        FXb --> FXc -.-> FXe
+        FXd -.-> FXe
+    end
+
+    Start --> F1 --> F2
+    F2d --> F3
+    F3f --> F4
+    F4e --> F5
+    F5d -->|"Sí"| F6
+    F6e --> F7
+    F7e --> F8
+    F8d --> End
+    F8b --> End
+
+    F3 -.-> FX
+    F4 -.-> FX
+    F6 -.-> FX
+    F7 -.-> FX
+
+    classDef startEnd fill:#1f6feb,stroke:#58a6ff,color:#fff,stroke-width:3px
+    classDef discovery fill:#fce4ec,stroke:#880e4f,color:#000
+    classDef pago fill:#fff3e0,stroke:#e65100,color:#000
+    classDef deposito fill:#e8f5e9,stroke:#1b5e20,color:#000
+    classDef retiro fill:#e3f2fd,stroke:#0d47a1,color:#000
+    classDef uso fill:#f3e5f5,stroke:#4a148c,color:#000
+    classDef devolucion fill:#fff9c4,stroke:#f57f17,color:#000
+    classDef recojo fill:#e0f7fa,stroke:#006064,color:#000
+    classDef cierre fill:#c8e6c9,stroke:#1b5e20,color:#000
+    classDef excepcion fill:#ffcdd2,stroke:#b71c1c,color:#000
+
+    class Start,End startEnd
+    class F1a,F1b,F1c discovery
+    class F2a,F2b,F2c,F2d,F2e pago
+    class F3a,F3b,F3c,F3d,F3e,F3f deposito
+    class F4a,F4b,F4c,F4d,F4e retiro
+    class F5a,F5b,F5c,F5d uso
+    class F6a,F6b,F6c,F6d,F6e devolucion
+    class F7a,F7b,F7c,F7d,F7e recojo
+    class F8a,F8b,F8c,F8d cierre
+    class FXa,FXb,FXc,FXd,FXe excepcion

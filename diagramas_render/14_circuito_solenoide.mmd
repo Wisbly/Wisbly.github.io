@@ -1,0 +1,56 @@
+flowchart LR
+    subgraph EXPLICACION["📖 CÓMO LEER ESTE CIRCUITO"]
+        direction TB
+        E1["1. El ESP32 manda 3.3V por GPIO 16<br/>cuando quiere abrir la puerta"]
+        E2["2. Esa señal entra al MOSFET (G) y lo<br/>'enciende' — como un switch electrónico"]
+        E3["3. El MOSFET conecta el solenoide a GND<br/>(D→S) → cierra el circuito 12V → solenoide"]
+        E4["4. Cuando GPIO 16 vuelve a 0V el MOSFET se<br/>'apaga' y el solenoide se desactiva"]
+        E5["5. El diodo flyback absorbe el pico de voltaje<br/>negativo que genera la bobina al cortarse → protege MOSFET"]
+        E1 --> E2 --> E3 --> E4 --> E5
+    end
+
+    subgraph CIRCUITO["⚡ CIRCUITO ELÉCTRICO (1 puerta)"]
+        direction TB
+
+        FUENTE["Fuente 12V · 3A<br/>(la que tenés)"]
+        CAP["Capacitor 1000µF/25V<br/>⚠️ FALTA — comprar<br/>(amortigua picos cuando<br/>el solenoide arranca)"]
+        SOL["🔓 Solenoide 12V"]
+        DIODO["Diodo 1N4007<br/>⚠️ FALTA — comprar<br/>cátodo = lado con franja<br/>(va al + del solenoide)"]
+
+        RGATE["Resistencia 220Ω<br/>(del kit de 600)"]
+        MOSFET["MOSFET IRFZ44N<br/>G = Gate (control)<br/>D = Drain<br/>S = Source"]
+        RPULL["Resistencia 10kΩ<br/>(pull-down del gate)<br/>(del kit de 600)"]
+
+        ESP_PIN["ESP32 GPIO 16"]
+        ESP_GND["ESP32 GND"]
+
+        FUENTE -->|"+12V"| CAP
+        CAP -->|"+12V"| SOL
+        SOL -->|"-"| MOSFET
+        DIODO -.->|"protección"| SOL
+
+        ESP_PIN --> RGATE
+        RGATE --> MOSFET
+        RPULL -.->|"gate ↔ GND"| MOSFET
+        MOSFET -->|"source"| ESP_GND
+        CAP -.->|"GND"| ESP_GND
+        FUENTE -.->|"GND fuente = GND ESP"| ESP_GND
+    end
+
+    subgraph PINOUT_MOSFET["📍 PINOUT del IRFZ44N (mirando el lado plano con texto)"]
+        direction LR
+        PIN1["Pin 1<br/>G (Gate)<br/>= izquierda"]
+        PIN2["Pin 2<br/>D (Drain)<br/>= centro<br/>(también = tab metálico)"]
+        PIN3["Pin 3<br/>S (Source)<br/>= derecha"]
+        PIN1 --- PIN2 --- PIN3
+    end
+
+    classDef explicacion fill:#e3f2fd,stroke:#0d47a1,color:#000
+    classDef componente fill:#c5e1a5,stroke:#33691e,color:#000
+    classDef critico fill:#ffcdd2,stroke:#b71c1c,color:#000
+    classDef pinout fill:#fff3e0,stroke:#e65100,color:#000
+
+    class E1,E2,E3,E4,E5 explicacion
+    class FUENTE,SOL,RGATE,MOSFET,RPULL,ESP_PIN,ESP_GND componente
+    class CAP,DIODO critico
+    class PIN1,PIN2,PIN3 pinout

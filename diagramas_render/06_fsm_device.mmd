@@ -1,0 +1,38 @@
+stateDiagram-v2
+    [*] --> LIBRE: boot inicial
+
+    LIBRE --> ESPERANDO_DEPOSITO: API crear_arriendo
+    ESPERANDO_DEPOSITO --> ABIERTO_DEPOSITO: PIN depósito OK
+    ABIERTO_DEPOSITO --> OCUPADO_RETIRO: cierre puerta
+    ABIERTO_DEPOSITO --> ERROR_CIERRE: timeout 60s
+
+    OCUPADO_RETIRO --> ABIERTO_RETIRO: PIN retiro OK
+    ABIERTO_RETIRO --> ESPERANDO_DEVOLUCION: cierre
+    ABIERTO_RETIRO --> ERROR_CIERRE: timeout
+
+    ESPERANDO_DEVOLUCION --> ABIERTA_DEVOLUCION: PIN devolución OK
+    ABIERTA_DEVOLUCION --> OCUPADO_RECOJO: cierre
+    ABIERTA_DEVOLUCION --> ERROR_CIERRE: timeout
+
+    OCUPADO_RECOJO --> ABIERTO_RECOJO: PIN recojo OK
+    ABIERTO_RECOJO --> LIBRE: cierre (arriendo OK)
+    ABIERTO_RECOJO --> ERROR_CIERRE: timeout
+
+    ESPERANDO_DEPOSITO --> BLOQUEADO_INTENTOS: 3 PINs fallidos
+    OCUPADO_RETIRO --> BLOQUEADO_INTENTOS: 3 PINs fallidos
+    ESPERANDO_DEVOLUCION --> BLOQUEADO_INTENTOS: 3 PINs fallidos
+    OCUPADO_RECOJO --> BLOQUEADO_INTENTOS: 3 PINs fallidos
+    BLOQUEADO_INTENTOS --> ESPERANDO_DEPOSITO: timeout 5 min
+    BLOQUEADO_INTENTOS --> MANTENIMIENTO: 3 bloqueos consecutivos
+
+    ERROR_CIERRE --> OCUPADO_RETIRO: cierre manual
+    ERROR_CIERRE --> MANTENIMIENTO: timeout 5 min
+
+    LIBRE --> ESPERANDO_CMD_ADMIN: PIN admin (8 dig)
+    ESPERANDO_CMD_ADMIN --> LIBRE: tecla *
+    ESPERANDO_CMD_ADMIN --> MANTENIMIENTO: tecla A
+
+    MANTENIMIENTO --> LIBRE: comando admin
+
+    OFFLINE: ⚠️ declarado, nunca alcanzado
+    ANOMALIA_SENSOR: ⚠️ declarado, nunca alcanzado
