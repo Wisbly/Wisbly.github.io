@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TingGo SmartLocker · Auditoría IoT</title>
+<style>
+  :root {
+    --bg: #0E0E0E;
+    --surface: #161616;
+    --surface-2: #1E1E1E;
+    --border: #2A2A2A;
+    --border-strong: #3A3A3A;
+    --text: #F2F2F2;
+    --text-2: #A3A3A3;
+    --text-3: #6B6B6B;
+    --brand: #5CBC24;
+    --brand-dim: #3D7A19;
+    --yellow: #FFEF0F;
+    --p0: #EF4444;
+    --p1: #F97316;
+    --p2: #FFEF0F;
+    --ok: #5CBC24;
+    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(92, 188, 36, 0.06), transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(255, 239, 15, 0.03), transparent 50%);
+    background-attachment: fixed;
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 8px; }
+  .hero-meta .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand);
+  }
+  .hero h1 {
+    font-size: clamp(40px, 5.5vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+  .hero h1 .accent {
+    color: var(--brand);
+    font-weight: 800;
+  }
+  .hero-subtitle {
+    font-size: 20px;
+    color: var(--text-2);
+    max-width: 720px;
+    line-height: 1.5;
+    margin-bottom: 48px;
+  }
+  .verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--p0);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 48px;
+  }
+  .verdict::before {
+    content: '●';
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* === STATS === */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .stat {
+    background: var(--surface);
+    padding: 28px 24px;
+    transition: background 0.2s;
+  }
+  .stat:hover { background: var(--surface-2); }
+  .stat-num {
+    font-family: var(--font-mono);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-num .unit {
+    font-size: 18px;
+    color: var(--text-3);
+    margin-left: 4px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .stat.danger .stat-num { color: var(--p0); }
+  .stat.warn .stat-num { color: var(--yellow); }
+  .stat.ok .stat-num { color: var(--brand); }
+
+  /* === SECTIONS === */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--brand);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow .num {
+    color: var(--text-3);
+    font-weight: 500;
+  }
+  h2 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    max-width: 800px;
+  }
+  .section-lead {
+    font-size: 17px;
+    color: var(--text-2);
+    max-width: 720px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  /* === EXEC SUMMARY BLOCKERS === */
+  .blockers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .blocker {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--p0);
+    border-radius: 4px;
+    padding: 24px;
+    display: flex;
+    gap: 18px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .blocker:hover {
+    background: var(--surface-2);
+    border-left-color: #ff5555;
+  }
+  .blocker-num {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--p0);
+    line-height: 1;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+  .blocker-content h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .blocker-content p {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+
+  /* === HARDWARE TABLE === */
+  .hw-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .hw-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .hw-card .label {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .hw-card .desc {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 2px;
+  }
+  .hw-card .pin {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-2);
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--border-strong);
+    white-space: nowrap;
+  }
+  .hw-card.warn { border-left: 3px solid var(--p1); }
+  .hw-card.warn .pin { color: var(--p1); border-color: rgba(249, 115, 22, 0.4); }
+
+  /* === FSM DIAGRAM === */
+  .fsm-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 36px;
+    overflow-x: auto;
+  }
+  .fsm-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .fsm-row:last-child { margin-bottom: 0; }
+  .fsm-row-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-3);
+    width: 100px;
+    flex-shrink: 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .fsm-state {
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .fsm-state.start { border-color: var(--brand); color: var(--brand); }
+  .fsm-state.error { border-color: var(--p0); color: var(--p0); }
+  .fsm-state.warn { border-color: var(--yellow); color: var(--yellow); }
+  .fsm-state.dead {
+    border-color: var(--border);
+    color: var(--text-3);
+    text-decoration: line-through;
+  }
+  .fsm-arrow {
+    color: var(--text-3);
+    font-family: var(--font-mono);
+  }
+  .fsm-legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .fsm-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-2);
+  }
+  .fsm-legend-dot {
+    width: 10px; height: 10px;
+    border: 1px solid;
+    border-radius: 2px;
+  }
+
+  /* === FINDINGS === */
+  .severity-tabs {
+    display: flex;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 6px;
+    margin-bottom: 32px;
+    padding: 1px;
+  }
+  .sev-tab {
+    flex: 1;
+    background: var(--surface);
+    padding: 18px 20px;
+    border: none;
+    color: var(--text-2);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 5px;
+  }
+  .sev-tab:first-child { border-radius: 5px 0 0 5px; }
+  .sev-tab:last-child { border-radius: 0 5px 5px 0; }
+  .sev-tab.active {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .sev-tab .badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+  }
+  .sev-tab[data-sev="p0"].active { box-shadow: inset 0 -2px 0 var(--p0); }
+  .sev-tab[data-sev="p1"].active { box-shadow: inset 0 -2px 0 var(--p1); }
+  .sev-tab[data-sev="p2"].active { box-shadow: inset 0 -2px 0 var(--p2); }
+
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .finding:hover { border-color: var(--border-strong); }
+  .finding-header {
+    padding: 18px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+  .finding-id {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .finding-id.p0 { background: rgba(239, 68, 68, 0.15); color: var(--p0); border: 1px solid rgba(239, 68, 68, 0.3); }
+  .finding-id.p1 { background: rgba(249, 115, 22, 0.15); color: var(--p1); border: 1px solid rgba(249, 115, 22, 0.3); }
+  .finding-id.p2 { background: rgba(255, 239, 15, 0.1); color: var(--yellow); border: 1px solid rgba(255, 239, 15, 0.3); }
+  .finding-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .finding-file {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+  }
+  .finding-toggle {
+    color: var(--text-3);
+    transition: transform 0.2s;
+    font-family: var(--font-mono);
+  }
+  .finding.open .finding-toggle { transform: rotate(45deg); }
+  .finding-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .finding.open .finding-body { max-height: 600px; }
+  .finding-body-inner {
+    padding: 0 24px 24px 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    color: var(--text-2);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .finding-body-inner strong { color: var(--text); font-weight: 600; }
+  .finding-body-inner code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--brand);
+    border: 1px solid var(--border-strong);
+  }
+  .finding-body-inner .fix {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(92, 188, 36, 0.05);
+    border-left: 2px solid var(--brand);
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+  }
+  .finding-body-inner .fix strong { color: var(--brand); }
+
+  /* === ROADMAP === */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .phase {
+    background: var(--surface);
+    padding: 32px 28px;
+    position: relative;
+  }
+  .phase-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .phase h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .phase-time {
+    font-size: 13px;
+    color: var(--brand);
+    margin-bottom: 20px;
+    font-family: var(--font-mono);
+  }
+  .phase-goal {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase ul {
+    list-style: none;
+  }
+  .phase li {
+    font-size: 13px;
+    color: var(--text-2);
+    padding: 6px 0;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .phase li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--brand);
+    font-family: var(--font-mono);
+  }
+
+  /* === COMPARISON === */
+  .comparison {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .comp-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-row.header {
+    background: var(--surface-2);
+    font-weight: 600;
+  }
+  .comp-cell {
+    padding: 16px 22px;
+    font-size: 13px;
+    border-right: 1px solid var(--border);
+  }
+  .comp-cell:last-child { border-right: none; }
+  .comp-cell.label { color: var(--text-2); }
+  .comp-cell.header-cell { color: var(--text); font-size: 14px; }
+  .comp-cell.header-cell .channel {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-3);
+    margin-left: 8px;
+  }
+  .comp-cell.winner { color: var(--brand); font-weight: 500; }
+  .comp-cell.loser { color: var(--text-3); }
+
+  /* === PRIORITY TABLE === */
+  .priority-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .pri-row {
+    display: grid;
+    grid-template-columns: 48px 80px 1fr 180px 100px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .pri-row:last-child { border-bottom: none; }
+  .pri-row:not(.header):hover { background: var(--surface-2); }
+  .pri-row.header {
+    background: var(--surface-2);
+    font-size: 11px;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+  }
+  .pri-cell { padding: 14px 16px; font-size: 13px; }
+  .pri-num { font-family: var(--font-mono); color: var(--text-3); font-weight: 600; }
+  .pri-action { color: var(--text); }
+  .pri-file { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+  .pri-effort { color: var(--text-2); text-align: right; }
+
+  /* === NEXT STEPS === */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .timeline-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 40px;
+    height: 3px;
+    background: var(--brand);
+    border-radius: 6px 0 0 0;
+  }
+  .timeline-when {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--brand);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .timeline-item h4 {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .timeline-item ol {
+    list-style: none;
+    counter-reset: step;
+  }
+  .timeline-item li {
+    font-size: 13px;
+    color: var(--text-2);
+    padding: 6px 0;
+    padding-left: 26px;
+    position: relative;
+    counter-increment: step;
+    line-height: 1.5;
+  }
+  .timeline-item li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--brand);
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--text-3);
+    font-size: 12px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+  footer .brand-mark {
+    color: var(--brand);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .blockers { grid-template-columns: 1fr; }
+    .hw-grid { grid-template-columns: 1fr; }
+    .roadmap { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; }
+    .pri-row { grid-template-columns: 40px 60px 1fr; }
+    .pri-cell.pri-file, .pri-cell.pri-effort { display: none; }
+    .pri-row.header .pri-cell.pri-file, .pri-row.header .pri-cell.pri-effort { display: none; }
+    .comp-row { grid-template-columns: 1fr; }
+    .comp-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .finding-header { flex-wrap: wrap; }
+    .finding-file { width: 100%; }
+    section { padding: 60px 0; }
+    .container { padding: 0 20px; }
+  }
+
+  /* Print friendliness */
+  @media print {
+    body { background: white; color: black; }
+    section { page-break-inside: avoid; padding: 30px 0; }
+    .finding-body { max-height: none !important; }
+    .finding-toggle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- === HERO === -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-meta">
+      <span><span class="dot"></span>TINGGO · AUDITORÍA TÉCNICA</span>
+      <span>FIRMWARE v3.0 / v3.1</span>
+      <span>2026·06·26</span>
+      <span>SKILL · IOT-ENGINEER</span>
+    </div>
+
+    <h1>Análisis IoT<br><span class="accent">SmartLocker</span></h1>
+
+    <p class="hero-subtitle">
+      Auditoría completa del firmware ESP32: arquitectura, seguridad, conectividad,
+      robustez de la máquina de estados y hardware. Veredicto y plan de acción priorizado.
+    </p>
+
+    <div class="verdict">
+      4 problemas bloqueantes &nbsp;·&nbsp; No apto para deploy en calle
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">14</div>
+        <div class="stat-label">Estados FSM<br>diseñados</div>
+      </div>
+      <div class="stat danger">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Bloqueantes<br>P0 detectados</div>
+      </div>
+      <div class="stat warn">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Acciones<br>priorizadas</div>
+      </div>
+      <div class="stat ok">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Fases de<br>migración</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- === EXECUTIVE SUMMARY === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">01</span>RESUMEN EJECUTIVO</div>
+    <h2>Arquitectura sólida con 4 problemas que impiden salir a calle.</h2>
+    <p class="section-lead">
+      El proyecto tiene una <strong style="color:var(--text)">base modular bien diseñada</strong>:
+      hardware, FSM, UI y red están separados; la FSM de 14 estados es coherente y persiste con NVS.
+      Es funcional para un piloto de 1 puerta en entorno controlado. Pero antes del primer locker en
+      operación, hay que cerrar estos 4 frentes:
+    </p>
+
+    <div class="blockers">
+      <div class="blocker">
+        <div class="blocker-num">01</div>
+        <div class="blocker-content">
+          <h3>HTTPS sin validación de certificado</h3>
+          <p>MITM trivial en cualquier WiFi hostil. Cualquiera con un AP malicioso puede abrir lockers en remoto.</p>
+        </div>
+      </div>
+      <div class="blocker">
+        <div class="blocker-num">02</div>
+        <div class="blocker-content">
+          <h3>Solenoide en GPIO5 (strapping pin)</h3>
+          <p>Boots inestables y aperturas espurias al encender. La puerta puede abrirse sola al power-on.</p>
+        </div>
+      </div>
+      <div class="blocker">
+        <div class="blocker-num">03</div>
+        <div class="blocker-content">
+          <h3>PINs en plaintext en 4 lugares</h3>
+          <p>RAM, NVS, UART y body HTTP. Fuga por chip-off o sniff serial expone todos los PINs activos.</p>
+        </div>
+      </div>
+      <div class="blocker">
+        <div class="blocker-num">04</div>
+        <div class="blocker-content">
+          <h3>Sin OTA ni watchdog</h3>
+          <p>Device muerto en campo = visita física obligatoria a cada locker. Inviable con &gt;5 unidades.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === HARDWARE === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">02</span>STACK · HARDWARE</div>
+    <h2>Inventario de componentes y mapeo de pines.</h2>
+    <p class="section-lead">
+      ESP32 DOIT DevKit v1 con periféricos físicos para 1 puerta operativa. La segunda está declarada
+      pero no usada. Hay 3 advertencias críticas a nivel eléctrico que afectan boot y vida útil.
+    </p>
+
+    <div class="hw-grid">
+      <div class="hw-card">
+        <div>
+          <div class="label">MCU principal</div>
+          <div class="desc">ESP32 DOIT DevKit v1 · Xtensa LX6</div>
+        </div>
+        <div class="pin">—</div>
+      </div>
+      <div class="hw-card warn">
+        <div>
+          <div class="label">Solenoide puerta 0</div>
+          <div class="desc">Electrocerradura 12V · strapping pin ⚠️</div>
+        </div>
+        <div class="pin">GPIO 5</div>
+      </div>
+      <div class="hw-card">
+        <div>
+          <div class="label">Solenoide puerta 1</div>
+          <div class="desc">Declarado, no usado</div>
+        </div>
+        <div class="pin">GPIO 18</div>
+      </div>
+      <div class="hw-card warn">
+        <div>
+          <div class="label">Reed sensor puerta 0</div>
+          <div class="desc">Input-only · requiere pull-up 4.7kΩ externa</div>
+        </div>
+        <div class="pin">GPIO 34</div>
+      </div>
+      <div class="hw-card warn">
+        <div>
+          <div class="label">Reed sensor puerta 1</div>
+          <div class="desc">Input-only · requiere pull-up 4.7kΩ externa</div>
+        </div>
+        <div class="pin">GPIO 35</div>
+      </div>
+      <div class="hw-card">
+        <div>
+          <div class="label">LCD 16x2 I2C</div>
+          <div class="desc">PCF8574 · dirección 0x27</div>
+        </div>
+        <div class="pin">SDA 21 · SCL 22</div>
+      </div>
+      <div class="hw-card">
+        <div>
+          <div class="label">Keypad 4x4 matricial</div>
+          <div class="desc">Evita strapping pins ✓</div>
+        </div>
+        <div class="pin">R: 13,17,4,27</div>
+      </div>
+      <div class="hw-card">
+        <div>
+          <div class="label">Sensores IR (Fase 2)</div>
+          <div class="desc">TCRT5000 · declarados sin lógica</div>
+        </div>
+        <div class="pin">GPIO 19, 23</div>
+      </div>
+    </div>
+
+    <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--p1); border-radius: 4px; padding: 20px 24px;">
+      <div style="font-size: 12px; color: var(--p1); font-family: var(--font-mono); letter-spacing: 0.1em; margin-bottom: 10px;">⚠ HARDWARE · OBSERVACIONES FÍSICAS</div>
+      <ul style="list-style: none; font-size: 13px; color: var(--text-2); line-height: 1.8;">
+        <li><strong style="color:var(--text)">Rail de alimentación:</strong> Si el solenoide (1–2A pico) comparte rail con el ESP32, hay brownout y reset en cada apertura. Separar 12V y 3.3V con condensador ≥1000µF.</li>
+        <li><strong style="color:var(--text)">Diodo flyback:</strong> Sin un 1N4007 en paralelo a la bobina, el MOSFET driver se quema a ~1000 aperturas por la EMF inversa.</li>
+        <li><strong style="color:var(--text)">Escalabilidad:</strong> Para 24 puertas el ESP32 no tiene GPIO suficientes. Se necesita expansor I2C MCP23017 o PCF8575.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- === FSM === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">03</span>MÁQUINA DE ESTADOS</div>
+    <h2>14 estados, 2 fantasmas: el ciclo de arriendo completo.</h2>
+    <p class="section-lead">
+      El flujo normal recorre 9 estados desde <code style="color:var(--brand); font-family: var(--font-mono); font-size: 13px;">LIBRE</code>
+      hasta volver a <code style="color:var(--brand); font-family: var(--font-mono); font-size: 13px;">LIBRE</code>, atravesando depósito, retiro,
+      devolución y recojo. Los 5 estados excepcionales cubren bloqueos y mantenimiento — pero dos de ellos
+      <strong style="color:var(--yellow)">jamás se alcanzan en el código actual</strong>.
+    </p>
+
+    <div class="fsm-container">
+      <div class="fsm-row">
+        <div class="fsm-row-label">Inicio</div>
+        <div class="fsm-state start">LIBRE</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state">ESPERANDO_DEPOSITO</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state">ABIERTO_DEPOSITO</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state">OCUPADO_RETIRO</div>
+      </div>
+      <div class="fsm-row">
+        <div class="fsm-row-label">Retiro</div>
+        <div class="fsm-state">ABIERTO_RETIRO</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state">ESPERANDO_DEVOLUCION</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state">ABIERTA_DEVOLUCION</div>
+      </div>
+      <div class="fsm-row">
+        <div class="fsm-row-label">Cierre</div>
+        <div class="fsm-state">OCUPADO_RECOJO</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state">ABIERTO_RECOJO</div>
+        <div class="fsm-arrow">→</div>
+        <div class="fsm-state start">LIBRE</div>
+      </div>
+      <div class="fsm-row" style="margin-top:24px; padding-top:20px; border-top:1px dashed var(--border);">
+        <div class="fsm-row-label">Excepción</div>
+        <div class="fsm-state error">BLOQUEADO_INTENTOS</div>
+        <div class="fsm-state error">ERROR_CIERRE</div>
+        <div class="fsm-state error">MANTENIMIENTO</div>
+        <div class="fsm-state warn">ESPERANDO_CMD_ADMIN</div>
+      </div>
+      <div class="fsm-row">
+        <div class="fsm-row-label">Nunca usado</div>
+        <div class="fsm-state dead">OFFLINE</div>
+        <div class="fsm-state dead">ANOMALIA_SENSOR</div>
+        <div style="font-size: 12px; color: var(--text-3); margin-left: 8px;">declarados pero ninguna transición los activa</div>
+      </div>
+
+      <div class="fsm-legend">
+        <div class="fsm-legend-item"><div class="fsm-legend-dot" style="border-color:var(--brand);"></div>Estado terminal del ciclo</div>
+        <div class="fsm-legend-item"><div class="fsm-legend-dot" style="border-color:var(--p0);"></div>Estado de error / bloqueo</div>
+        <div class="fsm-legend-item"><div class="fsm-legend-dot" style="border-color:var(--yellow);"></div>Estado admin</div>
+        <div class="fsm-legend-item"><div class="fsm-legend-dot" style="border-color:var(--border);"></div>Estado fantasma</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === FINDINGS === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">04</span>HALLAZGOS POR SEVERIDAD</div>
+    <h2>16 hallazgos clasificados. Click para expandir cada uno.</h2>
+    <p class="section-lead">
+      P0 son bloqueantes que impiden el deploy físico. P1 mejoran seguridad y robustez (segundo sprint).
+      P2 son mejoras de arquitectura para cuando se escale a más de 5 lockers.
+    </p>
+
+    <div class="severity-tabs">
+      <button class="sev-tab active" data-sev="all">Todos <span class="badge">16</span></button>
+      <button class="sev-tab" data-sev="p0">P0 · Bloqueantes <span class="badge">4</span></button>
+      <button class="sev-tab" data-sev="p1">P1 · Robustez <span class="badge">4</span></button>
+      <button class="sev-tab" data-sev="p2">P2 · Arquitectura <span class="badge">6</span></button>
+    </div>
+
+    <div id="findings-list">
+
+      <!-- P0 -->
+      <div class="finding" data-sev="p0">
+        <div class="finding-header">
+          <span class="finding-id p0">P0·1</span>
+          <span class="finding-title">HTTPS sin certificado → MITM trivial</span>
+          <span class="finding-file">NetworkManager.cpp:53,87</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          <code>http.begin(url)</code> con URL HTTPS <strong>no valida el certificado</strong>. Cualquier WiFi hostil puede hacer MITM y abrir el locker.
+          <div class="fix"><strong>FIX:</strong> usar <code>WiFiClientSecure</code> con <code>setCACert()</code> apuntando al CA de Let's Encrypt (ISRG Root X1). Alternativa más estricta: certificate pinning del cert del servidor, peor mantenimiento por rotación cada 90 días.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p0">
+        <div class="finding-header">
+          <span class="finding-id p0">P0·2</span>
+          <span class="finding-title">PIN_SOLENOIDE_0 en GPIO5 (strapping pin)</span>
+          <span class="finding-file">config.h:74</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          GPIO5 debe estar HIGH al boot. Si el driver invierte la señal o queda indeterminado, el chip falla intermitentemente o <strong>el solenoide se energiza ~200ms al power-on — la puerta se abre sola</strong>.
+          <div class="fix"><strong>FIX:</strong> mover a <code>GPIO16</code> (libre, no strapping, no input-only). Cambio físico + 1 línea de código. Para escalar a 24 puertas, planificar mapeo evitando strapping (0,2,5,12,15), flash interno (6-11) y input-only (34-39).</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p0">
+        <div class="finding-header">
+          <span class="finding-id p0">P0·3</span>
+          <span class="finding-title">PINs en plaintext en RAM, NVS, UART y HTTP</span>
+          <span class="finding-file">estados.h, StateMachine.cpp</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          4 vectores de fuga: RAM dumpeable por JTAG, NVS extraíble con <code>esptool.py read_flash</code>, <code>Serial.printf</code> imprime el PIN en cada operación, body HTTP en claro.
+          <div class="fix"><strong>FIX en 3 pasos:</strong>
+          <br>· <strong>Quick win (1h):</strong> eliminar los 7+ <code>Serial.printf</code> que imprimen PINs.
+          <br>· <strong>Hash server-side (1 sem):</strong> backend envía solo SHA-256(salt || pin); device nunca conoce el PIN plano.
+          <br>· <strong>NVS + flash encryption (2 sem):</strong> eFuse irreversible, hacer en fabricación con cuidado.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p0">
+        <div class="finding-header">
+          <span class="finding-id p0">P0·4</span>
+          <span class="finding-title">Sin OTA y sin watchdog</span>
+          <span class="finding-file">main.cpp</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Sin OTA, cada bug requiere visita física con cable USB — inviable con &gt;5 lockers. Sin watchdog, un <code>http.GET()</code> colgado deja el device inservible hasta corte de luz.
+          <div class="fix"><strong>FIX:</strong>
+          <br>· <strong>Watchdog (10 líneas):</strong> <code>esp_task_wdt_init(30, true)</code> + <code>esp_task_wdt_reset()</code> en el loop.
+          <br>· <strong>OTA Fase 1:</strong> <code>ArduinoOTA</code> en red local desde PlatformIO.
+          <br>· <strong>OTA Fase 2:</strong> <code>esp_https_ota</code> con firma RSA verificada, rollback automático.</div>
+        </div></div>
+      </div>
+
+      <!-- P1 -->
+      <div class="finding" data-sev="p1">
+        <div class="finding-header">
+          <span class="finding-id p1">P1·1</span>
+          <span class="finding-title">Hash de PINs server-side pendiente</span>
+          <span class="finding-file">backend + estados.h</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Ver P0·3.b. Sin esto, NVS encryption es la única defensa y requiere reflasheo controlado de fábrica.
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p1">
+        <div class="finding-header">
+          <span class="finding-id p1">P1·2</span>
+          <span class="finding-title">Watchdog timer</span>
+          <span class="finding-file">main.cpp</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Ver P0·4. Aunque OTA tome más tiempo, <strong>watchdog es trivial y debe estar antes del primer deploy físico</strong>.
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p1">
+        <div class="finding-header">
+          <span class="finding-id p1">P1·3</span>
+          <span class="finding-title">Cola de eventos puede perderse</span>
+          <span class="finding-file">StateMachine.cpp:92-119</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Cola en RAM de tamaño 8. Si pierdes WiFi por 1h durante 4 operaciones, los eventos al llegar a 9 se <strong>descartan silenciosamente</strong>. Resultado: un retiro real puede no contabilizarse → cobro perdido o métricas incorrectas.
+          <div class="fix"><strong>FIX:</strong> persistir cola en NVS (push también escribe; pop confirmado borra), o implementar endpoint <code>/sync</code> que reconcilie estado al reconectar.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p1">
+        <div class="finding-header">
+          <span class="finding-id p1">P1·4</span>
+          <span class="finding-title">WiFi credentials hardcoded</span>
+          <span class="finding-file">secrets.h</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Cambiar el WiFi del local del cliente requiere reflashear. En operación con N lockers en N locales esto es operativamente costoso.
+          <div class="fix"><strong>FIX:</strong> WiFiManager (AP mode) — el técnico que instala se conecta al AP <code>TingGo-Setup-{LOCKER_ID}</code> con su móvil, ingresa credenciales, se persisten en NVS.</div>
+        </div></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="finding" data-sev="p2">
+        <div class="finding-header">
+          <span class="finding-id p2">P2·1</span>
+          <span class="finding-title">Estado ANOMALIA_SENSOR nunca se dispara</span>
+          <span class="finding-file">StateMachine.cpp:procesarSensores</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          El enum existe, el LCD lo muestra, pero ninguna transición lo activa. <strong>Un sensor pegado en "cerrada" deja el locker abierto para siempre sin reportar.</strong>
+          <div class="fix"><strong>FIX:</strong> detectar solenoide activo + sensor reportando cerrada por &gt;2s, o flancos del sensor &gt;N en T segundos (reed dañado / imán suelto).</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p2">
+        <div class="finding-header">
+          <span class="finding-id p2">P2·2</span>
+          <span class="finding-title">Estado OFFLINE declarado pero nunca alcanzado</span>
+          <span class="finding-file">Network_update</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Cuando WiFi falla, el FSM no transiciona a OFFLINE. Sigue operando con mensajes ambiguos en LCD. El texto "PIN local OK" sugiere un modo degradado que no está implementado.
+          <div class="fix"><strong>FIX:</strong> tras N segundos sin heartbeat exitoso, marcar puerta como OFFLINE; permitir PINs cacheados y encolar eventos para enviar al reconectar.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p2">
+        <div class="finding-header">
+          <span class="finding-id p2">P2·3</span>
+          <span class="finding-title">Abstraer GPIO para expansor I2C</span>
+          <span class="finding-file">LockerHardware.cpp</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Para 24 puertas el ESP32 no tiene GPIO suficientes. Necesitas MCP23017 (16 GPIO I2C) o PCF8575.
+          <div class="fix"><strong>FIX:</strong> introducir interfaz <code>setSolenoide(int idx, bool on)</code> hoy aunque sigas con GPIO directos. Mañana cambias la implementación sin tocar la FSM.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p2">
+        <div class="finding-header">
+          <span class="finding-id p2">P2·4</span>
+          <span class="finding-title">bloqueosConsecutivos no decae</span>
+          <span class="finding-file">UserInterface.cpp:301-307</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          3 bloqueos consecutivos (9 PINs fallados acumulados a lo largo del tiempo) → MANTENIMIENTO permanente. <strong>Una persona con mal día puede dejar el locker fuera de servicio.</strong>
+          <div class="fix"><strong>FIX:</strong> reset del contador tras N horas sin intentos, o tras 1 PIN correcto.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p2">
+        <div class="finding-header">
+          <span class="finding-id p2">P2·5</span>
+          <span class="finding-title">Tecla [B] lee puertas[1] con NUM_PUERTAS=1</span>
+          <span class="finding-file">UserInterface.cpp:405</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Out-of-bounds: en Arduino no crashea pero lee basura del stack → muestra estado falso en LCD.
+          <div class="fix"><strong>FIX:</strong> validar <code>NUM_PUERTAS &gt;= 2</code> antes de leer la segunda puerta.</div>
+        </div></div>
+      </div>
+
+      <div class="finding" data-sev="p2">
+        <div class="finding-header">
+          <span class="finding-id p2">P2·6</span>
+          <span class="finding-title">Backend no detecta lockers caídos</span>
+          <span class="finding-file">backend</span>
+          <span class="finding-toggle">+</span>
+        </div>
+        <div class="finding-body"><div class="finding-body-inner">
+          Sin LWT (que solo MQTT provee), el server debe marcar offline si no recibe heartbeat en 3× el intervalo (~3 min).
+          <div class="fix"><strong>FIX:</strong> job programado cada minuto que revise <code>lastHeartbeatAt</code> y emita evento <code>locker_offline</code> al panel admin.</div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- === PRIORITY TABLE === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">05</span>TOP 10 ACCIONES PRIORIZADAS</div>
+    <h2>Plan de ataque ordenado por severidad y esfuerzo.</h2>
+    <p class="section-lead">
+      Si solo hubiera tiempo para una semana de trabajo, son las 3 primeras filas. Si hay un mes, llegar hasta la #7.
+    </p>
+
+    <div class="priority-table">
+      <div class="pri-row header">
+        <div class="pri-cell">#</div>
+        <div class="pri-cell">Sev</div>
+        <div class="pri-cell">Acción</div>
+        <div class="pri-cell pri-file">Archivo</div>
+        <div class="pri-cell pri-effort">Esfuerzo</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">01</div>
+        <div class="pri-cell"><span class="finding-id p0">P0</span></div>
+        <div class="pri-cell pri-action">Mover solenoide GPIO 5 → 16</div>
+        <div class="pri-cell pri-file">config.h:74</div>
+        <div class="pri-cell pri-effort">5 min</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">02</div>
+        <div class="pri-cell"><span class="finding-id p0">P0</span></div>
+        <div class="pri-cell pri-action">TLS con WiFiClientSecure + CA pinning</div>
+        <div class="pri-cell pri-file">NetworkManager.cpp</div>
+        <div class="pri-cell pri-effort">1 día</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">03</div>
+        <div class="pri-cell"><span class="finding-id p0">P0</span></div>
+        <div class="pri-cell pri-action">Eliminar Serial.printf con PINs (≥7 sitios)</div>
+        <div class="pri-cell pri-file">StateMachine.cpp</div>
+        <div class="pri-cell pri-effort">1 hora</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">04</div>
+        <div class="pri-cell"><span class="finding-id p0">P0</span></div>
+        <div class="pri-cell pri-action">Implementar OTA (ArduinoOTA local)</div>
+        <div class="pri-cell pri-file">nuevo módulo</div>
+        <div class="pri-cell pri-effort">1 día</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">05</div>
+        <div class="pri-cell"><span class="finding-id p1">P1</span></div>
+        <div class="pri-cell pri-action">Hash SHA-256 de PINs con salt server-side</div>
+        <div class="pri-cell pri-file">estados.h + backend</div>
+        <div class="pri-cell pri-effort">1 semana</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">06</div>
+        <div class="pri-cell"><span class="finding-id p1">P1</span></div>
+        <div class="pri-cell pri-action">esp_task_wdt watchdog 30s</div>
+        <div class="pri-cell pri-file">main.cpp</div>
+        <div class="pri-cell pri-effort">30 min</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">07</div>
+        <div class="pri-cell"><span class="finding-id p1">P1</span></div>
+        <div class="pri-cell pri-action">Persistir cola de eventos en NVS</div>
+        <div class="pri-cell pri-file">StateMachine.cpp</div>
+        <div class="pri-cell pri-effort">1 día</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">08</div>
+        <div class="pri-cell"><span class="finding-id p2">P2</span></div>
+        <div class="pri-cell pri-action">Implementar ANOMALIA_SENSOR</div>
+        <div class="pri-cell pri-file">procesarSensores</div>
+        <div class="pri-cell pri-effort">2 días</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">09</div>
+        <div class="pri-cell"><span class="finding-id p2">P2</span></div>
+        <div class="pri-cell pri-action">Backend: detectar offline si no llega HB en 3× interval</div>
+        <div class="pri-cell pri-file">backend</div>
+        <div class="pri-cell pri-effort">1 día</div>
+      </div>
+      <div class="pri-row">
+        <div class="pri-cell pri-num">10</div>
+        <div class="pri-cell"><span class="finding-id p2">P2</span></div>
+        <div class="pri-cell pri-action">Abstraer GPIO → preparar expansor I2C</div>
+        <div class="pri-cell pri-file">LockerHardware.cpp</div>
+        <div class="pri-cell pri-effort">2 días</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === ROADMAP === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">06</span>ROADMAP · 3 FASES</div>
+    <h2>De 1 puerta de piloto a 100+ lockers en producción.</h2>
+    <p class="section-lead">
+      Tres fases ordenadas por escala. Cada una desbloquea la siguiente cuando los costos de la actual
+      empiezan a doler.
+    </p>
+
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-tag">FASE 01</div>
+        <h3>Hardening del piloto</h3>
+        <div class="phase-time">1–2 semanas</div>
+        <div class="phase-goal">Locker de 1 puerta seguro y mantenible remotamente, antes de salir a calle.</div>
+        <ul>
+          <li>TLS con WiFiClientSecure + CA pinning</li>
+          <li>Mover solenoide GPIO 5 → 16</li>
+          <li>Eliminar logs de PINs por Serial</li>
+          <li>Hash SHA-256 server-side</li>
+          <li>Watchdog 30s</li>
+          <li>OTA local con ArduinoOTA</li>
+          <li>Persistir cola de eventos en NVS</li>
+          <li>Verificar pull-ups en reed sensors</li>
+          <li>Verificar diodo flyback en solenoides</li>
+          <li>Separar rails 12V / 3.3V</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="phase-tag">FASE 02</div>
+        <h3>Multi-puerta y monitoreo</h3>
+        <div class="phase-time">1 mes</div>
+        <div class="phase-goal">3–5 lockers de 4 puertas en operación con visibilidad real en panel admin.</div>
+        <ul>
+          <li>Transiciones a ANOMALIA_SENSOR</li>
+          <li>Modo OFFLINE real con caché de PINs</li>
+          <li>Abstraer GPIO → expansor I2C</li>
+          <li>Decay de bloqueosConsecutivos</li>
+          <li>Fix tecla [B] con NUM_PUERTAS</li>
+          <li>Backend: detectar lockers offline</li>
+          <li>WiFi provisioning (WiFiManager AP)</li>
+          <li>OTA por internet con firma RSA</li>
+          <li>Dashboard admin tiempo real</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <div class="phase-tag">FASE 03</div>
+        <h3>MQTT v5 + escala</h3>
+        <div class="phase-time">3+ meses</div>
+        <div class="phase-goal">Sostener 100+ lockers sin reescribir el backend. Migración gradual desde HTTP.</div>
+        <ul>
+          <li>Stand up broker EMQX en VPS</li>
+          <li>Provisioning mTLS por device (QR + rotación)</li>
+          <li>Topics: cmd, evt, status con QoS 1</li>
+          <li>LWT broker → OFFLINE instantáneo</li>
+          <li>OTA controlado por broker</li>
+          <li>HTTP API en paralelo para panel admin</li>
+          <li>Lockers nuevos arrancan MQTT</li>
+          <li>Los viejos migran en su próximo refresh</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === HTTP vs MQTT === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">07</span>HTTP POLLING vs MQTT v5</div>
+    <h2>Cuándo dolerá la arquitectura actual.</h2>
+    <p class="section-lead">
+      El HTTP polling actual aguanta hasta unos 20 lockers en operación. Pasado ese punto, latencia,
+      bandwidth y detección de caídas empiezan a justificar la migración a MQTT.
+    </p>
+
+    <div class="comparison">
+      <div class="comp-row header">
+        <div class="comp-cell header-cell">Concepto</div>
+        <div class="comp-cell header-cell">HTTP polling <span class="channel">actual</span></div>
+        <div class="comp-cell header-cell">MQTT v5 <span class="channel">objetivo</span></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell label">Latencia comando → device</div>
+        <div class="comp-cell loser">hasta 5–30s</div>
+        <div class="comp-cell winner">&lt;500ms (push)</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell label">Bandwidth idle por device</div>
+        <div class="comp-cell loser">~5 MB / mes</div>
+        <div class="comp-cell winner">~250 KB / mes</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell label">Detectar device caído</div>
+        <div class="comp-cell loser">heartbeat 60s + retries</div>
+        <div class="comp-cell winner">LWT instantáneo</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell label">Backend con 100 lockers</div>
+        <div class="comp-cell loser">100 endpoints HTTP que escalar</div>
+        <div class="comp-cell winner">1 broker (10K+ devices)</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell label">Costos infra</div>
+        <div class="comp-cell">VPS chico hasta ~500 devices</div>
+        <div class="comp-cell winner">Broker self-hosted: 10K+</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell label">Complejidad inicial</div>
+        <div class="comp-cell winner">Baja (HTTP estándar)</div>
+        <div class="comp-cell">Media (broker + topics + QoS)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === NEXT STEPS === -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow"><span class="num">08</span>PRÓXIMOS PASOS</div>
+    <h2>Plan operativo concreto por ventana de tiempo.</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-when">Esta semana</div>
+        <h4>Mínimo viable para no shipear inseguro</h4>
+        <ol>
+          <li>Eliminar logs de PIN por Serial (1 hora)</li>
+          <li>Mover GPIO solenoide y verificar boot estable</li>
+          <li>Activar watchdog de 30s</li>
+        </ol>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Próximas 2 semanas</div>
+        <h4>Cerrar bloqueantes restantes</h4>
+        <ol>
+          <li>TLS con CA pinning</li>
+          <li>OTA local con ArduinoOTA — sin esto, cualquier fix futuro es visita física</li>
+        </ol>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Próximo mes</div>
+        <h4>Hardening operativo</h4>
+        <ol>
+          <li>Hash de PINs server-side (coordinar con backend)</li>
+          <li>Persistencia de cola de eventos</li>
+          <li>Implementar ANOMALIA_SENSOR y OFFLINE real</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="brand-mark">TINGGO · SMARTLOCKER</div>
+    Análisis generado por skill iot-engineer · 2026·06·26
+  </div>
+</footer>
+
+<script>
+  // Toggle findings expansion
+  document.querySelectorAll('.finding-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Severity tab filter
+  document.querySelectorAll('.sev-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.sev-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const sev = tab.dataset.sev;
+      document.querySelectorAll('.finding').forEach(f => {
+        if (sev === 'all' || f.dataset.sev === sev) {
+          f.style.display = '';
+        } else {
+          f.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Open first P0 finding by default
+  const firstP0 = document.querySelector('.finding[data-sev="p0"]');
+  if (firstP0) firstP0.classList.add('open');
+</script>
+
+</body>
+</html>
