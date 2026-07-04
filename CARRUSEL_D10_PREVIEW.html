@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<title>Carrusel D10 · Cómo evitar estafas · TingGo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --negro: #1D1D1B;
+    --negro-soft: #2A2A28;
+    --verde: #5CBC24;
+    --verde-light: #7DD556;
+    --amarillo: #FFEF0F;
+    --blanco: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0A0A08;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--blanco);
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  .page-header {
+    max-width: 1080px;
+    margin: 0 auto 40px;
+    text-align: center;
+    padding: 20px;
+    background: #14140F;
+    border-radius: 12px;
+    border: 1px solid #222;
+  }
+  .page-header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin-bottom: 8px; }
+  .page-header p { font-size: 14px; color: #999; }
+  .slides-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .slide-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .slide {
+    width: 540px;
+    height: 540px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    background: var(--negro);
+  }
+  .slide-inner {
+    width: 1080px;
+    height: 1080px;
+    transform: scale(0.5);
+    transform-origin: top left;
+    position: relative;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .indicator {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+  }
+  .logo {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--blanco);
+    letter-spacing: -0.5px;
+  }
+  .logo .go { color: var(--verde); }
+  .logo-dark { color: var(--negro); }
+  .logo-dark .go { color: var(--negro); font-weight: 900; text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 4px; }
+  .indicator-dark { color: rgba(29,29,27,0.35); }
+
+  .chip {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 3px;
+    border-radius: 100px;
+    padding: 12px 32px;
+    font-size: 20px;
+  }
+  .chip-yellow { background: rgba(255,239,15,0.12); color: var(--amarillo); }
+  .chip-green { background: rgba(92,188,36,0.15); color: var(--verde); }
+  .chip-dark { background: rgba(29,29,27,0.15); color: var(--negro); }
+
+  /* LÁMINA 1 · PORTADA */
+  .s1 {
+    background: radial-gradient(ellipse at 50% 25%, rgba(255,239,15,0.08) 0%, transparent 60%), var(--negro);
+    padding: 100px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 44px;
+  }
+  .s1 .chip { align-self: flex-start; }
+  .s1 .t {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 1.02;
+    letter-spacing: -2.5px;
+  }
+  .s1 .t .l1, .s1 .t .l2 { color: var(--blanco); display: block; }
+  .s1 .t .l3 { color: var(--amarillo); display: block; margin-top: 8px; }
+  .s1 .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.35;
+    max-width: 840px;
+    margin-top: 20px;
+  }
+
+  /* LÁMINA 2 · PROBLEMA 1 */
+  .s2 {
+    background: var(--negro);
+    padding: 100px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .s2 .chip { align-self: flex-start; }
+  .s2 .t {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 68px;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+  }
+  .s2 .t .l1 { color: var(--blanco); display: block; }
+  .s2 .t .l2 { color: var(--amarillo); display: block; margin-top: 8px; }
+  .s2 .chat-card {
+    background: var(--negro-soft);
+    border-radius: 32px;
+    padding: 44px 52px;
+    margin-top: 24px;
+    max-width: 720px;
+  }
+  .s2 .chat-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+  }
+  .s2 .chat-msg {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 34px;
+    color: var(--blanco);
+    line-height: 1.35;
+  }
+  .s2 .remate {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 32px;
+  }
+
+  /* LÁMINA 3 · PROBLEMA 2 */
+  .s3 {
+    background: var(--negro);
+    padding: 100px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .s3 .chip { align-self: flex-start; }
+  .s3 .t {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 76px;
+    line-height: 1.08;
+    letter-spacing: -2px;
+  }
+  .s3 .t .l1 { color: var(--blanco); display: block; }
+  .s3 .t .l2 { color: var(--amarillo); display: block; margin-top: 8px; }
+  .s3 .receipt-card {
+    background: var(--negro-soft);
+    border-radius: 32px;
+    padding: 44px 52px;
+    margin-top: 24px;
+    max-width: 720px;
+    position: relative;
+    overflow: hidden;
+  }
+  .s3 .receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 26px;
+    color: rgba(255,255,255,0.6);
+  }
+  .s3 .receipt-amount {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    color: var(--blanco);
+    margin: 24px 0 12px;
+  }
+  .s3 .receipt-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: rgba(255,255,255,0.5);
+  }
+  .s3 .fake-stamp {
+    position: absolute;
+    top: 50%;
+    right: 8%;
+    transform: translateY(-50%) rotate(-15deg);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 88px;
+    color: rgba(255,239,15,0.85);
+    letter-spacing: 4px;
+    border: 6px solid rgba(255,239,15,0.85);
+    padding: 8px 28px;
+    border-radius: 12px;
+    text-shadow: 0 0 20px rgba(255,239,15,0.4);
+  }
+  .s3 .remate {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 32px;
+  }
+
+  /* LÁMINA 4 · PUENTE */
+  .s4 {
+    background: radial-gradient(ellipse at 50% 45%, rgba(125,213,86,0.35) 0%, var(--verde) 60%);
+    padding: 100px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 48px;
+  }
+  .s4 .t {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 200px;
+    line-height: 0.98;
+    letter-spacing: -6px;
+  }
+  .s4 .t .l1 { color: var(--negro); display: block; }
+  .s4 .t .l2 { color: var(--blanco); display: block; }
+  .s4 .sub {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: rgba(29,29,27,0.75);
+    max-width: 800px;
+  }
+
+  /* LÁMINA 5 · 5 PASOS */
+  .s5 {
+    background: var(--negro);
+    padding: 90px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .s5 .chip { align-self: flex-start; }
+  .s5 .t {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+    color: var(--blanco);
+    letter-spacing: -1.5px;
+  }
+  .s5 .steps {
+    position: relative;
+    padding-left: 80px;
+    margin-top: 12px;
+  }
+  .s5 .steps::before {
+    content: '';
+    position: absolute;
+    left: 26px;
+    top: 30px;
+    bottom: 30px;
+    width: 3px;
+    background: rgba(92,188,36,0.3);
+  }
+  .s5 .step {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .s5 .step::before {
+    content: '';
+    position: absolute;
+    left: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--verde);
+    box-shadow: 0 0 0 8px rgba(92,188,36,0.15);
+  }
+  .s5 .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: rgba(255,255,255,0.4);
+    min-width: 40px;
+  }
+  .s5 .step-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 34px;
+    color: var(--blanco);
+    line-height: 1.3;
+  }
+  .s5 .step-highlight { color: var(--verde); font-weight: 700; }
+  .s5 .nota {
+    font-family: 'DM Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--amarillo);
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* LÁMINA 6 · CTA */
+  .s6 {
+    background: var(--negro);
+    padding: 90px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 44px;
+  }
+  .s6 .t {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 88px;
+    line-height: 1.04;
+    letter-spacing: -2px;
+  }
+  .s6 .t .l1 { color: var(--blanco); display: block; }
+  .s6 .t .l2 { color: var(--amarillo); display: block; margin-top: 8px; }
+  .s6 .promo-block {
+    background: var(--negro-soft);
+    border-radius: 32px;
+    padding: 44px 52px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    border: 3px solid rgba(92,188,36,0.4);
+  }
+  .s6 .promo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .s6 .promo-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    letter-spacing: -2px;
+  }
+  .s6 .promo-num-y { color: var(--amarillo); }
+  .s6 .promo-num-g { color: var(--verde); }
+  .s6 .promo-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: var(--blanco);
+    text-align: left;
+    flex: 1;
+  }
+  .s6 .promo-footer {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .s6 .btn {
+    display: inline-block;
+    background: var(--verde);
+    color: var(--blanco);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    padding: 28px 68px;
+    border-radius: 100px;
+    letter-spacing: -0.5px;
+  }
+  .s6 .microcopy {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* CAPTION */
+  .caption-block {
+    max-width: 640px;
+    margin: 40px auto;
+    padding: 24px;
+    background: #14140F;
+    border: 1px solid #222;
+    border-radius: 12px;
+  }
+  .caption-block h3 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--verde); margin-bottom: 12px; }
+  .caption-block pre { white-space: pre-wrap; font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.6; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Carrusel D10 · Cómo evitar estafas + Promo</h1>
+  <p>Vista previa · 6 láminas 1080x1080 (mostradas al 50%) · @tinggoapp jueves 2026-07-17</p>
+</div>
+
+<div class="slides-container">
+
+  <!-- LÁMINA 1 -->
+  <div>
+    <div class="slide-label">LÁMINA 1 · PORTADA</div>
+    <div class="slide">
+      <div class="slide-inner s1">
+        <div class="indicator">1/6</div>
+        <span class="chip chip-yellow">GUÍA · VENDER SIN ESTAFAS</span>
+        <div class="t">
+          <span class="l1">Cómo evitar</span>
+          <span class="l2">que te estafen</span>
+          <span class="l3">vendiendo tu entrada.</span>
+        </div>
+        <div class="sub">Las 2 estafas más comunes. Y cómo TingGo las elimina.</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 2 -->
+  <div>
+    <div class="slide-label">LÁMINA 2 · PROBLEMA 1 (WhatsApp)</div>
+    <div class="slide">
+      <div class="slide-inner s2">
+        <div class="indicator">2/6</div>
+        <span class="chip chip-yellow">PROBLEMA 1</span>
+        <div class="t">
+          <span class="l1">Le mandas la entrada</span>
+          <span class="l1">por WhatsApp.</span>
+          <span class="l2">Dice: "no me llegó".</span>
+        </div>
+        <div class="chat-card">
+          <div class="chat-time">Recibida ✓ · 21:47</div>
+          <div class="chat-msg">"nada bro no me llegó ningún QR, cuándo me la mandas??"</div>
+        </div>
+        <div class="remate">Quedas sin plata y sin entrada.</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 3 -->
+  <div>
+    <div class="slide-label">LÁMINA 3 · PROBLEMA 2 (Captura falsa)</div>
+    <div class="slide">
+      <div class="slide-inner s3">
+        <div class="indicator">3/6</div>
+        <span class="chip chip-yellow">PROBLEMA 2</span>
+        <div class="t">
+          <span class="l1">Te transfieren.</span>
+          <span class="l2">Era captura falsa.</span>
+        </div>
+        <div class="receipt-card">
+          <div class="receipt-row"><span>Comprobante</span><span>#89241</span></div>
+          <div class="receipt-row"><span>Fecha</span><span>17/07 · 20:14</span></div>
+          <div class="receipt-amount">$45.000</div>
+          <div class="receipt-status">TRANSFERIDO</div>
+          <div class="fake-stamp">FAKE</div>
+        </div>
+        <div class="remate">Regalaste la entrada. Y la usaron.</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 4 -->
+  <div>
+    <div class="slide-label">LÁMINA 4 · PUENTE</div>
+    <div class="slide">
+      <div class="slide-inner s4">
+        <div class="indicator indicator-dark">4/6</div>
+        <span class="chip chip-dark">LA SOLUCIÓN</span>
+        <div class="t">
+          <span class="l1">Así funciona</span>
+          <span class="l2">TingGo.</span>
+        </div>
+        <div class="sub">Los 5 pasos que eliminan las dos estafas.</div>
+        <div class="logo logo-dark">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 5 -->
+  <div>
+    <div class="slide-label">LÁMINA 5 · 5 PASOS</div>
+    <div class="slide">
+      <div class="slide-inner s5">
+        <div class="indicator">5/6</div>
+        <span class="chip chip-green">5 PASOS</span>
+        <div class="t">El escrow, en 5 pasos.</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">01</div><div class="step-text">Comprador paga a TingGo con Transbank</div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-text">Ves la plata acreditada en tu panel</div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-text">Entregas la entrada al comprador</div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-text">El comprador confirma que la entrada es real</div></div>
+          <div class="step"><div class="step-num">05</div><div class="step-text step-highlight">TingGo te paga tu plata</div></div>
+        </div>
+        <div class="nota">Si no es real: devolvemos al comprador. Sin trámite.</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 6 -->
+  <div>
+    <div class="slide-label">LÁMINA 6 · CTA + PROMO</div>
+    <div class="slide">
+      <div class="slide-inner s6">
+        <div class="indicator">6/6</div>
+        <span class="chip chip-yellow">PROMO FUNDADORES</span>
+        <div class="t">
+          <span class="l1">Publicar es gratis.</span>
+          <span class="l2">Y hay Fever de regalo.</span>
+        </div>
+        <div class="promo-block">
+          <div class="promo-row">
+            <div class="promo-num promo-num-y">×1</div>
+            <div class="promo-text">chance por cada entrada publicada</div>
+          </div>
+          <div class="promo-row">
+            <div class="promo-num promo-num-g">×3</div>
+            <div class="promo-text">chances por cada entrada vendida</div>
+          </div>
+          <div class="promo-footer">2 Fever cards $50k · Hasta el 6 de septiembre</div>
+        </div>
+        <div class="btn">tinggoapp.cl/promo-fundadores</div>
+        <div class="microcopy">Link en bio 👇</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="caption-block">
+  <h3>Caption sugerido (D10 · @tinggoapp)</h3>
+  <pre>Vendes tu entrada por WhatsApp y algo pasa. El comprador
+dice que no le llegó. O te transfieren con captura falsa.
+Quedas sin plata Y sin entrada.
+
+Por eso armamos TingGo. El comprador paga a la plataforma
+con Transbank. Tú ves la plata acreditada antes de entregar
+nada. Cuando el comprador confirma, te pagamos.
+
+Además: hasta el 6 de septiembre, cada entrada publicada
+= 1 chance de ganarte 1 de 2 Fever cards $50k.
+
+tinggoapp.cl/promo-fundadores</pre>
+</div>
+
+</body>
+</html>

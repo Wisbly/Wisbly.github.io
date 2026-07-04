@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<title>Carrusel D0 · Promo Fundadores TingGo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --negro: #1D1D1B;
+    --negro-soft: #2A2A28;
+    --verde: #5CBC24;
+    --verde-light: #7DD556;
+    --amarillo: #FFEF0F;
+    --blanco: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0A0A08;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--blanco);
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  .page-header {
+    max-width: 1080px;
+    margin: 0 auto 40px;
+    text-align: center;
+    padding: 20px;
+    background: #14140F;
+    border-radius: 12px;
+    border: 1px solid #222;
+  }
+  .page-header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin-bottom: 8px; }
+  .page-header p { font-size: 14px; color: #999; }
+  .slides-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .slide-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .slide {
+    width: 540px;
+    height: 540px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    background: var(--negro);
+    /* Simula 1080x1080 escalado 50% */
+  }
+  .slide-inner {
+    width: 1080px;
+    height: 1080px;
+    transform: scale(0.5);
+    transform-origin: top left;
+    position: relative;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ========== ELEMENTOS FIJOS ========== */
+  .indicator {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+  }
+  .logo {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--blanco);
+    letter-spacing: -0.5px;
+  }
+  .logo .go { color: var(--verde); }
+  .logo-dark { color: var(--negro); }
+  .logo-dark .go { color: var(--negro); font-weight: 900; text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 4px; }
+
+  .chip {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 3px;
+    border-radius: 100px;
+    padding: 12px 32px;
+    font-size: 20px;
+  }
+  .chip-yellow { background: rgba(255,239,15,0.12); color: var(--amarillo); }
+  .chip-green { background: rgba(92,188,36,0.15); color: var(--verde); }
+  .chip-dark { background: rgba(29,29,27,0.15); color: var(--negro); }
+
+  /* ========== LÁMINA 1 · PORTADA ========== */
+  .slide-1 {
+    background: radial-gradient(ellipse at 50% 25%, rgba(255,239,15,0.08) 0%, transparent 60%), var(--negro);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 60px;
+    text-align: center;
+  }
+  .slide-1 .chip { margin-bottom: 60px; }
+  .slide-1 .title-1, .slide-1 .title-2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 112px;
+    line-height: 1.02;
+    letter-spacing: -3px;
+  }
+  .slide-1 .title-1 { color: var(--blanco); }
+  .slide-1 .title-2 { color: var(--amarillo); margin-top: 12px; }
+  .slide-1 .subhero {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 60px;
+    max-width: 800px;
+  }
+  .slide-1 .fechas {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--verde);
+    margin-top: 40px;
+  }
+
+  /* ========== LÁMINA 2 · IDENTIFICACIÓN ========== */
+  .slide-2 {
+    background: var(--negro);
+    padding: 100px 80px;
+    position: relative;
+  }
+  .slide-2::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    right: -100px;
+    bottom: -100px;
+    background: linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.05) 49%, rgba(255,255,255,0.05) 51%, transparent 52%);
+    pointer-events: none;
+  }
+  .slide-2 .chip { margin-bottom: 80px; margin-left: 60px; }
+  .slide-2 .title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 84px;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-left: 60px;
+  }
+  .slide-2 .title .l1 { color: var(--blanco); display: block; }
+  .slide-2 .title .l2 { color: var(--amarillo); display: block; margin-top: 8px; }
+  .slide-2 .title .l3 { color: var(--blanco); display: block; margin-top: 8px; }
+  .slide-2 .divider {
+    width: 160px;
+    height: 2px;
+    background: rgba(255,255,255,0.15);
+    margin: 64px 0 48px 60px;
+  }
+  .slide-2 .body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.55);
+    max-width: 720px;
+    margin-left: 60px;
+  }
+
+  /* ========== LÁMINA 3 · MECÁNICA ========== */
+  .slide-3 {
+    background: var(--negro);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 60px;
+    text-align: center;
+  }
+  .slide-3 .chip { margin-bottom: 40px; }
+  .slide-3 .title-lam3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 80px;
+    color: var(--blanco);
+    letter-spacing: -2px;
+    margin-bottom: 60px;
+  }
+  .slide-3 .blocks {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+  .slide-3 .block {
+    width: 380px;
+    padding: 64px 48px;
+    background: var(--negro-soft);
+    border-radius: 40px;
+    text-align: left;
+  }
+  .slide-3 .block-green { border: 4px solid var(--verde); }
+  .slide-3 .num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 192px;
+    line-height: 0.9;
+    letter-spacing: -8px;
+  }
+  .slide-3 .num-yellow { color: var(--amarillo); }
+  .slide-3 .num-green { color: var(--verde); }
+  .slide-3 .lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 8px;
+    margin-bottom: 48px;
+  }
+  .slide-3 .action {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    color: var(--blanco);
+    margin-bottom: 12px;
+  }
+  .slide-3 .detail {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.3;
+  }
+  .slide-3 .pie {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--blanco);
+  }
+
+  /* ========== LÁMINA 4 · CÓMO FUNCIONA ========== */
+  .slide-4 {
+    background: var(--negro);
+    padding: 100px 100px;
+    position: relative;
+  }
+  .slide-4 .chip { margin-bottom: 48px; }
+  .slide-4 .title-lam4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 64px;
+  }
+  .slide-4 .title-lam4 .l1 { color: var(--blanco); display: block; }
+  .slide-4 .title-lam4 .l2 { color: var(--verde); display: block; margin-top: 4px; }
+  .slide-4 .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+  .slide-4 .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: rgba(92,188,36,0.25);
+  }
+  .slide-4 .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 44px;
+    position: relative;
+  }
+  .slide-4 .step::before {
+    content: '';
+    position: absolute;
+    left: -60px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--verde);
+    box-shadow: 0 0 0 6px rgba(92,188,36,0.15);
+  }
+  .slide-4 .step-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 34px;
+    color: var(--blanco);
+    line-height: 1.3;
+  }
+  .slide-4 .step-highlight {
+    color: var(--verde);
+    font-weight: 700;
+  }
+  .slide-4 .nota {
+    font-family: 'DM Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 30px;
+    color: var(--amarillo);
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  /* ========== LÁMINA 5 · CTA ========== */
+  .slide-5 {
+    background: radial-gradient(ellipse at 50% 45%, rgba(125,213,86,0.35) 0%, var(--verde) 60%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 60px;
+    text-align: center;
+  }
+  .slide-5 .chip { margin-bottom: 60px; }
+  .slide-5 .title-lam5 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 1.02;
+    letter-spacing: -2.5px;
+  }
+  .slide-5 .title-lam5 .l1 { color: var(--negro); display: block; }
+  .slide-5 .title-lam5 .l2 { color: var(--blanco); display: block; margin-top: 8px; }
+  .slide-5 .body-lam5 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: rgba(29,29,27,0.75);
+    margin-top: 40px;
+  }
+  .slide-5 .btn {
+    display: inline-block;
+    background: var(--negro);
+    color: var(--blanco);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    padding: 32px 80px;
+    border-radius: 100px;
+    margin-top: 72px;
+    letter-spacing: -0.5px;
+  }
+  .slide-5 .microcopy {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    color: rgba(29,29,27,0.6);
+    margin-top: 24px;
+  }
+  .slide-5 .bases {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    color: rgba(29,29,27,0.5);
+  }
+  .slide-5 .indicator { color: rgba(29,29,27,0.35); }
+
+  /* CAPTION SECTION */
+  .caption-block {
+    max-width: 640px;
+    margin: 40px auto;
+    padding: 24px;
+    background: #14140F;
+    border: 1px solid #222;
+    border-radius: 12px;
+  }
+  .caption-block h3 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--verde); margin-bottom: 12px; }
+  .caption-block pre { white-space: pre-wrap; font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.6; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Carrusel D0 · Promo Fundadores TingGo</h1>
+  <p>Vista previa · 5 láminas 1080x1080 (mostradas al 50%) · @tinggoapp lunes 2026-07-07</p>
+</div>
+
+<div class="slides-container">
+
+  <!-- LÁMINA 1 -->
+  <div>
+    <div class="slide-label">LÁMINA 1 · PORTADA</div>
+    <div class="slide">
+      <div class="slide-inner slide-1">
+        <div class="indicator">1/5</div>
+        <span class="chip chip-yellow">PROMO FUNDADORES</span>
+        <div>
+          <div class="title-1">Publica tu entrada.</div>
+          <div class="title-2">Gánate un Fever.</div>
+        </div>
+        <div class="subhero">Regalamos 2 gift cards Fever de $50.000</div>
+        <div class="fechas">7 JUL → 6 SEP · 2026</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 2 -->
+  <div>
+    <div class="slide-label">LÁMINA 2 · IDENTIFICACIÓN</div>
+    <div class="slide">
+      <div class="slide-inner slide-2">
+        <div class="indicator">2/5</div>
+        <span class="chip chip-green">PARA VOS</span>
+        <div class="title">
+          <span class="l1">Compraste entradas.</span>
+          <span class="l2">Se te cayó el plan.</span>
+          <span class="l3">Y las tenés guardadas.</span>
+        </div>
+        <div class="divider"></div>
+        <div class="body">Publicarla en Story no funcionó. Y transferir por WhatsApp da miedo.</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 3 -->
+  <div>
+    <div class="slide-label">LÁMINA 3 · MECÁNICA</div>
+    <div class="slide">
+      <div class="slide-inner slide-3">
+        <div class="indicator">3/5</div>
+        <span class="chip chip-yellow">PARTICIPAR ES GRATIS</span>
+        <div class="title-lam3">Así ganas chances</div>
+        <div class="blocks">
+          <div class="block">
+            <div class="num num-yellow">×1</div>
+            <div class="lbl">chance</div>
+            <div class="action">Por publicar</div>
+            <div class="detail">Cada entrada que subas a TingGo</div>
+          </div>
+          <div class="block block-green">
+            <div class="num num-green">×3</div>
+            <div class="lbl">chances más</div>
+            <div class="action">Por vender</div>
+            <div class="detail">Cada entrada vendida en TingGo</div>
+          </div>
+        </div>
+        <div class="pie">2 gift cards Fever $50k · Sorteo 8 sep 2026</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 4 -->
+  <div>
+    <div class="slide-label">LÁMINA 4 · CÓMO FUNCIONA TINGGO</div>
+    <div class="slide">
+      <div class="slide-inner slide-4">
+        <div class="indicator">4/5</div>
+        <span class="chip chip-green">ASÍ FUNCIONA</span>
+        <div class="title-lam4">
+          <span class="l1">Pagas a TingGo.</span>
+          <span class="l2">Cobras cuando confirmas.</span>
+        </div>
+        <div class="timeline">
+          <div class="step"><div class="step-text">El comprador paga a TingGo con Transbank</div></div>
+          <div class="step"><div class="step-text">Tú ves la plata acreditada</div></div>
+          <div class="step"><div class="step-text">Recién ahí entregas la entrada</div></div>
+          <div class="step"><div class="step-text"><span class="step-highlight">Cuando el comprador confirma, cobras</span></div></div>
+        </div>
+        <div class="nota">Sin esperar 48h después del show.</div>
+        <div class="logo">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÁMINA 5 -->
+  <div>
+    <div class="slide-label">LÁMINA 5 · CTA</div>
+    <div class="slide">
+      <div class="slide-inner slide-5">
+        <div class="indicator">5/5</div>
+        <span class="chip chip-dark">PROMO FUNDADORES</span>
+        <div class="title-lam5">
+          <span class="l1">Publicar toma</span>
+          <span class="l2">90 segundos.</span>
+        </div>
+        <div class="body-lam5">Si no se vende, no pagas nada.</div>
+        <div class="btn">tinggoapp.cl/promo-fundadores</div>
+        <div class="microcopy">Link en bio 👇</div>
+        <div class="bases">Bases: tinggoapp.cl/promo-fundadores</div>
+        <div class="logo logo-dark">Ting<span class="go">Go</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CAPTION -->
+<div class="caption-block">
+  <h3>Caption sugerido (D0 · @tinggoapp)</h3>
+  <pre>Regalamos 2 gift cards Fever de $50.000 a los que publiquen
+sus entradas en TingGo entre el 7 de julio y el 6 de septiembre.
+
+Cada entrada que subas te da 1 chance.
+Cada entrada que vendas en TingGo, 3 chances más.
+
+Publicar es gratis. Cobras cuando el comprador confirme.
+Sin esperar 48h después del show.
+
+Bases: tinggoapp.cl/promo-fundadores
+
+#entradas #chile #eventos #santiago</pre>
+</div>
+
+</body>
+</html>
