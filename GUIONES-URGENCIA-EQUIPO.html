@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TingGo · Guiones Urgencia Equipo</title>
+<style>
+  :root {
+    --green: #5CBC24;
+    --yellow: #FFEF0F;
+    --black: #1D1D1B;
+    --gray: #2a2a28;
+    --light: #f5f5f2;
+    --border: #333;
+    --red: #FF3B30;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+    background: var(--black);
+    color: var(--light);
+    line-height: 1.5;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  aside {
+    width: 300px;
+    background: var(--gray);
+    border-right: 1px solid var(--border);
+    padding: 24px 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  aside h1 {
+    font-size: 20px;
+    color: var(--green);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+  aside .subtitle {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 24px;
+  }
+  aside h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--yellow);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .video-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .video-btn {
+    background: transparent;
+    color: var(--light);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+    min-width: 42px;
+  }
+  .video-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .video-btn.active {
+    background: var(--green);
+    color: var(--black);
+    border-color: var(--green);
+    font-weight: 700;
+  }
+  .video-btn.all {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .element-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .element-filter label {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .element-filter label:hover { background: rgba(255,255,255,0.05); }
+  .element-filter input {
+    margin-right: 10px;
+    accent-color: var(--green);
+    width: 16px;
+    height: 16px;
+  }
+  .icon {
+    display: inline-block;
+    width: 22px;
+    text-align: center;
+    margin-right: 4px;
+  }
+
+  .quick-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .quick-actions button {
+    flex: 1;
+    background: transparent;
+    color: #aaa;
+    border: 1px solid var(--border);
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+  .quick-actions button:hover {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+
+  /* Main content */
+  main {
+    flex: 1;
+    padding: 32px 40px;
+    max-width: calc(100% - 300px);
+  }
+  .header-bar {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-bar h1 {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+  .header-bar .meta {
+    color: #999;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .video-card {
+    background: var(--gray);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .video-card.hidden { display: none; }
+
+  .video-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(92,188,36,0.08), transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .video-header h2 {
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .video-header .badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--black);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 20px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .meta-grid > div { color: #ccc; }
+  .meta-grid strong {
+    color: #888;
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+
+  .section {
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .section-time {
+    background: var(--black);
+    color: var(--yellow);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .section-name {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--light);
+  }
+
+  .element {
+    padding: 10px 14px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.25);
+    border-left: 3px solid var(--border);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .element.hidden { display: none; }
+  .element .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .element .content { color: var(--light); }
+
+  .element.plano { border-left-color: #66aaff; }
+  .element.plano .label { color: #66aaff; }
+  .element.vo { border-left-color: var(--green); }
+  .element.vo .label { color: var(--green); }
+  .element.vo .content {
+    font-size: 15px;
+    font-weight: 500;
+    font-style: italic;
+  }
+  .element.texto { border-left-color: var(--yellow); }
+  .element.texto .label { color: var(--yellow); }
+  .element.sfx { border-left-color: #d966ff; }
+  .element.sfx .label { color: #d966ff; }
+
+  .caption-box, .checklist-box {
+    padding: 16px 24px;
+    background: rgba(0,0,0,0.2);
+  }
+  .caption-box.hidden, .checklist-box.hidden { display: none; }
+  .caption-box .label, .checklist-box .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .caption-box blockquote {
+    border-left: 3px solid var(--green);
+    padding: 8px 14px;
+    color: #ddd;
+    font-style: italic;
+    font-size: 14px;
+  }
+  .checklist-box ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 4px 16px;
+  }
+  .checklist-box li {
+    font-size: 13px;
+    color: #ccc;
+    padding: 2px 0;
+  }
+  .checklist-box li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .empty-msg {
+    text-align: center;
+    color: #666;
+    padding: 60px 20px;
+    font-size: 14px;
+  }
+
+  /* Section visibility when everything inside is hidden */
+  .section.section-hidden { display: none; }
+
+  @media (max-width: 900px) {
+    body { flex-direction: column; }
+    aside {
+      width: 100%;
+      height: auto;
+      position: static;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    main {
+      max-width: 100%;
+      padding: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<aside>
+  <h1>🎬 TingGo</h1>
+  <div class="subtitle">Guiones Urgencia · Equipo</div>
+
+  <h2>Video</h2>
+  <button class="video-btn all active" data-video="all">Todos los videos</button>
+  <div class="video-btns" id="videoBtns"></div>
+
+  <h2>Mostrar elementos</h2>
+  <div class="element-filter">
+    <label><input type="checkbox" data-filter="meta" checked><span class="icon">📋</span>Metadata</label>
+    <label><input type="checkbox" data-filter="plano" checked><span class="icon">🎬</span>Planos</label>
+    <label><input type="checkbox" data-filter="vo" checked><span class="icon">🎙️</span>Guion (VO)</label>
+    <label><input type="checkbox" data-filter="texto" checked><span class="icon">📱</span>Textos en pantalla</label>
+    <label><input type="checkbox" data-filter="sfx" checked><span class="icon">🎵</span>SFX / Sonido</label>
+    <label><input type="checkbox" data-filter="caption" checked><span class="icon">📝</span>Caption</label>
+    <label><input type="checkbox" data-filter="checklist" checked><span class="icon">🎯</span>Checklist</label>
+  </div>
+
+  <div class="quick-actions">
+    <button id="btnAll">Todo</button>
+    <button id="btnNone">Nada</button>
+    <button id="btnVoOnly">Solo VO</button>
+  </div>
+
+  <h2>Info</h2>
+  <div style="font-size:12px; color:#888; line-height:1.6;">
+    Fecha: 2026-07-07<br>
+    Deadline: jueves 09/07<br>
+    Total: 4 reels + 3 bonus
+  </div>
+</aside>
+
+<main>
+  <div class="header-bar">
+    <h1>Guiones · Urgencia Equipo</h1>
+    <div class="meta">Presentadoras: Chica 1 · Chica 2 · Chica 3 · Contacto: Cristian @wisbly</div>
+  </div>
+  <div id="videos"></div>
+  <div class="empty-msg hidden" id="emptyMsg">Ningún elemento seleccionado. Activa al menos un tipo en el sidebar.</div>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: 1,
+    title: "Sigamos por WhatsApp (Red Flag FBI)",
+    publica: "VIE 10/07 · 18:00",
+    duracion: "18 seg",
+    objetivo: "🎯 Tracción + 🔥 Viralidad (saves)",
+    template: "A · Red Flag Micro",
+    presenta: "1 chica sola",
+    ubicacion: "Interior neutral (café, escritorio, cocina) o exterior calm",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK",
+        plano: "Close-up cara (encuadre pecho para arriba). Presentadora mira directo a cámara con expresión de \"alerta seria pero cercana\".",
+        vo: "\"Si te dicen esto por chat cuando compras reventa... es estafa. Serio.\"",
+        texto: "\"🚩 red flag\" · amarillo #FFEF0F, esquina superior derecha, fuente Impact 80pt (aparece frame 1)",
+        sfx: "Notification pop de WhatsApp al final del HOOK"
+      },
+      {
+        time: "00:03-00:09", name: "REVELACIÓN",
+        plano: "Cambio a pantalla completa mockup chat WhatsApp (post-producción). Fondo verde WhatsApp familiar. Mensaje entrante: \"hola sí tengo la entrada\" / \"mejor sigamos por WhatsApp, es más rápido\".",
+        vo: "\"Sigamos por WhatsApp. Es más rápido. Transfiéreme rápido que otras me hablan igual.\"",
+        texto: "Subrayado rojo animado sobre \"sigamos por WhatsApp, rápido\"",
+        sfx: "Whoosh al aparecer el subrayado"
+      },
+      {
+        time: "00:09-00:14", name: "PAYOFF (fuente autoridad)",
+        plano: "Cara presentadora. Plano medio esta vez. Le da vuelta el celular hacia cámara.",
+        vo: "\"Es la señal número 1 de estafa en reventa, según el FBI.\"",
+        texto: "Grande (centro): \"#1 red flag\" · Pequeño (abajo centro): \"según FBI IC3 · 2024\"",
+        sfx: "Chime autoridad suave"
+      },
+      {
+        time: "00:14-00:18", name: "CTA",
+        plano: "Vuelve a plano close-up. Sonríe leve. Frame final: 1 seg logo TingGo estático.",
+        vo: "\"En TingGo la plata queda en la app hasta que la entrada sirve. Fuera de eso... rezar.\"",
+        texto: "\"tinggoapp.cl\" grande verde #5CBC24 abajo",
+        sfx: ""
+      }
+    ],
+    caption: "Si te dicen esto en un chat de reventa: es la red flag #1 según el FBI 🚩 En TingGo la plata queda protegida por escrow. Simple. #reventasegura #chile #entradas #tinggo",
+    checklist: [
+      "Trípode o gimbal",
+      "Micrófono lavalier",
+      "4K vertical",
+      "Mock chat WhatsApp: Cristian (Figma o screen recording)",
+      "B-roll app TingGo escrow: Cristian",
+      "Consent form: NO aplica (solo talent equipo)",
+      "Data source: FBI IC3 2024"
+    ]
+  },
+  {
+    id: 2,
+    title: "El Chanchito TingGo (Metáfora escrow)",
+    publica: "JUE 17/07 · 18:00",
+    duracion: "22 seg",
+    objetivo: "👀 Visitas + 💰 Ventas comprador",
+    template: "E · Demo App (metáfora chanchito)",
+    presenta: "1 chica sola (o 2 pasándose el chanchito)",
+    ubicacion: "Interior con mesa. Casa, café, oficina.",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK",
+        plano: "Chica sostiene un chanchito ahorrador cerámico o de plástico frente a cámara. Sonrisa amable.",
+        vo: "\"Esto es lo que hace TingGo cuando compras reventa.\"",
+        texto: "\"escrow ↓\" verde, esquina superior izquierda",
+        sfx: "Monedita cayendo"
+      },
+      {
+        time: "00:03-00:10", name: "METÁFORA · PAGAS",
+        plano: "Mano echa una moneda o billete falso al chanchito.",
+        vo: "\"Pagas tu entrada. La plata cae acá. Ni el vendedor la toca todavía.\"",
+        texto: "\"1 · pagas\" grande verde, cambia a \"plata → 🐷\" en 0.5s",
+        sfx: "Whoosh + moneda"
+      },
+      {
+        time: "00:10-00:16", name: "METÁFORA · VALIDAS",
+        plano: "Ella mira su celular (mock QR ticket funcionando ✓). Después mira al chanchito y asiente.",
+        vo: "\"Vas al show, la entrada sirve, el chanchito la suelta.\"",
+        texto: "\"2 · entrada sirve ✓\" verde",
+        sfx: "Ding positivo"
+      },
+      {
+        time: "00:16-00:22", name: "TWIST + CTA",
+        plano: "Cara close-up, expresión \"y si sale mal...\". Frame final: 1 seg logo + tinggoapp.cl",
+        vo: "\"Si la entrada no sirve, el chanchito te la devuelve. Así de simple.\"",
+        texto: "\"no sirve → 💰 vuelve\" amarillo, después \"tinggoapp.cl\" verde grande",
+        sfx: ""
+      }
+    ],
+    caption: "El chanchito TingGo 🐷 tu plata está segura hasta que la entrada te sirva de verdad. Escrow explicado en 20 segundos. #reventa #chile #tinggo #escrow",
+    checklist: [
+      "Prop: chanchito ahorrador (comprar en librería · $3-5k)",
+      "Prop: moneda o billete falso ($1k plástico juego de mesa)",
+      "Mock QR: Cristian screen recording",
+      "Data source: no requiere data externa"
+    ]
+  },
+  {
+    id: 3,
+    title: "5 Red Flags según FBI (Trío o solo)",
+    publica: "VIE 25/07 · 18:00",
+    duracion: "30 seg",
+    objetivo: "🔥 Viralidad + saves",
+    template: "A extendido · 5 red flags rapid-fire",
+    presenta: "Las 3 chicas alternándose O 1 chica sola",
+    ubicacion: "Neutra · si las 3, mismo fondo o cortes tipo TikTok",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK (chica 1 o narrador)",
+        plano: "Close-up chica 1. Cámara la mira desafiante.",
+        vo: "\"5 señales que estás a punto de perder plata comprando reventa.\"",
+        texto: "\"5 red flags · FBI\" grande, contador \"1/5\" abajo derecha",
+        sfx: "Countdown beep"
+      },
+      {
+        time: "00:03-00:08", name: "RED FLAG 1 (chica 1)",
+        plano: "Corte rápido, mismo close-up. Zoom in leve.",
+        vo: "\"Uno · te dicen 'sigamos por WhatsApp'.\"",
+        texto: "\"1 · sigamos por WhatsApp\" verde",
+        sfx: "Whoosh"
+      },
+      {
+        time: "00:08-00:13", name: "RED FLAG 2 (chica 2)",
+        plano: "CORTE A CHICA 2 · plano diferente (o mismo si es 1 sola).",
+        vo: "\"Dos · el perfil tiene menos de 3 meses.\"",
+        texto: "\"2 · cuenta reciente\" verde",
+        sfx: "Whoosh"
+      },
+      {
+        time: "00:13-00:18", name: "RED FLAG 3 (chica 3)",
+        plano: "CORTE A CHICA 3.",
+        vo: "\"Tres · el precio está muy por debajo del mercado.\"",
+        texto: "\"3 · precio sospechosamente bajo\" verde",
+        sfx: "Whoosh"
+      },
+      {
+        time: "00:18-00:23", name: "RED FLAG 4 (chica 1 o 2)",
+        plano: "Corte otra chica.",
+        vo: "\"Cuatro · te presionan con 'último día'.\"",
+        texto: "\"4 · presión temporal\" verde",
+        sfx: "Whoosh"
+      },
+      {
+        time: "00:23-00:27", name: "RED FLAG 5 (chica 3 o narrador)",
+        plano: "Última chica o vuelve a chica 1. Serio.",
+        vo: "\"Cinco · te piden transferencia directa a una cuenta.\"",
+        texto: "\"5 · transferencia directa\" verde",
+        sfx: "Whoosh + freeze frame 0.3s"
+      },
+      {
+        time: "00:27-00:30", name: "CTA (todas juntas o 1)",
+        plano: "Si son 3, entran las 3 al frame. Si es 1, plano medio abierto. Frame final: 1 seg logo + subtítulo pequeño \"fuente: FBI IC3 · 2024\"",
+        vo: "\"Si ves 2 de estas 5 · TingGo te salva de todas. tinggoapp.cl.\"",
+        texto: "\"tinggoapp.cl\" enorme verde",
+        sfx: ""
+      }
+    ],
+    caption: "5 señales que estás a punto de perder plata. La #1 lo hacen SIEMPRE. Guarda esto por si algún día compras reventa 🚩 #chile #tinggo #reventa #estafas",
+    checklist: [
+      "Si las 3: sincronizar horarios y mismo fondo",
+      "Post: cortes cada 5s (uno por red flag)",
+      "Data source: FBI IC3 2024",
+      "CTA final unificada obligatoria"
+    ]
+  },
+  {
+    id: 4,
+    title: "POV: compré reventa por Instagram",
+    publica: "VIE 01/08 · 18:00",
+    duracion: "28 seg",
+    objetivo: "🛒 Ventas + 🔥 saves (POV storytelling)",
+    template: "B · POV Comprador Estafado",
+    presenta: "1 chica sola (la que mejor actúa emociones)",
+    ubicacion: "Interior noche/tarde luz cálida · departamento, café bajo",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK",
+        plano: "Close-up. Cara neutra que se transforma en decepción. Luz natural.",
+        vo: "\"Pagué 180 mil por una entrada por Instagram.\"",
+        texto: "\"$180.000\" rojo #FF3B30 gigante",
+        sfx: "Whoosh dramático"
+      },
+      {
+        time: "00:03-00:10", name: "SETUP (por qué caí)",
+        plano: "Ella mira su celular. Post-prod: overlay mock perfil IG en pantalla (2 años, verificado gris, fotos con \"artista\").",
+        vo: "\"El perfil tenía historial. Fotos con la artista. Todo parecía normal.\"",
+        texto: "\"perfil legit ✓\" verde... después cambia a \"?\" al final",
+        sfx: "Notification IG"
+      },
+      {
+        time: "00:10-00:17", name: "TWIST",
+        plano: "Corte a plano celular en mano. Mock pantalla \"QR INVÁLIDO\" en rojo.",
+        vo: "\"Día del show · el QR no escaneó. Vendedor · bloqueado.\"",
+        texto: "\"QR INVÁLIDO\" rojo, después \"bloqueada 🚫\" abajo",
+        sfx: "Error beep + heartbeat leve"
+      },
+      {
+        time: "00:17-00:23", name: "CONTRASTE TINGGO",
+        plano: "Corte a demo app TingGo. Screen record del flow escrow.",
+        vo: "\"Con TingGo la plata queda en la app hasta que el QR funciona.\"",
+        texto: "\"escrow · plata protegida\" verde",
+        sfx: "Ding positivo, ambiente cambia a luminoso"
+      },
+      {
+        time: "00:23-00:28", name: "CTA",
+        plano: "Vuelve a ella, mirada directa. Ya no triste, decidida. Frame final: 1 seg logo TingGo.",
+        vo: "\"No compres por afuera. Serio. tinggoapp.cl.\"",
+        texto: "\"tinggoapp.cl\" verde enorme",
+        sfx: ""
+      }
+    ],
+    caption: "Perdí 180 lucas por confiar en un perfil bonito 🥲 en TingGo la plata queda retenida hasta que la entrada sirva. No es lo mismo. #reventa #tinggo #chile",
+    checklist: [
+      "Actriz principal · alguien que actúe emoción",
+      "Mock perfil IG: hacer en Figma o Canva",
+      "Mock QR inválido: Cristian",
+      "Screen record app TingGo: Cristian",
+      "Luz natural noche/tarde (mood cálido)",
+      "NO mostrar nombre real de artista en el mock"
+    ]
+  },
+  {
+    id: 5,
+    title: "Data Drop: $4.800M perdidos (Trío relay)",
+    publica: "BONUS · Reel semana 2 o 3",
+    duracion: "20 seg",
+    objetivo: "🔥 Viralidad + saves + reach",
+    template: "D · Data Drop Viral (relay entre 3 chicas)",
+    presenta: "Las 3 chicas (una frase cada una, tipo dominó)",
+    ubicacion: "Neutra · mismo lugar distintos ángulos o 3 locaciones",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK (chica 1)",
+        plano: "Close-up chica 1 sostiene un billete de $1.000 hacia cámara.",
+        vo: "\"Cuatro mil ochocientos millones.\"",
+        texto: "\"$4.800 M\" gigante amarillo #FFEF0F sobre fondo negro",
+        sfx: "Cash register"
+      },
+      {
+        time: "00:03-00:08", name: "CONTEXTO (chica 2)",
+        plano: "Corte a chica 2, plano medio. Cara \"¿en qué?\".",
+        vo: "\"Es lo que perdimos los chilenos en estafa online · el año pasado.\"",
+        texto: "\"estafa online · Chile 2024\" verde · Pequeño abajo: \"según SERNAC\"",
+        sfx: "Whoosh"
+      },
+      {
+        time: "00:08-00:14", name: "BREAKDOWN (chica 3)",
+        plano: "Corte a chica 3. Muestra un celular con Facebook Marketplace en pantalla.",
+        vo: "\"34% de esa plata · se perdió en Facebook Marketplace.\"",
+        texto: "\"34% · Marketplace\" grande verde · Pequeño: \"según TSB Bank UK\"",
+        sfx: "Whoosh doble"
+      },
+      {
+        time: "00:14-00:20", name: "CTA (las 3 juntas)",
+        plano: "Las 3 juntas en el frame. Serias pero cercanas. Frame final: 1 seg logo + \"fuentes: SERNAC · TSB Bank\" pequeño.",
+        vo: "\"Deja de arriesgar tu plata. tinggoapp.cl.\" (a coro o 1 sola)",
+        texto: "\"tinggoapp.cl\" enorme verde",
+        sfx: ""
+      }
+    ],
+    caption: "$4.800 millones. Es lo que perdimos los chilenos en estafa online el año pasado (SERNAC). 34% vino de Facebook Marketplace (TSB Bank). Guarda esto. #chile #estafas #tinggo",
+    checklist: [
+      "Coordinar disponibilidad las 3",
+      "Prop: 1 billete $1.000 real",
+      "Prop: celular con Marketplace abierto",
+      "Data source: SERNAC 2024 + TSB Bank UK",
+      "CTA a coro: ensayar 2 veces antes de grabar"
+    ]
+  },
+  {
+    id: 6,
+    title: "Somos las TingGo (Behind Equipo)",
+    publica: "BONUS · Semana 1 o 2",
+    duracion: "25 seg",
+    objetivo: "🎯 Tracción + humanización marca",
+    template: "H · Behind Equipo (solo las 3)",
+    presenta: "Las 3 chicas",
+    ubicacion: "Casa de una, café, oficina Cristian",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK (chica 1)",
+        plano: "Las 3 juntas, plano medio abierto. Chica 1 mira a cámara.",
+        vo: "\"Detrás de TingGo hay personas. No un bot.\"",
+        texto: "\"TingGo · las personas ↓\" amarillo esquina superior",
+        sfx: "Intro trending"
+      },
+      {
+        time: "00:03-00:08", name: "CHICA 1",
+        plano: "Zoom a chica 1 individual.",
+        vo: "\"Yo soy [nombre]. Reviso cada estafa que reportan.\"",
+        texto: "\"[nombre] · vigilamos las estafas\"",
+        sfx: ""
+      },
+      {
+        time: "00:08-00:13", name: "CHICA 2",
+        plano: "Zoom a chica 2. Muestra el celular editando en CapCut o similar.",
+        vo: "\"Yo hago los videos. Los reels que te llegan salen de acá.\"",
+        texto: "\"[nombre] · videos y contenido\"",
+        sfx: ""
+      },
+      {
+        time: "00:13-00:18", name: "CHICA 3",
+        plano: "Zoom a chica 3. Muestra un celular con DMs de Instagram abiertos.",
+        vo: "\"Yo respondo los DMs. Escríbenos, te contestamos de verdad.\"",
+        texto: "\"[nombre] · te contesta en DM\"",
+        sfx: ""
+      },
+      {
+        time: "00:18-00:25", name: "CIERRE (las 3)",
+        plano: "Vuelve al plano abierto las 3. Sonrisas cercanas. Frame final: 1 seg logo TingGo + las 3 en foto pequeña esquina.",
+        vo: "\"Somos TingGo. Si tienes duda, escríbenos.\" (chica 1 o coro)",
+        texto: "\"@tinggoapp · tinggoapp.cl\" verde",
+        sfx: ""
+      }
+    ],
+    caption: "Detrás de TingGo hay personas 💚 Cada estafa reportada la revisamos nosotras. Si tienes duda, escríbenos por DM. Somos las TingGo 👋 #tinggo #equipo #reventa",
+    checklist: [
+      "Coordinar horarios las 3",
+      "Nombres reales de cada una (o alias)",
+      "Prop: celulares (uno con CapCut, otro con DMs IG)",
+      "Vestuario coordinado opcional (misma paleta)",
+      "Aplica ir sin maquillaje profesional (más natural)"
+    ]
+  },
+  {
+    id: 7,
+    title: "¿Diego es revendedor? (Debate trío)",
+    publica: "BONUS · reactive/viralidad",
+    duracion: "25 seg",
+    objetivo: "🔥 Viralidad + engagement (comments)",
+    template: "Custom Debate · 3 opiniones distintas",
+    presenta: "Las 3 chicas",
+    ubicacion: "Sofá, mesa café, escritorio · las 3 en el mismo lugar",
+    sections: [
+      {
+        time: "00:00-00:03", name: "HOOK (voz off o chica 1)",
+        plano: "Las 3 juntas mirando a cámara. Congelado 0.5s.",
+        vo: "\"Diego tiene 2 entradas y las vende. ¿Es revendedor o no?\"",
+        texto: "\"¿revendedor? 🤔\" grande centro amarillo",
+        sfx: "Quiz beep"
+      },
+      {
+        time: "00:03-00:09", name: "OPINIÓN 1 (chica 1 · NO)",
+        plano: "Zoom in chica 1. Cabezal firme.",
+        vo: "\"No po. Diego compró 2 y no pudo ir. Vende para no perder la plata. Eso no es reventa.\"",
+        texto: "\"chica 1 · no lo es\" · encima \"NO\" grande verde",
+        sfx: ""
+      },
+      {
+        time: "00:09-00:15", name: "OPINIÓN 2 (chica 2 · SÍ, con matiz)",
+        plano: "Zoom chica 2. Levanta cejas.",
+        vo: "\"Técnicamente sí. Pero no es el problema. El problema es dónde las vende.\"",
+        texto: "\"chica 2 · sí, técnicamente\" · \"SÍ · pero\" amarillo",
+        sfx: ""
+      },
+      {
+        time: "00:15-00:21", name: "OPINIÓN 3 (chica 3 · da vuelta el debate)",
+        plano: "Zoom chica 3. Mira fijo cámara.",
+        vo: "\"Da lo mismo. Lo importante es que la venda con escrow · no por Instagram.\"",
+        texto: "\"chica 3 · el punto está en dónde\" · \"escrow > plataforma\" verde",
+        sfx: ""
+      },
+      {
+        time: "00:21-00:25", name: "CTA (debate abierto)",
+        plano: "Vuelve a las 3. Sonríen desafiantes. Frame final: 1 seg logo TingGo.",
+        vo: "\"¿Con cuál estás? Comenta abajo.\" (chica 3 o coro)",
+        texto: "\"¿con cuál estás? · comenta 👇\"",
+        sfx: ""
+      }
+    ],
+    caption: "¿Diego es revendedor? Las 3 opinamos distinto. ¿Con cuál estás? 👇 #reventa #chile #tinggo #debate",
+    checklist: [
+      "Ensayar respuestas para que suenen espontáneas, no leídas",
+      "Cada chica debe convencer un poco al viewer",
+      "El debate en comments es OBJETIVO PRINCIPAL · responder comments después"
+    ]
+  }
+];
+
+// Render
+const videosEl = document.getElementById('videos');
+const videoBtnsEl = document.getElementById('videoBtns');
+
+// Build video number buttons
+DATA.forEach(v => {
+  const btn = document.createElement('button');
+  btn.className = 'video-btn';
+  btn.dataset.video = v.id;
+  btn.textContent = v.id;
+  btn.title = v.title;
+  videoBtnsEl.appendChild(btn);
+});
+
+// Render videos
+function renderVideos() {
+  videosEl.innerHTML = DATA.map(v => `
+    <div class="video-card" data-video-id="${v.id}">
+      <div class="video-header" data-block="meta">
+        <h2><span class="badge">GUION ${v.id}</span>${v.title}</h2>
+        <div class="meta-grid">
+          <div><strong>Publica</strong>${v.publica}</div>
+          <div><strong>Duración</strong>${v.duracion}</div>
+          <div><strong>Objetivo</strong>${v.objetivo}</div>
+          <div><strong>Template</strong>${v.template}</div>
+          <div><strong>Presenta</strong>${v.presenta}</div>
+          <div><strong>Ubicación</strong>${v.ubicacion}</div>
+        </div>
+      </div>
+      ${v.sections.map(s => `
+        <div class="section">
+          <div class="section-title">
+            <span class="section-time">${s.time}</span>
+            <span class="section-name">${s.name}</span>
+          </div>
+          ${s.plano ? `<div class="element plano" data-block="plano"><div class="label">🎬 Plano</div><div class="content">${s.plano}</div></div>` : ''}
+          ${s.vo ? `<div class="element vo" data-block="vo"><div class="label">🎙️ Guion (VO)</div><div class="content">${s.vo}</div></div>` : ''}
+          ${s.texto ? `<div class="element texto" data-block="texto"><div class="label">📱 Texto en pantalla</div><div class="content">${s.texto}</div></div>` : ''}
+          ${s.sfx ? `<div class="element sfx" data-block="sfx"><div class="label">🎵 SFX</div><div class="content">${s.sfx}</div></div>` : ''}
+        </div>
+      `).join('')}
+      <div class="caption-box" data-block="caption">
+        <div class="label">📝 Caption Instagram</div>
+        <blockquote>${v.caption}</blockquote>
+      </div>
+      <div class="checklist-box" data-block="checklist">
+        <div class="label">🎯 Checklist producción</div>
+        <ul>${v.checklist.map(c => `<li>${c}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+}
+renderVideos();
+
+// Filter logic
+let currentVideo = 'all';
+const filters = {
+  meta: true, plano: true, vo: true, texto: true, sfx: true, caption: true, checklist: true
+};
+
+function applyFilters() {
+  // Video filter
+  document.querySelectorAll('.video-card').forEach(card => {
+    const id = card.dataset.videoId;
+    card.classList.toggle('hidden', currentVideo !== 'all' && id !== currentVideo);
+  });
+
+  // Element filters
+  document.querySelectorAll('[data-block]').forEach(el => {
+    const type = el.dataset.block;
+    el.classList.toggle('hidden', !filters[type]);
+  });
+
+  // Hide sections with no visible elements
+  document.querySelectorAll('.section').forEach(section => {
+    const visibleElements = section.querySelectorAll('.element:not(.hidden)').length;
+    section.classList.toggle('section-hidden', visibleElements === 0);
+  });
+
+  // Empty message
+  const anyFilter = Object.values(filters).some(v => v);
+  document.getElementById('emptyMsg').classList.toggle('hidden', anyFilter);
+}
+
+// Video button clicks
+document.querySelectorAll('.video-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentVideo = btn.dataset.video;
+    document.querySelectorAll('.video-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Element checkboxes
+document.querySelectorAll('.element-filter input').forEach(cb => {
+  cb.addEventListener('change', () => {
+    filters[cb.dataset.filter] = cb.checked;
+    applyFilters();
+  });
+});
+
+// Quick actions
+document.getElementById('btnAll').addEventListener('click', () => {
+  document.querySelectorAll('.element-filter input').forEach(cb => {
+    cb.checked = true;
+    filters[cb.dataset.filter] = true;
+  });
+  applyFilters();
+});
+document.getElementById('btnNone').addEventListener('click', () => {
+  document.querySelectorAll('.element-filter input').forEach(cb => {
+    cb.checked = false;
+    filters[cb.dataset.filter] = false;
+  });
+  applyFilters();
+});
+document.getElementById('btnVoOnly').addEventListener('click', () => {
+  document.querySelectorAll('.element-filter input').forEach(cb => {
+    const only = cb.dataset.filter === 'vo';
+    cb.checked = only;
+    filters[cb.dataset.filter] = only;
+  });
+  applyFilters();
+});
+
+applyFilters();
+</script>
+</body>
+</html>
