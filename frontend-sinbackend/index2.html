@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo interactiva de Butaca — Cartelera</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="container inner">
+    <div class="left-group">
+      <a class="brand" href="index.html">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+          <path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M20 14 L12 32 M20 14 L28 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2" />
+          <circle cx="20" cy="11" r="1.5" fill="currentColor" />
+        </svg>
+        Demo interactiva de Butaca
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="active">Cartelera</a>
+        <a href="semana.html">Semana</a>
+        <a href="estrenos.html">Estrenos</a>
+        <a href="novedades.html">Novedades</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+    </div>
+    <div class="actions">
+      <a href="admin.html" class="btn btn-secondary btn-sm">
+        <i data-lucide="layout-dashboard"></i> Panel
+      </a>
+      <a href="#" class="icon-btn" title="Cerrar sesión">
+        <i data-lucide="log-out" style="width:18px;height:18px;"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600&q=80" alt="Destacada" />
+  </div>
+  <div class="hero-content">
+    <div class="container">
+      <div style="max-width: 600px;">
+        <span style="color: var(--gold); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;">★ DESTACADA</span>
+        <h1 class="font-display" style="font-size: 48px; font-weight: 700; margin: 12px 0; line-height: 1.1;">Duna: Parte Tres</h1>
+        <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">
+          Paul Atreides regresa para enfrentar el destino final de Arrakis. Denis Villeneuve concluye su épica saga
+          con una batalla que redefinirá el universo.
+        </p>
+        <div style="display: flex; gap: 12px;">
+          <a href="pelicula.html" class="btn btn-primary btn-lg">
+            <i data-lucide="ticket"></i> Reservar entradas
+          </a>
+          <a href="pelicula.html" class="btn btn-secondary btn-lg">Ver detalles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Funciones de hoy -->
+<section class="container" style="padding-top: 32px;">
+  <div class="card" style="background: linear-gradient(90deg, rgba(212,168,67,0.1), var(--bg-surface) 40%); border-color: rgba(212,168,67,0.3);">
+    <div class="flex items-center justify-between mb-4" style="flex-wrap: wrap; gap: 8px;">
+      <div class="flex items-center gap-2">
+        <span class="badge badge-gold">⚡ HOY</span>
+        <h2 style="font-size: 18px; font-weight: 600; margin: 0;">Funciones del día</h2>
+        <span class="text-xs text-faint">(6)</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;">
+      <a href="reserva.html" class="card card-hover" style="min-width: 180px; padding: 0; overflow: hidden;">
+        <img src="https://placehold.co/300x450/1a1512/d4a843?text=Duna%3A+Parte+Tres&font=playfair" style="width:100%; aspect-ratio: 2/3; object-fit: cover;" />
+        <div style="padding: 12px;">
+          <p style="font-size: 13px; font-weight: 600;">Duna: Parte Tres</p>
+          <p class="text-gold text-xs mt-2" style="font-weight: 600;"><i data-lucide="clock" style="width:12px;height:12px;display:inline;vertical-align:middle;"></i> 20:30</p>
+          <p class="text-muted text-xs mt-1"><i data-lucide="map-pin" style="width:10px;height:10px;display:inline;vertical-align:middle;"></i> Sala 1 — IMAX</p>
+          <p class="text-sm mt-2" style="font-weight: 600;">$6.500</p>
+        </div>
+      </a>
+      <a href="reserva.html" class="card card-hover" style="min-width: 180px; padding: 0; overflow: hidden;">
+        <img src="https://placehold.co/300x450/2d1a3d/e4b366?text=Wicked&font=playfair" style="width:100%; aspect-ratio: 2/3; object-fit: cover;" />
+        <div style="padding: 12px;">
+          <p style="font-size: 13px; font-weight: 600;">Wicked</p>
+          <p class="text-gold text-xs mt-2" style="font-weight: 600;"><i data-lucide="clock" style="width:12px;height:12px;display:inline;vertical-align:middle;"></i> 19:00</p>
+          <p class="text-muted text-xs mt-1"><i data-lucide="map-pin" style="width:10px;height:10px;display:inline;vertical-align:middle;"></i> Sala 2</p>
+          <p class="text-sm mt-2" style="font-weight: 600;">$5.500</p>
+        </div>
+      </a>
+      <a href="reserva.html" class="card card-hover" style="min-width: 180px; padding: 0; overflow: hidden;">
+        <img src="https://placehold.co/300x450/3d1a1a/f5a524?text=Gladiator+II&font=playfair" style="width:100%; aspect-ratio: 2/3; object-fit: cover;" />
+        <div style="padding: 12px;">
+          <p style="font-size: 13px; font-weight: 600;">Gladiator II</p>
+          <p class="text-gold text-xs mt-2" style="font-weight: 600;"><i data-lucide="clock" style="width:12px;height:12px;display:inline;vertical-align:middle;"></i> 21:15</p>
+          <p class="text-muted text-xs mt-1"><i data-lucide="map-pin" style="width:10px;height:10px;display:inline;vertical-align:middle;"></i> Sala 3</p>
+          <p class="text-sm mt-2" style="font-weight: 600;">$5.500</p>
+        </div>
+      </a>
+      <a href="reserva.html" class="card card-hover" style="min-width: 180px; padding: 0; overflow: hidden;">
+        <img src="https://placehold.co/300x450/1a3d3a/6ea8fe?text=Moana+2&font=playfair" style="width:100%; aspect-ratio: 2/3; object-fit: cover;" />
+        <div style="padding: 12px;">
+          <p style="font-size: 13px; font-weight: 600;">Moana 2</p>
+          <p class="text-gold text-xs mt-2" style="font-weight: 600;"><i data-lucide="clock" style="width:12px;height:12px;display:inline;vertical-align:middle;"></i> 17:00</p>
+          <p class="text-muted text-xs mt-1"><i data-lucide="map-pin" style="width:10px;height:10px;display:inline;vertical-align:middle;"></i> Sala 1</p>
+          <p class="text-sm mt-2" style="font-weight: 600;">$4.500</p>
+        </div>
+      </a>
+      <a href="reserva.html" class="card card-hover" style="min-width: 180px; padding: 0; overflow: hidden;">
+        <img src="https://placehold.co/300x450/1a2a3d/4ade80?text=Sonic+3&font=playfair" style="width:100%; aspect-ratio: 2/3; object-fit: cover;" />
+        <div style="padding: 12px;">
+          <p style="font-size: 13px; font-weight: 600;">Sonic 3</p>
+          <p class="text-gold text-xs mt-2" style="font-weight: 600;"><i data-lucide="clock" style="width:12px;height:12px;display:inline;vertical-align:middle;"></i> 16:30</p>
+          <p class="text-muted text-xs mt-1"><i data-lucide="map-pin" style="width:10px;height:10px;display:inline;vertical-align:middle;"></i> Sala 2</p>
+          <p class="text-sm mt-2" style="font-weight: 600;">$4.500</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Buscador -->
+<section class="container" style="padding-top: 32px;">
+  <div class="card">
+    <div style="position: relative; margin-bottom: 12px;">
+      <input type="text" placeholder="Buscar película, evento, director o artista…" style="padding-left: 40px;" class="w-full" />
+      <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint);"></i>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px;">
+      <div class="flex items-center gap-2">
+        <span class="text-faint">Género:</span>
+        <button class="btn btn-sm" style="background: var(--gold-subtle); border-color: rgba(212,168,67,0.4); color: var(--gold);">Todos</button>
+        <button class="btn btn-sm btn-ghost">Acción</button>
+        <button class="btn btn-sm btn-ghost">Drama</button>
+        <button class="btn btn-sm btn-ghost">Familiar</button>
+        <button class="btn btn-sm btn-ghost">Comedia</button>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-faint">Clasificación:</span>
+        <button class="btn btn-sm" style="background: var(--gold-subtle); border-color: rgba(212,168,67,0.4); color: var(--gold);">Todas</button>
+        <button class="btn btn-sm btn-ghost">TE</button>
+        <button class="btn btn-sm btn-ghost">TE+7</button>
+        <button class="btn btn-sm btn-ghost">M14</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTELERA -->
+<section class="container py-12">
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <i data-lucide="film" class="text-gold"></i>
+      <h2 style="font-size: 20px; font-weight: 600; margin: 0;">En cartelera</h2>
+    </div>
+    <a href="#" class="text-gold text-sm">Ver todas →</a>
+  </div>
+
+  <div class="movie-grid">
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-gold" style="position:absolute;top:8px;left:8px;">HOY</span>
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">M14</span>
+        <img src="https://placehold.co/500x750/1a1512/d4a843?text=Duna%3A+Parte+Tres&font=playfair" alt="Duna Parte Tres" />
+      </div>
+      <div class="info">
+        <div class="title">Duna: Parte Tres</div>
+        <div class="meta">Ciencia ficción · 2h 45m</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;color:var(--gold);">
+          ★ 4.8 <span style="color:var(--text-faint);">(342)</span>
+        </div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">TE</span>
+        <img src="https://placehold.co/500x750/2d1a3d/e4b366?text=Wicked&font=playfair" alt="Wicked" />
+      </div>
+      <div class="info">
+        <div class="title">Wicked</div>
+        <div class="meta">Musical · 2h 40m</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;color:var(--gold);">
+          ★ 4.6 <span style="color:var(--text-faint);">(198)</span>
+        </div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">M14</span>
+        <img src="https://placehold.co/500x750/3d1a1a/f5a524?text=Gladiator+II&font=playfair" alt="Gladiator II" />
+      </div>
+      <div class="info">
+        <div class="title">Gladiator II</div>
+        <div class="meta">Acción · 2h 30m</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;color:var(--gold);">
+          ★ 4.2 <span style="color:var(--text-faint);">(89)</span>
+        </div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">TE</span>
+        <img src="https://placehold.co/500x750/1a3d3a/6ea8fe?text=Moana+2&font=playfair" alt="Moana 2" />
+      </div>
+      <div class="info">
+        <div class="title">Moana 2</div>
+        <div class="meta">Familiar · 1h 40m</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;color:var(--gold);">
+          ★ 4.5 <span style="color:var(--text-faint);">(256)</span>
+        </div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">TE</span>
+        <img src="https://placehold.co/500x750/1a2a3d/4ade80?text=Sonic+3&font=playfair" alt="Sonic 3" />
+      </div>
+      <div class="info">
+        <div class="title">Sonic 3</div>
+        <div class="meta">Familiar · 1h 50m</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;color:var(--gold);">
+          ★ 4.3 <span style="color:var(--text-faint);">(112)</span>
+        </div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-crimson" style="position:absolute;top:8px;right:8px;">AGOTADO</span>
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">M18</span>
+        <img src="https://placehold.co/500x750/1a1a1a/e5484d?text=Nosferatu&font=playfair" alt="Nosferatu" />
+      </div>
+      <div class="info">
+        <div class="title">Nosferatu</div>
+        <div class="meta">Terror · 2h 12m</div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">TE+7</span>
+        <img src="https://placehold.co/500x750/2d1a0a/e4b366?text=Mufasa%3A+El+Rey+Le%C3%B3n&font=playfair" alt="El Rey León" />
+      </div>
+      <div class="info">
+        <div class="title">Mufasa: El Rey León</div>
+        <div class="meta">Familiar · 2h 00m</div>
+      </div>
+    </a>
+    <a href="pelicula.html" class="movie-card">
+      <div class="poster">
+        <span class="badge badge-muted" style="position:absolute;bottom:8px;right:8px;">M14</span>
+        <img src="https://placehold.co/500x750/1a3d1a/4ade80?text=Robot+Salvaje&font=playfair" alt="Robot Salvaje" />
+      </div>
+      <div class="info">
+        <div class="title">Robot Salvaje</div>
+        <div class="meta">Animación · 1h 42m</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- EVENTOS -->
+<section id="eventos" class="container" style="padding-bottom: 48px;">
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <i data-lucide="calendar" class="text-gold"></i>
+      <h2 style="font-size: 20px; font-weight: 600; margin: 0;">Próximos eventos</h2>
+    </div>
+    <a href="#" class="text-gold text-sm">Ver todos →</a>
+  </div>
+  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+    <a href="pelicula.html" class="card card-hover" style="padding: 0; overflow: hidden; position: relative;">
+      <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800" style="width:100%; aspect-ratio: 16/9; object-fit: cover;" />
+      <div style="position:absolute; inset:0; background: linear-gradient(to top, rgba(24,22,20,0.95), transparent 60%);"></div>
+      <div style="position:absolute; bottom: 0; left: 0; right: 0; padding: 16px;">
+        <span class="badge badge-gold">TEATRO</span>
+        <h3 class="font-display" style="font-size: 20px; margin: 8px 0 4px;">La Casa de Bernarda Alba</h3>
+        <p class="text-muted text-sm">Sáb 12 Jul · 20:00 hrs</p>
+      </div>
+    </a>
+    <a href="pelicula.html" class="card card-hover" style="padding: 0; overflow: hidden; position: relative;">
+      <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800" style="width:100%; aspect-ratio: 16/9; object-fit: cover;" />
+      <div style="position:absolute; inset:0; background: linear-gradient(to top, rgba(24,22,20,0.95), transparent 60%);"></div>
+      <div style="position:absolute; bottom: 0; left: 0; right: 0; padding: 16px;">
+        <span class="badge badge-gold">CONCIERTO</span>
+        <h3 class="font-display" style="font-size: 20px; margin: 8px 0 4px;">Los Jaivas — Tour Aniversario</h3>
+        <p class="text-muted text-sm">Vie 25 Jul · 21:30 hrs</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background: var(--bg-surface); border-top: 1px solid var(--border); padding: 32px 16px; margin-top: 48px;">
+  <div class="container" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; max-width: 1000px;">
+    <div>
+      <div class="brand" style="margin-bottom: 12px;">Demo interactiva de Butaca</div>
+      <p class="text-muted text-sm">La mejor experiencia cinematográfica de la Región de Atacama.</p>
+    </div>
+    <div>
+      <h4 class="uppercase text-xs text-faint mb-4" style="letter-spacing: 1px;">Contacto</h4>
+      <p class="text-sm text-muted">📍 Prat 950, Vallenar</p>
+      <p class="text-sm text-muted">📞 +56 51 261 0000</p>
+      <p class="text-sm text-muted">✉ info@cinerex.cl</p>
+    </div>
+    <div>
+      <h4 class="uppercase text-xs text-faint mb-4" style="letter-spacing: 1px;">Legal</h4>
+      <a href="#" class="text-sm text-muted" style="display:block; margin-bottom: 4px;">Términos</a>
+      <a href="#" class="text-sm text-muted" style="display:block; margin-bottom: 4px;">Privacidad</a>
+      <a href="#" class="text-sm text-muted">Contacto</a>
+    </div>
+  </div>
+  <div class="container" style="text-align: center; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-div);">
+    <p class="text-xs text-faint">© 2026 Demo interactiva de Butaca · Powered by CineTeatro SaaS</p>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Novedades — Demo interactiva de Butaca</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container inner">
+    <div class="left-group">
+      <a class="brand" href="index.html">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+          <path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M20 14 L12 32 M20 14 L28 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2" />
+          <circle cx="20" cy="11" r="1.5" fill="currentColor" />
+        </svg>
+        Demo interactiva de Butaca
+      </a>
+      <nav class="nav">
+        <a href="index.html">Cartelera</a>
+        <a href="semana.html">Semana</a>
+        <a href="estrenos.html">Estrenos</a>
+        <a href="novedades.html" class="active">Novedades</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+    </div>
+    <div class="actions">
+      <a href="admin.html" class="btn btn-secondary btn-sm"><i data-lucide="layout-dashboard"></i> Panel</a>
+      <a href="#" class="icon-btn" title="Cerrar sesión"><i data-lucide="log-out" style="width:18px;height:18px;"></i></a>
+    </div>
+  </div>
+</header>
+
+<div class="container" style="padding: 32px 16px;">
+  <div class="mb-6">
+    <h1 class="font-display" style="font-size: 32px; margin: 0 0 4px;">
+      <i data-lucide="newspaper" style="color: var(--gold); vertical-align: middle;"></i>
+      Novedades y promociones
+    </h1>
+    <p class="text-muted text-sm" style="margin: 0;">Enterate de todo lo que pasa en el Demo interactiva de Butaca</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 mb-6">
+    <button class="btn btn-sm" style="background: var(--gold-subtle); border-color: rgba(212,168,67,0.4); color: var(--gold);">Todas</button>
+    <button class="btn btn-ghost btn-sm">Promociones</button>
+    <button class="btn btn-ghost btn-sm">Eventos</button>
+    <button class="btn btn-ghost btn-sm">Noticias</button>
+  </div>
+
+  <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+
+    <!-- Anuncio destacado -->
+    <a href="#" class="card card-hover" style="grid-column: span 2; padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="position: relative; aspect-ratio: 21/9; overflow: hidden;">
+        <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200" style="width: 100%; height: 100%; object-fit: cover;" />
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(24,22,20,0.95), transparent 50%);"></div>
+        <div style="position: absolute; top: 16px; left: 16px;">
+          <span class="badge badge-gold">DESTACADA</span>
+          <span class="badge badge-crimson" style="margin-left: 6px;">PROMO</span>
+        </div>
+        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+          <p class="text-xs text-muted mb-2">10 Jul 2026 · Promociones</p>
+          <h2 class="font-display" style="font-size: 30px; margin: 0 0 8px;">¡2x1 los martes en todas las funciones!</h2>
+          <p class="text-muted text-sm" style="max-width: 600px;">Todos los martes trae a un acompañante y paga solo por un ticket. Aplica en todas las salas y funciones del día. Válido hasta el 31 de agosto.</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Anuncio 2 -->
+    <a href="#" class="card card-hover" style="padding: 0; overflow: hidden;">
+      <div style="position: relative; aspect-ratio: 16/9;">
+        <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800" style="width:100%; height:100%; object-fit: cover;" />
+        <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px;">EVENTO</span>
+      </div>
+      <div style="padding: 16px;">
+        <p class="text-xs text-muted mb-2">08 Jul 2026 · Eventos</p>
+        <h3 class="font-display" style="font-size: 20px; margin: 0 0 6px;">Concierto Los Jaivas — 25 Julio</h3>
+        <p class="text-sm text-muted" style="line-height: 1.5;">Ya están disponibles las entradas para el tour aniversario de Los Jaivas en nuestro auditorio principal.</p>
+      </div>
+    </a>
+
+    <!-- Anuncio 3 -->
+    <a href="#" class="card card-hover" style="padding: 0; overflow: hidden;">
+      <div style="position: relative; aspect-ratio: 16/9;">
+        <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800" style="width:100%; height:100%; object-fit: cover;" />
+        <span class="badge badge-crimson" style="position: absolute; top: 12px; left: 12px;">PROMO</span>
+      </div>
+      <div style="padding: 16px;">
+        <p class="text-xs text-muted mb-2">05 Jul 2026 · Promociones</p>
+        <h3 class="font-display" style="font-size: 20px; margin: 0 0 6px;">Combo estudiante: entrada + cabritas + bebida</h3>
+        <p class="text-sm text-muted" style="line-height: 1.5;">Con credencial vigente, arma tu combo por solo $7.500. Válido de lunes a jueves.</p>
+      </div>
+    </a>
+
+    <!-- Anuncio 4 -->
+    <a href="#" class="card card-hover" style="padding: 0; overflow: hidden;">
+      <div style="position: relative; aspect-ratio: 16/9;">
+        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800" style="width:100%; height:100%; object-fit: cover;" />
+        <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px;">EVENTO</span>
+      </div>
+      <div style="padding: 16px;">
+        <p class="text-xs text-muted mb-2">03 Jul 2026 · Eventos</p>
+        <h3 class="font-display" style="font-size: 20px; margin: 0 0 6px;">Teatro: La Casa de Bernarda Alba</h3>
+        <p class="text-sm text-muted" style="line-height: 1.5;">Compañía nacional presenta la obra maestra de Lorca. Función única el sábado 12 de julio a las 20:00.</p>
+      </div>
+    </a>
+
+    <!-- Anuncio 5 -->
+    <a href="#" class="card card-hover" style="padding: 0; overflow: hidden;">
+      <div style="position: relative; aspect-ratio: 16/9;">
+        <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800" style="width:100%; height:100%; object-fit: cover;" />
+        <span class="badge" style="background: var(--info); color: white; position: absolute; top: 12px; left: 12px;">NOTICIA</span>
+      </div>
+      <div style="padding: 16px;">
+        <p class="text-xs text-muted mb-2">01 Jul 2026 · Noticias</p>
+        <h3 class="font-display" style="font-size: 20px; margin: 0 0 6px;">Sala 1 IMAX ahora con Dolby Atmos</h3>
+        <p class="text-sm text-muted" style="line-height: 1.5;">Terminamos la renovación de nuestra sala principal. Descubre la nueva experiencia sonora en tu próxima visita.</p>
+      </div>
+    </a>
+
+    <!-- Anuncio 6 -->
+    <a href="#" class="card card-hover" style="padding: 0; overflow: hidden;">
+      <div style="position: relative; aspect-ratio: 16/9;">
+        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800" style="width:100%; height:100%; object-fit: cover;" />
+        <span class="badge badge-crimson" style="position: absolute; top: 12px; left: 12px;">PROMO</span>
+      </div>
+      <div style="padding: 16px;">
+        <p class="text-xs text-muted mb-2">25 Jun 2026 · Promociones</p>
+        <h3 class="font-display" style="font-size: 20px; margin: 0 0 6px;">Programa de fidelidad: gana puntos con cada entrada</h3>
+        <p class="text-sm text-muted" style="line-height: 1.5;">Por cada $1.000 en compras acumulas 1 punto. Canjea 10 puntos por $1.000 en tu próxima visita.</p>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

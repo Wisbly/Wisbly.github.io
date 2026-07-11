@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contacto — Demo interactiva de Butaca</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container inner">
+    <div class="left-group">
+      <a class="brand" href="index.html">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+          <path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M20 14 L12 32 M20 14 L28 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2" />
+          <circle cx="20" cy="11" r="1.5" fill="currentColor" />
+        </svg>
+        Demo interactiva de Butaca
+      </a>
+      <nav class="nav">
+        <a href="index.html">Cartelera</a>
+        <a href="semana.html">Semana</a>
+        <a href="estrenos.html">Estrenos</a>
+        <a href="novedades.html">Novedades</a>
+        <a href="contacto.html" class="active">Contacto</a>
+      </nav>
+    </div>
+    <div class="actions">
+      <a href="admin.html" class="btn btn-secondary btn-sm"><i data-lucide="layout-dashboard"></i> Panel</a>
+      <a href="#" class="icon-btn" title="Cerrar sesión"><i data-lucide="log-out" style="width:18px;height:18px;"></i></a>
+    </div>
+  </div>
+</header>
+
+<div class="container" style="padding: 32px 16px;">
+  <div class="mb-6">
+    <h1 class="font-display" style="font-size: 32px; margin: 0 0 4px;">
+      <i data-lucide="map-pin" style="color: var(--gold); vertical-align: middle;"></i>
+      Contacto
+    </h1>
+    <p class="text-muted text-sm" style="margin: 0;">Estamos aquí para ayudarte — escribinos o visítanos.</p>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 24px;">
+
+    <!-- Info -->
+    <div>
+      <!-- Ubicación -->
+      <div class="card mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div style="width: 44px; height: 44px; border-radius: 8px; background: var(--gold-subtle); color: var(--gold); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="map-pin"></i>
+          </div>
+          <div>
+            <p class="uppercase text-xs text-muted" style="letter-spacing: 1px; font-weight: 600;">Ubicación</p>
+            <p style="font-weight: 600; margin: 2px 0 0;">Prat 950, Vallenar</p>
+          </div>
+        </div>
+        <p class="text-muted text-sm" style="line-height: 1.6;">
+          Región de Atacama, Chile<br/>
+          Estacionamiento propio disponible.
+        </p>
+        <a href="https://maps.google.com" target="_blank" class="btn btn-ghost btn-sm mt-3">
+          <i data-lucide="external-link"></i> Ver en Google Maps
+        </a>
+      </div>
+
+      <!-- Horarios -->
+      <div class="card mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div style="width: 44px; height: 44px; border-radius: 8px; background: var(--gold-subtle); color: var(--gold); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="clock"></i>
+          </div>
+          <div>
+            <p class="uppercase text-xs text-muted" style="letter-spacing: 1px; font-weight: 600;">Horarios</p>
+            <p style="font-weight: 600; margin: 2px 0 0;">Abierto todos los días</p>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 14px;">
+          <div class="flex justify-between"><span class="text-muted">Lunes a Jueves</span><span>15:00 — 23:30</span></div>
+          <div class="flex justify-between"><span class="text-muted">Viernes</span><span>15:00 — 01:00</span></div>
+          <div class="flex justify-between"><span class="text-muted">Sábado</span><span>13:00 — 01:00</span></div>
+          <div class="flex justify-between"><span class="text-muted">Domingo</span><span>13:00 — 23:30</span></div>
+        </div>
+      </div>
+
+      <!-- Teléfono y email -->
+      <div class="card mb-4">
+        <div class="flex items-center gap-3 mb-4">
+          <div style="width: 44px; height: 44px; border-radius: 8px; background: var(--gold-subtle); color: var(--gold); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="phone"></i>
+          </div>
+          <div>
+            <p class="uppercase text-xs text-muted" style="letter-spacing: 1px; font-weight: 600;">Contacto directo</p>
+            <p style="font-weight: 600; margin: 2px 0 0;">+56 51 261 0000</p>
+          </div>
+        </div>
+        <p class="text-sm text-muted mb-2"><strong style="color: var(--text);">Email general:</strong> info@cinerex.cl</p>
+        <p class="text-sm text-muted mb-2"><strong style="color: var(--text);">Grupos y eventos:</strong> eventos@cinerex.cl</p>
+        <p class="text-sm text-muted"><strong style="color: var(--text);">WhatsApp:</strong> +56 9 5432 1000</p>
+      </div>
+
+      <!-- Redes -->
+      <div class="card">
+        <p class="uppercase text-xs text-muted mb-3" style="letter-spacing: 1px; font-weight: 600;">Síguenos</p>
+        <div style="display: flex; gap: 12px;">
+          <a href="#" class="btn btn-secondary btn-sm"><i data-lucide="facebook"></i> Facebook</a>
+          <a href="#" class="btn btn-secondary btn-sm"><i data-lucide="instagram"></i> Instagram</a>
+          <a href="#" class="btn btn-secondary btn-sm"><i data-lucide="youtube"></i> YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario + mapa -->
+    <div>
+      <div class="card mb-4">
+        <h2 style="font-size: 18px; font-weight: 600; margin: 0 0 6px;">Escríbenos</h2>
+        <p class="text-muted text-sm mb-4">Responderemos en menos de 24 horas hábiles.</p>
+
+        <div class="field">
+          <label>Nombre completo</label>
+          <input type="text" placeholder="Tu nombre" />
+        </div>
+        <div class="field">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="tu@correo.cl" />
+        </div>
+        <div class="field">
+          <label>Asunto</label>
+          <select>
+            <option>Consulta general</option>
+            <option>Problema con reserva</option>
+            <option>Reserva grupal / eventos</option>
+            <option>Reclamos y sugerencias</option>
+            <option>Trabajo con nosotros</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Mensaje</label>
+          <textarea rows="5" placeholder="Cuéntanos en qué podemos ayudarte…"></textarea>
+        </div>
+
+        <button class="btn btn-primary w-full" style="justify-content: center; width: 100%;">
+          <i data-lucide="send"></i> Enviar mensaje
+        </button>
+      </div>
+
+      <!-- Mapa placeholder -->
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="height: 260px; background: linear-gradient(135deg, #2a2622, #1a1512); display: flex; align-items: center; justify-content: center; position: relative;">
+          <!-- Fake map grid -->
+          <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(212,168,67,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(212,168,67,0.05) 1px, transparent 1px); background-size: 30px 30px;"></div>
+          <!-- Center pin -->
+          <div style="text-align: center; z-index: 2;">
+            <div style="width: 48px; height: 48px; margin: 0 auto 8px; background: var(--gold); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="film" style="color: #1a1512; transform: rotate(45deg);"></i>
+            </div>
+            <p style="font-weight: 600;">Demo interactiva de Butaca</p>
+            <p class="text-xs text-muted">Prat 950, Vallenar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
