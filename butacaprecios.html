@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presupuesto · Butaca</title>
+<meta name="description" content="Cotización personalizada según el tamaño de tu cine. Agenda una demo de 20 minutos y recibe propuesta con precio exacto en 48 horas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0806;
+  --black-soft: #14100D;
+  --red: #B02940;
+  --red-dark: #7A1A2A;
+  --red-glow: rgba(176, 41, 64, 0.35);
+  --gold: #E4B366;
+  --gold-soft: #B8905A;
+  --cream: #F1E9D2;
+  --ivory: #FCFAF3;
+  --stone: #D9CBAC;
+  --text-cream: #F1E9D2;
+  --text-cream-dim: #B0A89A;
+  --text-dark: #1A1614;
+  --text-dark-dim: #6B5F52;
+  --forest: #2D5A27;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-ui); background: var(--black); color: var(--text-cream);
+  font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10, 8, 6, 0.85);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent; transition: border-color 0.2s;
+}
+.nav.scrolled { border-bottom-color: rgba(176, 41, 64, 0.3); }
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 76px; max-width: 1200px; margin: 0 auto; padding: 0 24px;
+}
+.logo {
+  font-family: var(--font-display); font-weight: 900; font-size: 30px;
+  color: var(--text-cream); letter-spacing: -0.02em;
+}
+.logo .dot { color: var(--red); }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a { font-weight: 500; font-size: 15px; color: var(--text-cream-dim); transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text-cream); }
+.nav-links a.active { color: var(--gold); font-weight: 600; }
+.nav-cta {
+  background: var(--red); color: var(--text-cream) !important;
+  padding: 11px 22px; border-radius: 8px; font-weight: 600 !important;
+  box-shadow: 0 4px 20px var(--red-glow);
+}
+.nav-cta:hover { background: var(--red-dark); }
+.nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; color: var(--text-cream); font-size: 24px; }
+@media (max-width: 900px) { .nav-links { display: none; } .nav-mobile-toggle { display: block; } }
+
+.btn {
+  display: inline-block; font-family: var(--font-ui); font-weight: 600;
+  padding: 15px 30px; border-radius: 8px; font-size: 16px;
+  cursor: pointer; transition: all 0.2s; border: none; text-align: center; line-height: 1;
+}
+.btn-primary { background: var(--red); color: var(--text-cream); box-shadow: 0 8px 24px var(--red-glow); }
+.btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+.btn-secondary { background: transparent; color: var(--text-cream); border: 1.5px solid var(--text-cream-dim); }
+.btn-secondary:hover { border-color: var(--text-cream); background: rgba(241,233,210,0.05); }
+.btn-secondary-light { background: transparent; color: var(--text-dark); border: 1.5px solid var(--text-dark); }
+.btn-secondary-light:hover { background: var(--text-dark); color: var(--cream); }
+.btn-lg { padding: 18px 40px; font-size: 18px; }
+
+.kicker {
+  font-size: 13px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--gold); margin-bottom: 20px;
+}
+.kicker-red { color: var(--red); }
+
+/* HERO */
+.hero-precios {
+  padding: 96px 0 72px; text-align: center;
+  background-image: radial-gradient(ellipse 800px 400px at 50% 30%, rgba(176,41,64,0.15), transparent);
+}
+.hero-precios h1 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2.5rem, 5.5vw, 4rem); line-height: 1.05;
+  letter-spacing: -0.025em; margin-bottom: 24px; max-width: 820px; margin-left: auto; margin-right: auto;
+  color: var(--text-cream);
+}
+.hero-precios h1 em { font-style: normal; color: var(--gold); }
+.hero-precios .subhead {
+  font-size: 20px; color: var(--text-cream-dim); max-width: 640px;
+  margin: 0 auto; line-height: 1.55;
+}
+@media (max-width: 700px) { .hero-precios { padding: 56px 0 40px; } }
+
+/* HOW WE QUOTE */
+.how-quote { padding: 88px 0; background: var(--cream); color: var(--text-dark); }
+.how-quote-head { text-align: center; margin-bottom: 64px; max-width: 720px; margin-left: auto; margin-right: auto; }
+.how-quote h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 16px;
+}
+.how-quote h2 em { font-style: normal; color: var(--red); }
+.how-quote-head p { color: var(--text-dark-dim); font-size: 18px; line-height: 1.55; }
+.quote-factors { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 0 auto; }
+@media (max-width: 700px) { .quote-factors { grid-template-columns: 1fr; } }
+.factor-card {
+  background: var(--ivory); border: 1px solid var(--stone); border-radius: 12px;
+  padding: 32px 28px; transition: all 0.2s;
+}
+.factor-card:hover { border-color: var(--red); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+.factor-icon {
+  width: 44px; height: 44px; border-radius: 8px;
+  background: var(--red); color: var(--cream);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+  font-family: var(--font-display); font-weight: 900; font-size: 20px;
+}
+.factor-card h4 {
+  font-family: var(--font-display); font-weight: 600; font-size: 21px;
+  margin-bottom: 10px; color: var(--text-dark);
+}
+.factor-card p { color: var(--text-dark-dim); font-size: 15px; line-height: 1.6; }
+
+/* INCLUDED BLOCK */
+.section-included { padding: 88px 0; background: var(--black); }
+.included-head { text-align: center; margin-bottom: 56px; max-width: 720px; margin-left: auto; margin-right: auto; }
+.included-head h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -0.015em;
+  color: var(--text-cream); margin-bottom: 16px;
+}
+.included-head h2 em { font-style: normal; color: var(--gold); }
+.included-head p { color: var(--text-cream-dim); font-size: 18px; }
+.included-block {
+  background: var(--black-soft); border: 1px solid rgba(228,179,102,0.15);
+  border-radius: 16px; padding: 48px 40px; max-width: 900px; margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; }
+@media (max-width: 700px) { .included-grid { grid-template-columns: 1fr; } .included-block { padding: 32px 24px; } }
+.included-item {
+  display: flex; gap: 14px; align-items: flex-start; font-size: 15px;
+  padding: 10px 0; color: var(--text-cream);
+}
+.check {
+  color: var(--gold); font-weight: 700; flex-shrink: 0;
+  width: 22px; height: 22px; border-radius: 50%; background: rgba(228,179,102,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 2px;
+}
+
+/* PROCESS · Cómo llegamos a tu precio */
+.process { padding: 96px 0; background: var(--cream); color: var(--text-dark); }
+.process-head { text-align: center; margin-bottom: 72px; max-width: 720px; margin-left: auto; margin-right: auto; }
+.process h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 16px;
+}
+.process h2 em { font-style: normal; color: var(--red); }
+.process-steps { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 32px; max-width: 1100px; margin: 0 auto; }
+@media (max-width: 900px) { .process-steps { grid-template-columns: 1fr 1fr; gap: 40px 32px; } }
+@media (max-width: 500px) { .process-steps { grid-template-columns: 1fr; } .process { padding: 64px 0; } }
+.process-step { text-align: center; }
+.process-num {
+  font-family: var(--font-mono); font-weight: 700; font-size: 14px;
+  color: var(--red); margin-bottom: 12px; letter-spacing: 0.1em;
+}
+.process-icon {
+  width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%;
+  background: var(--ivory); border: 2px solid var(--red);
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+}
+.process-step h4 {
+  font-family: var(--font-display); font-weight: 600; font-size: 19px;
+  margin-bottom: 10px; color: var(--text-dark);
+}
+.process-step p { color: var(--text-dark-dim); font-size: 14px; line-height: 1.55; }
+
+/* TRANSPARENCY */
+.transparency { background: var(--red); color: var(--text-cream); padding: 96px 0; }
+.transparency-inner { max-width: 800px; margin: 0 auto; padding: 0 24px; text-align: center; }
+.transparency .kicker { color: var(--gold); }
+.transparency h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 32px;
+}
+.transparency p { font-size: 18px; margin-bottom: 20px; line-height: 1.65; color: var(--text-cream); }
+.transparency p strong { color: var(--gold); font-weight: 600; }
+.transparency-list { list-style: none; margin: 32px 0; text-align: left; }
+.transparency-list li {
+  padding: 14px 0; font-size: 17px; border-bottom: 1px solid rgba(241,233,210,0.15);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.transparency-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+/* FAQ */
+.faq { background: var(--cream); padding: 112px 0; color: var(--text-dark); }
+.faq-head { text-align: center; margin-bottom: 56px; }
+.faq h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -0.015em;
+}
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--stone); }
+.faq-item summary {
+  padding: 26px 0; font-family: var(--font-display); font-weight: 600; font-size: 21px;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  list-style: none; color: var(--text-dark);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+'; font-size: 32px; font-weight: 300; color: var(--red);
+  transition: transform 0.25s; flex-shrink: 0; margin-left: 24px;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { padding: 0 0 26px; color: var(--text-dark-dim); font-size: 16px; line-height: 1.7; max-width: 650px; }
+
+/* FINAL CTA */
+.final-cta {
+  background: var(--black); color: var(--text-cream); padding: 128px 0; text-align: center;
+  background-image: radial-gradient(ellipse 800px 500px at 50% 50%, rgba(176,41,64,0.18), transparent);
+}
+.final-cta h2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 3.75rem); line-height: 1.05; letter-spacing: -0.025em;
+  margin-bottom: 28px; color: var(--text-cream); max-width: 780px; margin-left: auto; margin-right: auto;
+}
+.final-cta h2 em { font-style: normal; color: var(--gold); }
+.final-cta p { font-size: 19px; color: var(--text-cream-dim); margin-bottom: 44px; max-width: 580px; margin-left: auto; margin-right: auto; }
+.final-cta-micro { margin-top: 24px; font-size: 14px; color: var(--text-cream-dim); }
+.final-cta-micro a { color: var(--gold); border-bottom: 1px solid var(--gold); }
+
+/* FOOTER */
+.footer { background: #050403; color: var(--text-cream); padding: 72px 0 32px; border-top: 1px solid rgba(228,179,102,0.1); }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+@media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 500px) { .footer-grid { grid-template-columns: 1fr; } }
+.footer-brand .logo { color: var(--text-cream); margin-bottom: 20px; display: block; }
+.footer-brand p { font-size: 14px; color: var(--text-cream-dim); line-height: 1.7; margin-bottom: 24px; max-width: 320px; }
+.footer-socials { display: flex; gap: 12px; }
+.footer-socials a {
+  width: 38px; height: 38px; border: 1px solid rgba(228,179,102,0.25); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s;
+  color: var(--text-cream-dim); font-weight: 600;
+}
+.footer-socials a:hover { background: var(--red); color: var(--text-cream); border-color: var(--red); }
+.footer h5 {
+  font-family: var(--font-ui); font-weight: 700; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 18px;
+}
+.footer ul { list-style: none; }
+.footer ul li { margin-bottom: 12px; }
+.footer ul a { font-size: 14px; color: var(--text-cream-dim); transition: color 0.2s; }
+.footer ul a:hover { color: var(--text-cream); }
+.footer-bottom {
+  border-top: 1px solid rgba(241,233,210,0.08); padding-top: 28px;
+  font-size: 13px; color: var(--text-cream-dim); text-align: center; line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Butaca<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="index.html#solucion">Cómo funciona</a>
+      <a href="precios.html" class="active">Presupuesto</a>
+      <a href="index.html#faq">Preguntas</a>
+      <a href="#final-cta" class="nav-cta">Agendar demo</a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Abrir menú">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-precios">
+  <div class="container">
+    <div class="kicker">Presupuesto personalizado</div>
+    <h1>Cotización <em>según el tamaño de tu cine</em>.</h1>
+    <p class="subhead">Butaca se ajusta al tipo de sala, cantidad de funciones y personalización que necesites. Agenda una demo y te enviamos propuesta con precio exacto en 48 horas.</p>
+  </div>
+</section>
+
+<!-- HOW WE QUOTE -->
+<section class="how-quote">
+  <div class="container">
+    <div class="how-quote-head">
+      <div class="kicker kicker-red">Cómo cotizamos</div>
+      <h2>Todo cine paga solo <em>por su realidad</em>.</h2>
+      <p>Un cineclub universitario con 1 sala no debería pagar lo mismo que un circuito con 4 pantallas. Estos son los 4 factores que ajustamos en tu propuesta:</p>
+    </div>
+    <div class="quote-factors">
+      <div class="factor-card">
+        <div class="factor-icon">01</div>
+        <h4>Cantidad de salas</h4>
+        <p>1 sala, 2 pantallas, 4 salas de un mismo cine o multi-sede. El panel es el mismo — el trabajo inicial de configuración escala.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">02</div>
+        <h4>Personalización de la web</h4>
+        <p>Diseño de plantilla base o web pública con identidad visual custom, tipografías propias, animaciones. Tú decides el nivel.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">03</div>
+        <h4>Migración de data previa</h4>
+        <p>Si vienes de Passline, planilla o base propia, migramos tus espectadores y ventas anteriores. Si arrancas desde cero, no aplica.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">04</div>
+        <h4>Nivel de soporte</h4>
+        <p>Estándar en horario hábil o soporte prioritario con respuesta &lt; 4h. Depende de la agilidad que necesita tu operación.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUDED (dark) -->
+<section class="section-included">
+  <div class="container">
+    <div class="included-head">
+      <div class="kicker">Todo lo que incluye</div>
+      <h2>Un plan. Un producto. <em>Todo dentro</em>.</h2>
+      <p>Todos los cines Butaca reciben las mismas herramientas, sin importar el tamaño ni el precio final de su propuesta.</p>
+    </div>
+    <div class="included-block">
+      <div class="included-grid">
+        <div class="included-item"><span class="check">✓</span> Panel de administración completo</div>
+        <div class="included-item"><span class="check">✓</span> Salas ilimitadas (multi-sala automático)</div>
+        <div class="included-item"><span class="check">✓</span> Gestión de películas y funciones</div>
+        <div class="included-item"><span class="check">✓</span> Programación semanal de cartelera</div>
+        <div class="included-item"><span class="check">✓</span> Reservas online ilimitadas</div>
+        <div class="included-item"><span class="check">✓</span> Integración Transbank / Webpay</div>
+        <div class="included-item"><span class="check">✓</span> Validación de entradas por QR</div>
+        <div class="included-item"><span class="check">✓</span> Web pública con tu marca y dominio</div>
+        <div class="included-item"><span class="check">✓</span> Página de noticias integrada</div>
+        <div class="included-item"><span class="check">✓</span> Base de datos de espectadores propia</div>
+        <div class="included-item"><span class="check">✓</span> Emails transaccionales automáticos</div>
+        <div class="included-item"><span class="check">✓</span> Boleta electrónica integrada (SII)</div>
+        <div class="included-item"><span class="check">✓</span> Reportes automáticos Corfo/fondos</div>
+        <div class="included-item"><span class="check">✓</span> Estadísticas en vivo de ocupación</div>
+        <div class="included-item"><span class="check">✓</span> Usuarios/administradores ilimitados</div>
+        <div class="included-item"><span class="check">✓</span> Mejoras del producto continuas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="process-head">
+      <div class="kicker kicker-red">Cómo llegamos a tu precio</div>
+      <h2>De la demo a tu propuesta: <em>48 horas</em>.</h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="process-num">PASO 01</div>
+        <div class="process-icon">📅</div>
+        <h4>Agendas la demo</h4>
+        <p>20 minutos por Meet. Sin obligación de contratar.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">PASO 02</div>
+        <div class="process-icon">🎬</div>
+        <h4>Conversamos tu cine</h4>
+        <p>Tamaño, salas, cómo vendes hoy, qué esperas cambiar.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">PASO 03</div>
+        <div class="process-icon">📄</div>
+        <h4>Recibes propuesta</h4>
+        <p>Precio exacto por email en 48 horas hábiles, todo desglosado.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">PASO 04</div>
+        <div class="process-icon">✍️</div>
+        <h4>Firmas y arrancamos</h4>
+        <p>Si te acomoda, firma electrónica y arrancamos setup en 24h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPARENCY -->
+<section class="transparency">
+  <div class="transparency-inner">
+    <div class="kicker">Transparencia comercial</div>
+    <h2>Lo que <strong>siempre</strong> aparece en tu propuesta.</h2>
+    <p>Cada propuesta Butaca es un PDF de 2 páginas con estas cosas siempre visibles, sin letra chica:</p>
+    <ul class="transparency-list">
+      <li>Setup único desglosado (qué hacemos ese primer trabajo por tu cine).</li>
+      <li>Mensualidad plana. Sin comisión por entrada ni por venta.</li>
+      <li>Qué incluye la mensualidad y qué no (nada oculto).</li>
+      <li>Plazo exacto de puesta en marcha.</li>
+      <li>Política de cancelación: sin permanencia, exportación de tu data siempre incluida.</li>
+      <li>Vigencia de la propuesta (15 días típicamente).</li>
+    </ul>
+    <p><strong>Regla interna:</strong> si algo del contrato no lo diríamos en voz alta en una reunión contigo, se saca.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-head">
+      <div class="kicker kicker-red">FAQ Presupuesto</div>
+      <h2>Preguntas sobre precios.</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>¿Por qué no publican precios estándar en la web?</summary>
+        <p>Porque cada cine es distinto. Un cineclub universitario con 1 sala no debería pagar lo mismo que un circuito con 4 pantallas y migración de data histórica. Preferimos ver tu caso primero y darte un precio real, no uno inflado por si acaso.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Cuánto tiempo demora recibir mi propuesta?</summary>
+        <p>48 horas hábiles desde la demo. Si necesitas rapidísimo (ej: fondo con deadline), te la damos en 24h.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Hay comisión por entrada vendida?</summary>
+        <p>No. Butaca cobra solo setup único + mensualidad plana. Webpay cobra su propia comisión estándar (~2.95% + IVA) directo a Transbank, no a nosotros. Es la misma tarifa que pagarías vendiendo por tu cuenta.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Puedo cancelar cuando quiera?</summary>
+        <p>Sí. Sin permanencia mínima. Si cancelas, el servicio queda activo hasta fin del mes pagado y te exportamos toda tu data (espectadores, ventas, cartelera) en formato .csv y .xlsx.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Aceptan facturas para rendición a fondos culturales?</summary>
+        <p>Sí. Emitimos factura electrónica con giro de servicios de software. Sirve para rendición Corfo, CNCA, fondos regionales y municipalidades.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Y si soy un cineclub sin financiamiento estable?</summary>
+        <p>Escríbenos igual. Tenemos flexibilidad para cineclubes universitarios y colectivos autogestionados: setup bonificado, período de arranque gratuito, planes anuales con descuento. Se conversa.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Puedo pagar anual con descuento?</summary>
+        <p>Sí. Pago anual anticipado tiene 10% de descuento (equivale a 1.2 meses gratis). Se coordina al momento de firmar.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿La mensualidad sube con el tiempo?</summary>
+        <p>No sin aviso. Si en algún momento ajustamos precios, los clientes activos mantienen su precio original por 12 meses. Los cambios se comunican con 60 días de anticipación.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="final-cta">
+  <div class="container">
+    <h2>Agenda tu demo y recibe <em>tu presupuesto exacto</em>.</h2>
+    <p>20 minutos por Google Meet. Sin obligación de contratar. Sin argumento de venta agresivo.</p>
+    <a href="mailto:hola@butaca.app" class="btn btn-primary btn-lg">Agendar demo · 20 min</a>
+    <p class="final-cta-micro">O escríbenos directo a <a href="mailto:hola@butaca.app">hola@butaca.app</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Butaca<span class="dot" style="color: var(--red);">.</span></a>
+        <p>Software chileno para cines independientes.<br>Tu cartelera. Tu público. Tus datos.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Instagram">IG</a>
+        </div>
+      </div>
+      <div>
+        <h5>Producto</h5>
+        <ul>
+          <li><a href="index.html#solucion">Cómo funciona</a></li>
+          <li><a href="precios.html">Presupuesto</a></li>
+          <li><a href="index.html#faq">Preguntas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Recursos</h5>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Guía reporte Corfo</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul>
+          <li><a href="mailto:hola@butaca.app">hola@butaca.app</a></li>
+          <li><a href="#">Términos y condiciones</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Butaca SpA · Valparaíso, Chile<br>
+      Construido por el equipo detrás de TingGo.
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('nav');
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
+
+</body>
+</html>

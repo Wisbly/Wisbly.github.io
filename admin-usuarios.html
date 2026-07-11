@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Usuarios — Cine Rex</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="has-butaca">
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada — Panel administrador</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<div class="dash">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <svg width="28" height="28" viewBox="0 0 40 40" fill="none" style="color: var(--gold);"><path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="font-display text-gold" style="font-weight: 600;">Cine Rex</span>
+    </div>
+    <div class="sidebar-user"><div class="avatar">R</div><div><div class="name">Ricardo Torres</div><div class="role">admin</div></div></div>
+    <nav>
+      <div class="sidebar-group">
+        <div class="label">Contenido</div>
+        <a href="admin.html" class="link"><i data-lucide="layout-dashboard"></i> Inicio</a>
+        <a href="admin-peliculas.html" class="link"><i data-lucide="film"></i> Películas</a>
+        <a href="admin-funciones.html" class="link"><i data-lucide="ticket"></i> Funciones</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="label">Administración</div>
+        <a href="admin-usuarios.html" class="link active"><i data-lucide="users"></i> Usuarios</a>
+        <a href="admin-reportes.html" class="link"><i data-lucide="bar-chart-2"></i> Reportes</a>
+        <a href="admin-salas.html" class="link"><i data-lucide="door-open"></i> Salas</a>
+        <a href="admin-cupones.html" class="link"><i data-lucide="tag"></i> Cupones</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><a href="index.html" class="link" style="color: var(--text-muted);"><i data-lucide="log-out"></i> Cerrar sesión</a></div>
+  </aside>
+
+  <main class="dash-main">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="page-title">Usuarios del sistema</h1>
+        <p class="page-subtitle">1.847 clientes registrados · 5 personal · Actualizado hace 3 min</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-secondary btn-sm"><i data-lucide="download"></i> Exportar CSV</button>
+        <button class="btn btn-primary"><i data-lucide="user-plus"></i> Nuevo usuario</button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="label">Total usuarios</div>
+        <div class="value">1.847</div>
+        <div class="delta up">↑ 6,4% este mes</div>
+      </div>
+      <div class="stat">
+        <div class="label">Nuevos esta semana</div>
+        <div class="value text-gold">42</div>
+        <div class="delta up">↑ 12 vs semana anterior</div>
+      </div>
+      <div class="stat">
+        <div class="label">Activos últimos 30 días</div>
+        <div class="value text-success">1.128</div>
+        <div class="delta">
+          <span class="text-muted">61% de la base</span>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">Reservas acumuladas</div>
+        <div class="value">8.642</div>
+        <div class="delta">
+          <span class="text-muted">4,7 por cliente activo</span>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">Puntos en circulación</div>
+        <div class="value" style="color: var(--info);">142.850</div>
+        <div class="delta">
+          <span class="text-muted">$1,4M en beneficios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight cards -->
+    <div class="grid mb-6" style="grid-template-columns: 2fr 1fr; gap: 20px;">
+      <div class="card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Crecimiento de la base — Últimos 6 meses</h3>
+          <span class="text-xs text-muted">Nuevos registros por mes</span>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 16px; height: 140px; padding: 8px 0;">
+          <div style="flex: 1; text-align: center;">
+            <div style="height: 60px; background: linear-gradient(to top, var(--gold), rgba(212,168,67,0.4)); border-radius: 4px 4px 0 0;"></div>
+            <p class="text-xs text-muted mt-2">Feb</p>
+            <p class="text-xs" style="font-weight: 600;">98</p>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <div style="height: 85px; background: linear-gradient(to top, var(--gold), rgba(212,168,67,0.4)); border-radius: 4px 4px 0 0;"></div>
+            <p class="text-xs text-muted mt-2">Mar</p>
+            <p class="text-xs" style="font-weight: 600;">124</p>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <div style="height: 72px; background: linear-gradient(to top, var(--gold), rgba(212,168,67,0.4)); border-radius: 4px 4px 0 0;"></div>
+            <p class="text-xs text-muted mt-2">Abr</p>
+            <p class="text-xs" style="font-weight: 600;">106</p>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <div style="height: 105px; background: linear-gradient(to top, var(--gold), rgba(212,168,67,0.4)); border-radius: 4px 4px 0 0;"></div>
+            <p class="text-xs text-muted mt-2">May</p>
+            <p class="text-xs" style="font-weight: 600;">154</p>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <div style="height: 128px; background: linear-gradient(to top, var(--gold), rgba(212,168,67,0.4)); border-radius: 4px 4px 0 0;"></div>
+            <p class="text-xs text-muted mt-2">Jun</p>
+            <p class="text-xs" style="font-weight: 600;">184</p>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <div style="height: 92px; background: linear-gradient(to top, rgba(212,168,67,0.6), rgba(212,168,67,0.2)); border-radius: 4px 4px 0 0; border: 1px dashed var(--gold);"></div>
+            <p class="text-xs text-muted mt-2">Jul</p>
+            <p class="text-xs" style="font-weight: 600; color: var(--gold);">128 · en curso</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size: 15px; font-weight: 600; margin: 0 0 16px;">Segmentación por tier</h3>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span>🥉 Bronze</span><span class="text-muted">1.204</span></div>
+            <div style="height: 6px; background: var(--bg-offset); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 65%; background: #cd7f32;"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span>🥈 Silver</span><span class="text-muted">432</span></div>
+            <div style="height: 6px; background: var(--bg-offset); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 23%; background: #c0c0c0;"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span>🥇 Gold</span><span class="text-muted">168</span></div>
+            <div style="height: 6px; background: var(--bg-offset); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 9%; background: var(--gold);"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span>💎 Platinum</span><span class="text-muted">43</span></div>
+            <div style="height: 6px; background: var(--bg-offset); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 2%; background: #e5e4e2;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between mb-4" style="flex-wrap: wrap; gap: 12px;">
+      <h3 style="font-size: 16px; font-weight: 600; margin: 0;">Directorio completo</h3>
+      <div style="display: flex; gap: 4px;">
+        <button class="btn btn-sm" style="background: var(--gold-subtle); border-color: rgba(212,168,67,0.4); color: var(--gold);">Todos <span class="text-xs" style="opacity:0.7;">(1.847)</span></button>
+        <button class="btn btn-ghost btn-sm">Clientes <span class="text-xs" style="opacity:0.5;">(1.842)</span></button>
+        <button class="btn btn-ghost btn-sm">Personal <span class="text-xs" style="opacity:0.5;">(5)</span></button>
+        <button class="btn btn-ghost btn-sm">Nuevos esta semana <span class="text-xs" style="opacity:0.5;">(42)</span></button>
+      </div>
+    </div>
+
+    <div class="card mb-4" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <div style="position: relative; flex: 1; min-width: 240px;">
+        <input type="text" placeholder="Buscar por nombre, email…" style="padding-left: 40px;" class="w-full" />
+        <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint);"></i>
+      </div>
+      <select style="max-width: 160px;">
+        <option>Todos los roles</option>
+        <option>CLIENTE</option>
+        <option>SECRETARIA</option>
+        <option>ADMIN</option>
+      </select>
+      <select style="max-width: 160px;">
+        <option>Todos los tiers</option>
+        <option>💎 Platinum</option>
+        <option>🥇 Gold</option>
+        <option>🥈 Silver</option>
+        <option>🥉 Bronze</option>
+      </select>
+      <select style="max-width: 160px;">
+        <option>Ordenar por: Registro</option>
+        <option>Ordenar por: Reservas</option>
+        <option>Ordenar por: Puntos</option>
+        <option>Ordenar por: Nombre</option>
+      </select>
+    </div>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Rol / Tier</th>
+            <th>Reservas</th>
+            <th>Puntos</th>
+            <th>Última visita</th>
+            <th>Registro</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">R</div>
+                Ricardo Torres
+              </div>
+            </td>
+            <td>ricardo.torres@cinerex.cl</td>
+            <td><span class="badge" style="background: var(--crimson); color: white;">ADMIN</span></td>
+            <td>—</td>
+            <td>—</td>
+            <td class="text-xs text-muted">01 Ene 2024</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">M</div>
+                Manuela Vera
+              </div>
+            </td>
+            <td>manuela.vera@cinerex.cl</td>
+            <td><span class="badge" style="background: rgba(212,168,67,0.2); color: var(--gold);">SECRETARIA</span></td>
+            <td>—</td>
+            <td>—</td>
+            <td class="text-xs text-muted">15 Feb 2024</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">D</div>
+                Diego Salinas
+              </div>
+            </td>
+            <td>diego.salinas@cinerex.cl</td>
+            <td><span class="badge" style="background: rgba(212,168,67,0.2); color: var(--gold);">SECRETARIA</span></td>
+            <td>—</td>
+            <td>—</td>
+            <td class="text-xs text-muted">03 Mar 2024</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">C</div>
+                Carolina Muñoz Reyes
+              </div>
+            </td>
+            <td>carolina.munoz@gmail.com</td>
+            <td>
+              <div class="flex items-center gap-1" style="flex-wrap:wrap;">
+                <span class="badge badge-muted">CLIENTE</span>
+                <span class="badge" style="background: rgba(229,228,226,0.15); color: #e5e4e2;">💎 PLATINUM</span>
+              </div>
+            </td>
+            <td><strong>24</strong></td>
+            <td class="text-info" style="font-weight: 600;">1.450</td>
+            <td class="text-xs text-success">Hace 2 días</td>
+            <td class="text-xs text-muted">18 Ago 2024</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">A</div>
+                Andrés Pérez Vergara
+              </div>
+            </td>
+            <td>andres.perez@outlook.com</td>
+            <td>
+              <div class="flex items-center gap-1" style="flex-wrap:wrap;">
+                <span class="badge badge-muted">CLIENTE</span>
+                <span class="badge" style="background: rgba(212,168,67,0.15); color: var(--gold);">🥇 GOLD</span>
+              </div>
+            </td>
+            <td><strong>18</strong></td>
+            <td class="text-info" style="font-weight: 600;">1.120</td>
+            <td class="text-xs text-success">Hace 4 días</td>
+            <td class="text-xs text-muted">22 Sep 2024</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">M</div>
+                María González Rojas
+              </div>
+            </td>
+            <td>maria.gonzalez@gmail.com</td>
+            <td>
+              <div class="flex items-center gap-1" style="flex-wrap:wrap;">
+                <span class="badge badge-muted">CLIENTE</span>
+                <span class="badge" style="background: rgba(212,168,67,0.15); color: var(--gold);">🥇 GOLD</span>
+              </div>
+            </td>
+            <td><strong>12</strong></td>
+            <td class="text-info" style="font-weight: 600;">780</td>
+            <td class="text-xs text-muted">Hace 1 semana</td>
+            <td class="text-xs text-muted">10 Nov 2024</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">J</div>
+                José Ramírez Silva
+              </div>
+            </td>
+            <td>jose.ramirez@gmail.com</td>
+            <td>
+              <div class="flex items-center gap-1" style="flex-wrap:wrap;">
+                <span class="badge badge-muted">CLIENTE</span>
+                <span class="badge" style="background: rgba(192,192,192,0.15); color: #c0c0c0;">🥈 SILVER</span>
+              </div>
+            </td>
+            <td><strong>8</strong></td>
+            <td class="text-info" style="font-weight: 600;">420</td>
+            <td class="text-xs text-muted">Hace 2 semanas</td>
+            <td class="text-xs text-muted">05 Feb 2025</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold-subtle);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">F</div>
+                Francisca Silva Muñoz
+              </div>
+            </td>
+            <td>francisca.silva@yahoo.com</td>
+            <td>
+              <div class="flex items-center gap-1" style="flex-wrap:wrap;">
+                <span class="badge badge-muted">CLIENTE</span>
+                <span class="badge" style="background: rgba(192,192,192,0.15); color: #c0c0c0;">🥈 SILVER</span>
+              </div>
+            </td>
+            <td><strong>6</strong></td>
+            <td class="text-info" style="font-weight: 600;">320</td>
+            <td class="text-xs text-muted">Hace 3 semanas</td>
+            <td class="text-xs text-muted">14 Abr 2025</td>
+            <td><button class="btn btn-ghost btn-sm"><i data-lucide="more-horizontal" style="width:14px;"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-faint mt-4">Mostrando 8 de 1.847 usuarios. <a href="#" class="text-gold">Ver todos →</a></p>
+  </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

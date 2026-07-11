@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gestión de Películas — Cine Rex</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="has-butaca">
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada — Panel administrador</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<div class="dash">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <svg width="28" height="28" viewBox="0 0 40 40" fill="none" style="color: var(--gold);"><path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="font-display text-gold" style="font-weight: 600;">Cine Rex</span>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar">R</div>
+      <div><div class="name">Ricardo Torres</div><div class="role">admin</div></div>
+    </div>
+    <nav>
+      <div class="sidebar-group">
+        <div class="label">Contenido</div>
+        <a href="admin.html" class="link"><i data-lucide="layout-dashboard"></i> Inicio</a>
+        <a href="admin-peliculas.html" class="link active"><i data-lucide="film"></i> Películas</a>
+        <a href="admin-funciones.html" class="link"><i data-lucide="ticket"></i> Funciones</a>
+        <a href="#" class="link"><i data-lucide="calendar"></i> Eventos</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="label">Operaciones</div>
+        <a href="admin-taquilla.html" class="link"><i data-lucide="banknote"></i> Taquilla</a>
+        <a href="admin-validar.html" class="link"><i data-lucide="scan-line"></i> Validar Ticket</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="label">Administración</div>
+        <a href="admin-usuarios.html" class="link"><i data-lucide="users"></i> Usuarios</a>
+        <a href="admin-reportes.html" class="link"><i data-lucide="bar-chart-2"></i> Reportes</a>
+        <a href="admin-salas.html" class="link"><i data-lucide="door-open"></i> Salas</a>
+        <a href="admin-cupones.html" class="link"><i data-lucide="tag"></i> Cupones</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="index.html" class="link" style="color: var(--text-muted);"><i data-lucide="log-out"></i> Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <main class="dash-main">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="page-title">Gestión de Películas</h1>
+        <p class="page-subtitle">18 películas activas — Cine Rex Vallenar</p>
+      </div>
+      <button class="btn btn-primary"><i data-lucide="plus"></i> Nueva película</button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <div style="position: relative; flex: 1; min-width: 240px;">
+        <input type="text" placeholder="Buscar por título, director…" style="padding-left: 40px;" class="w-full" />
+        <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint);"></i>
+      </div>
+      <select style="max-width: 160px;">
+        <option>Todos los géneros</option>
+        <option>Acción</option>
+        <option>Drama</option>
+        <option>Comedia</option>
+        <option>Familiar</option>
+      </select>
+      <select style="max-width: 160px;">
+        <option>Todas las clasif.</option>
+        <option>TE</option>
+        <option>TE+7</option>
+        <option>M14</option>
+      </select>
+      <select style="max-width: 140px;">
+        <option>Activas</option>
+        <option>Inactivas</option>
+        <option>Todas</option>
+      </select>
+    </div>
+
+    <!-- Grid de películas -->
+    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/1a1512/d4a843?text=Duna%3A+Parte+Tres&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <span class="badge badge-gold" style="position: absolute; top: 8px; left: 8px;">DESTACADA</span>
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">M14</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Duna: Parte Tres</p>
+          <p class="text-xs text-muted">Ciencia ficción · 2h 45m</p>
+          <p class="text-xs text-muted mt-1">6 funciones · 842 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/2d1a3d/e4b366?text=Wicked&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">TE</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Wicked</p>
+          <p class="text-xs text-muted">Musical · 2h 40m</p>
+          <p class="text-xs text-muted mt-1">4 funciones · 526 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/3d1a1a/f5a524?text=Gladiator+II&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">M14</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Gladiator II</p>
+          <p class="text-xs text-muted">Acción · 2h 30m</p>
+          <p class="text-xs text-muted mt-1">3 funciones · 312 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/1a3d3a/6ea8fe?text=Moana+2&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">TE</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Moana 2</p>
+          <p class="text-xs text-muted">Familiar · 1h 40m</p>
+          <p class="text-xs text-muted mt-1">5 funciones · 418 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/1a2a3d/4ade80?text=Sonic+3&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">TE</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Sonic 3</p>
+          <p class="text-xs text-muted">Familiar · 1h 50m</p>
+          <p class="text-xs text-muted mt-1">3 funciones · 224 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/1a1a1a/e5484d?text=Nosferatu&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">M18</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Nosferatu</p>
+          <p class="text-xs text-muted">Terror · 2h 12m</p>
+          <p class="text-xs text-muted mt-1">2 funciones · 189 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/2d1a0a/e4b366?text=Mufasa&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">TE+7</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Mufasa: El Rey León</p>
+          <p class="text-xs text-muted">Familiar · 2h 00m</p>
+          <p class="text-xs text-muted mt-1">4 funciones · 386 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="position: relative; aspect-ratio: 2/3; background: var(--bg-offset);">
+          <img src="https://placehold.co/500x750/1a3d1a/4ade80?text=Robot+Salvaje&font=playfair" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; font-size: 11px; color: var(--gold);">M14</div>
+        </div>
+        <div style="padding: 12px;">
+          <p style="font-weight: 600; margin: 0 0 4px;">Robot Salvaje</p>
+          <p class="text-xs text-muted">Animación · 1h 42m</p>
+          <p class="text-xs text-muted mt-1">2 funciones · 148 tickets</p>
+          <div class="flex gap-1 mt-3">
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="pencil" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center;"><i data-lucide="calendar-plus" style="width:12px;height:12px;"></i></button>
+            <button class="btn btn-ghost btn-sm" style="flex: 1; justify-content: center; color: var(--crimson);"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

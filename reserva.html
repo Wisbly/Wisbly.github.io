@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elige tus asientos — Duna Parte Tres</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container inner">
+    <div class="left-group">
+      <a class="brand" href="index.html">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+          <path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M20 14 L12 32 M20 14 L28 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2" />
+          <circle cx="20" cy="11" r="1.5" fill="currentColor" />
+        </svg>
+        Demo interactiva de Butaca
+      </a>
+      <nav class="nav">
+        <a href="index.html">Cartelera</a>
+        <a href="semana.html">Semana</a>
+        <a href="estrenos.html">Estrenos</a>
+        <a href="novedades.html">Novedades</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+    </div>
+    <div class="actions">
+      <a href="admin.html" class="btn btn-secondary btn-sm">
+        <i data-lucide="layout-dashboard"></i> Panel
+      </a>
+      <a href="#" class="icon-btn" title="Cerrar sesión">
+        <i data-lucide="log-out" style="width:18px;height:18px;"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="container" style="padding: 32px 16px;">
+  <div class="flex items-center justify-between mb-6" style="flex-wrap: wrap; gap: 12px;">
+    <div class="flex items-center gap-3">
+      <a href="pelicula.html" class="text-muted"><i data-lucide="chevron-left" style="width:24px;height:24px;"></i></a>
+      <div>
+        <h1 style="font-size: 22px; font-weight: 600; margin: 0;">Elige tus asientos</h1>
+        <p class="text-muted text-sm" style="margin: 4px 0 0;">Vie 10 Jul 2026 · 20:00 · Sala 1 — IMAX · Duna: Parte Tres</p>
+      </div>
+    </div>
+    <a href="pelicula.html" class="text-gold text-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+      <i data-lucide="film" style="width:14px;height:14px;"></i> Ver más funciones
+    </a>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 300px; gap: 32px;">
+    <!-- Seat grid -->
+    <div>
+      <div class="screen"></div>
+      <div class="screen-label">PANTALLA</div>
+
+      <div class="seat-grid" id="seatGrid"></div>
+
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--bg-offset); border-color: var(--border);"></span> Standard</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--gold); border-color: var(--gold-hover);"></span> Seleccionado</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: transparent; opacity: 0.3;"></span> Ocupado</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: rgba(212,168,67,0.2); border-color: rgba(212,168,67,0.5); border-style: dashed;"></span> VIP ($9.000)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: rgba(110,168,254,0.2); border-color: rgba(110,168,254,0.5); border-style: dashed;"></span> Premium ($8.000)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: rgba(229,72,77,0.2); border-color: rgba(229,72,77,0.5); border-style: dashed;"></span> Preferencial ($12.000)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: rgba(74,222,128,0.2); border-color: rgba(74,222,128,0.5); border-style: dashed;"></span> Accesible ($6.000)</div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div>
+      <div class="card" style="position: sticky; top: 90px;">
+        <h2 style="font-size: 16px; font-weight: 600; margin: 0 0 16px;">Resumen</h2>
+
+        <div id="summary" style="min-height: 60px;">
+          <div class="flex items-center gap-2 text-sm text-muted" style="padding: 12px 0;">
+            <i data-lucide="info" style="width:16px;height:16px;"></i>
+            <span>Selecciona tus asientos</span>
+          </div>
+        </div>
+
+        <div class="border-t" style="padding-top: 12px; margin-top: 12px; border-color: var(--border-div);">
+          <div class="flex justify-between">
+            <span class="text-muted text-sm"><span id="seatCount">0</span> asientos</span>
+            <span class="text-gold" style="font-size: 20px; font-weight: 700;">$<span id="total">0</span></span>
+          </div>
+        </div>
+
+        <a href="checkout.html" class="btn btn-primary btn-lg w-full mt-4" style="justify-content: center; margin-top: 16px; width: 100%;">
+          Continuar →
+        </a>
+        <p class="text-xs text-muted" style="text-align: center; margin-top: 8px;">Máximo 8 asientos por reserva</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+
+  // Genera mapa de asientos: filas A-H, 12 columnas
+  const rows = ['A','B','C','D','E','F','G','H'];
+  const cols = 12;
+  const occupied = new Set(['A3','A4','B7','C1','D5','D6','E8','E9','F2','G10','G11','H4','H5']);
+  const priceMap = { STD: 5500, VIP: 9000, PREM: 8000, PREF: 12000, ACC: 6000 };
+  const grid = document.getElementById('seatGrid');
+  const selected = new Map();
+
+  function typeOf(row, num) {
+    if (row === 'A') return 'VIP';
+    if (row === 'H') return 'ACC';
+    if (row === 'D' && (num === 6 || num === 7)) return 'PREF';
+    if (row === 'E' && num >= 5 && num <= 8) return 'PREM';
+    return 'STD';
+  }
+
+  rows.forEach(row => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'seat-row';
+    const label = document.createElement('span');
+    label.className = 'label';
+    label.textContent = row;
+    rowEl.appendChild(label);
+
+    for (let n = 1; n <= cols; n++) {
+      const id = row + n;
+      const btn = document.createElement('button');
+      btn.className = 'seat';
+      btn.dataset.id = id;
+      const type = typeOf(row, n);
+      const cls = { STD: 'std', VIP: 'vip', PREM: 'premium', PREF: 'pref', ACC: 'acc' }[type];
+      btn.classList.add(cls);
+      btn.dataset.type = type;
+      btn.dataset.price = priceMap[type];
+      btn.textContent = n;
+
+      if (occupied.has(id)) {
+        btn.classList.add('occupied');
+        btn.disabled = true;
+        btn.textContent = '';
+      }
+
+      btn.addEventListener('click', () => toggleSeat(btn));
+      rowEl.appendChild(btn);
+
+      // gap after col 6 (aisle)
+      if (n === 6) {
+        const gap = document.createElement('span');
+        gap.style.width = '12px';
+        rowEl.appendChild(gap);
+      }
+    }
+    grid.appendChild(rowEl);
+  });
+
+  function toggleSeat(btn) {
+    if (btn.classList.contains('occupied')) return;
+    const id = btn.dataset.id;
+    if (selected.has(id)) {
+      selected.delete(id);
+      btn.classList.remove('selected');
+    } else {
+      if (selected.size >= 8) return;
+      selected.set(id, { type: btn.dataset.type, price: parseInt(btn.dataset.price) });
+      btn.classList.add('selected');
+    }
+    renderSummary();
+  }
+
+  function renderSummary() {
+    const sum = document.getElementById('summary');
+    const count = document.getElementById('seatCount');
+    const total = document.getElementById('total');
+
+    if (selected.size === 0) {
+      sum.innerHTML = '<div class="flex items-center gap-2 text-sm text-muted" style="padding: 12px 0;"><span>Selecciona tus asientos</span></div>';
+    } else {
+      let html = '<div style="display:flex; flex-direction:column; gap: 8px;">';
+      let sumTotal = 0;
+      const typeLabel = { STD: 'Standard', VIP: 'VIP', PREM: 'Premium', PREF: 'Preferencial', ACC: 'Accesible' };
+      for (const [id, s] of selected) {
+        html += `<div style="display:flex; justify-content:space-between; font-size:14px;">
+          <div><span style="font-weight:500;">${id}</span> <span class="text-xs text-gold" style="margin-left:4px;">${typeLabel[s.type]}</span></div>
+          <span class="text-muted">$${s.price.toLocaleString('es-CL')}</span>
+        </div>`;
+        sumTotal += s.price;
+      }
+      html += '</div>';
+      sum.innerHTML = html;
+      total.textContent = sumTotal.toLocaleString('es-CL');
+    }
+    count.textContent = selected.size;
+    if (selected.size > 0) {
+      const total_ = Array.from(selected.values()).reduce((s, x) => s + x.price, 0);
+      total.textContent = total_.toLocaleString('es-CL');
+    } else {
+      total.textContent = '0';
+    }
+  }
+</script>
+</body>
+</html>

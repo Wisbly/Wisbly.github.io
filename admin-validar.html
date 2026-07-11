@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Validar Ticket — Demo interactiva de Butaca</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* Scanner viewfinder */
+    .scanner-frame {
+      position: relative; aspect-ratio: 4/3; background: linear-gradient(135deg, #0a0806 0%, #14100D 100%);
+      border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .scanner-frame::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(212,168,67,0.06), transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(229,72,77,0.05), transparent 50%);
+    }
+    /* Grid pattern */
+    .scanner-frame::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(212,168,67,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,168,67,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .scanner-viewport {
+      position: absolute; inset: 50%; width: 240px; height: 240px;
+      transform: translate(-50%, -50%);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.55);
+    }
+    /* Corners */
+    .scanner-corner {
+      position: absolute; width: 32px; height: 32px;
+      border: 3px solid var(--gold);
+    }
+    .sc-tl { top: -3px; left: -3px; border-right: none; border-bottom: none; border-radius: 20px 0 0 0; }
+    .sc-tr { top: -3px; right: -3px; border-left: none; border-bottom: none; border-radius: 0 20px 0 0; }
+    .sc-bl { bottom: -3px; left: -3px; border-right: none; border-top: none; border-radius: 0 0 0 20px; }
+    .sc-br { bottom: -3px; right: -3px; border-left: none; border-top: none; border-radius: 0 0 20px 0; }
+    /* Scan line animation */
+    .scan-line {
+      position: absolute; left: 8px; right: 8px; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      box-shadow: 0 0 12px var(--gold);
+      animation: scan 2.5s ease-in-out infinite;
+      border-radius: 3px;
+    }
+    @keyframes scan {
+      0%, 100% { top: 20px; opacity: 0.4; }
+      50% { top: calc(100% - 24px); opacity: 1; }
+    }
+    .scanner-caption {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      font-size: 13px; color: var(--gold); font-weight: 500; letter-spacing: 0.5px;
+      background: rgba(0,0,0,0.6); padding: 8px 16px; border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 8px;
+      z-index: 3;
+    }
+    .live-dot {
+      width: 8px; height: 8px; background: var(--success); border-radius: 50%;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Result cards */
+    .result-success { background: linear-gradient(135deg, rgba(74,222,128,0.12), rgba(74,222,128,0.02)); border: 1px solid rgba(74,222,128,0.4); border-radius: 12px; padding: 20px; }
+    .result-error   { background: linear-gradient(135deg, rgba(229,72,77,0.12), rgba(229,72,77,0.02)); border: 1px solid rgba(229,72,77,0.4); border-radius: 12px; padding: 20px; }
+    .result-icon-ok { width: 56px; height: 56px; border-radius: 50%; background: rgba(74,222,128,0.2); color: var(--success); display: flex; align-items: center; justify-content: center; }
+    .result-icon-err{ width: 56px; height: 56px; border-radius: 50%; background: rgba(229,72,77,0.2); color: var(--crimson); display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body class="has-butaca">
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada — Panel administrador</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<div class="dash">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <svg width="28" height="28" viewBox="0 0 40 40" fill="none" style="color: var(--gold);"><path d="M4 4 Q8 20 6 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M36 4 Q32 20 34 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="11" r="4" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="font-display text-gold" style="font-weight: 600;">Cine Rex</span>
+    </div>
+    <div class="sidebar-user"><div class="avatar">M</div><div><div class="name">Manuela Vera</div><div class="role">secretaria</div></div></div>
+    <nav>
+      <div class="sidebar-group">
+        <div class="label">Contenido</div>
+        <a href="admin.html" class="link"><i data-lucide="layout-dashboard"></i> Inicio</a>
+        <a href="admin-peliculas.html" class="link"><i data-lucide="film"></i> Películas</a>
+        <a href="admin-funciones.html" class="link"><i data-lucide="ticket"></i> Funciones</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="label">Operaciones</div>
+        <a href="admin-taquilla.html" class="link"><i data-lucide="banknote"></i> Taquilla</a>
+        <a href="admin-validar.html" class="link active"><i data-lucide="scan-line"></i> Validar Ticket</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="label">Administración</div>
+        <a href="admin-usuarios.html" class="link"><i data-lucide="users"></i> Usuarios</a>
+        <a href="admin-reportes.html" class="link"><i data-lucide="bar-chart-2"></i> Reportes</a>
+        <a href="admin-salas.html" class="link"><i data-lucide="door-open"></i> Salas</a>
+        <a href="admin-cupones.html" class="link"><i data-lucide="tag"></i> Cupones</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer"><a href="index.html" class="link" style="color: var(--text-muted);"><i data-lucide="log-out"></i> Cerrar sesión</a></div>
+  </aside>
+
+  <main class="dash-main">
+    <div class="flex items-center justify-between mb-6" style="flex-wrap:wrap; gap: 12px;">
+      <div>
+        <h1 class="page-title">Validar tickets</h1>
+        <p class="page-subtitle">Escanea el QR del boleto o ingresa el código manualmente. Sesión de Manuela Vera</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-secondary btn-sm"><i data-lucide="refresh-cw"></i> Actualizar</button>
+        <button class="btn btn-secondary btn-sm"><i data-lucide="settings-2"></i> Configurar</button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="label">Validados hoy</div>
+        <div class="value text-success">184</div>
+        <div class="delta up">↑ 22 desde apertura</div>
+      </div>
+      <div class="stat">
+        <div class="label">Pendientes de entrada</div>
+        <div class="value text-gold">53</div>
+        <div class="delta">
+          <span class="text-muted">Próximas 3 funciones</span>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">Rechazados</div>
+        <div class="value" style="color: var(--crimson);">3</div>
+        <div class="delta">
+          <span class="text-muted">Duplicados o expirados</span>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">Tasa de asistencia</div>
+        <div class="value">92%</div>
+        <div class="delta up">↑ 3pp vs promedio semanal</div>
+      </div>
+    </div>
+
+    <!-- Grid principal -->
+    <div class="grid" style="grid-template-columns: 1.4fr 1fr; gap: 20px;">
+
+      <!-- Columna izquierda: scanner + entrada manual -->
+      <div>
+        <!-- Scanner -->
+        <div class="card mb-4" style="padding: 20px;">
+          <div class="flex items-center justify-between mb-3">
+            <h3 style="font-size: 15px; font-weight: 600; margin: 0; display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="scan-line" style="color: var(--gold);"></i>
+              Escáner de QR
+            </h3>
+            <div class="flex items-center gap-2 text-xs">
+              <select style="max-width: 180px; padding: 4px 8px; font-size: 12px;">
+                <option>Cámara trasera</option>
+                <option>Cámara frontal</option>
+                <option>Webcam</option>
+              </select>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="video-off" style="width:12px;"></i></button>
+            </div>
+          </div>
+
+          <div class="scanner-frame">
+            <div class="scanner-viewport">
+              <span class="scanner-corner sc-tl"></span>
+              <span class="scanner-corner sc-tr"></span>
+              <span class="scanner-corner sc-bl"></span>
+              <span class="scanner-corner sc-br"></span>
+              <div class="scan-line"></div>
+            </div>
+            <div class="scanner-caption">
+              <span class="live-dot"></span>
+              Apunta la cámara al código QR
+            </div>
+          </div>
+
+          <p class="text-xs text-faint mt-3" style="text-align: center;">
+            Tip: mantén el QR bien iluminado y a 15–30 cm de distancia. La detección es automática.
+          </p>
+        </div>
+
+        <!-- Entrada manual -->
+        <div class="card">
+          <h3 style="font-size: 15px; font-weight: 600; margin: 0 0 4px; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="keyboard" style="color: var(--gold);"></i>
+            Ingreso manual del código
+          </h3>
+          <p class="text-xs text-muted mb-4">Si el QR está dañado o borroso, ingresa el código de reserva impreso en el boleto.</p>
+          <div class="flex gap-2">
+            <input type="text" placeholder="REX-XXXX-XX" style="flex: 1; font-family: monospace; text-transform: uppercase; letter-spacing: 2px; font-size: 16px; text-align: center;" />
+            <button class="btn btn-primary"><i data-lucide="check-circle"></i> Validar</button>
+          </div>
+          <p class="text-xs text-faint mt-3">Formato válido: <code style="color: var(--gold);">REX-4 caracteres-2 caracteres</code></p>
+        </div>
+
+        <!-- Últimas validaciones -->
+        <div class="card mt-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3 style="font-size: 15px; font-weight: 600; margin: 0;">Últimas validaciones</h3>
+            <a href="#" class="text-gold text-xs">Ver historial completo →</a>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="flex items-center justify-between" style="padding: 10px 12px; background: var(--bg-offset); border-radius: 8px;">
+              <div class="flex items-center gap-3">
+                <i data-lucide="check" style="width:16px; color: var(--success);"></i>
+                <div>
+                  <p class="text-sm" style="font-family: monospace; font-weight: 600; margin: 0;">REX-8K42-9J</p>
+                  <p class="text-xs text-muted" style="margin: 2px 0 0;">Carolina Muñoz · Duna Parte Tres · A5, A6</p>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Hace 12 seg</span>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 10px 12px; background: var(--bg-offset); border-radius: 8px;">
+              <div class="flex items-center gap-3">
+                <i data-lucide="check" style="width:16px; color: var(--success);"></i>
+                <div>
+                  <p class="text-sm" style="font-family: monospace; font-weight: 600; margin: 0;">REX-5N28-4T</p>
+                  <p class="text-xs text-muted" style="margin: 2px 0 0;">Andrés Pérez · Wicked · D7, D8, D9, D10</p>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Hace 3 min</span>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 10px 12px; background: var(--bg-offset); border-radius: 8px;">
+              <div class="flex items-center gap-3">
+                <i data-lucide="x" style="width:16px; color: var(--crimson);"></i>
+                <div>
+                  <p class="text-sm" style="font-family: monospace; font-weight: 600; margin: 0; color: var(--crimson);">REX-2A19-7X</p>
+                  <p class="text-xs text-muted" style="margin: 2px 0 0;">Duplicado — ya escaneado a las 19:42</p>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Hace 8 min</span>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 10px 12px; background: var(--bg-offset); border-radius: 8px;">
+              <div class="flex items-center gap-3">
+                <i data-lucide="check" style="width:16px; color: var(--success);"></i>
+                <div>
+                  <p class="text-sm" style="font-family: monospace; font-weight: 600; margin: 0;">REX-9F14-2X</p>
+                  <p class="text-xs text-muted" style="margin: 2px 0 0;">José Ramírez · Gladiator II · C4, C5</p>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Hace 14 min</span>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 10px 12px; background: var(--bg-offset); border-radius: 8px;">
+              <div class="flex items-center gap-3">
+                <i data-lucide="check" style="width:16px; color: var(--success);"></i>
+                <div>
+                  <p class="text-sm" style="font-family: monospace; font-weight: 600; margin: 0;">REX-1P89-7K</p>
+                  <p class="text-xs text-muted" style="margin: 2px 0 0;">Francisca Silva · Duna Parte Tres · E3, E4, E5, E6, E7, E8</p>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Hace 22 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: última lectura + estado de funciones -->
+      <div>
+        <!-- Última lectura VÁLIDA -->
+        <div class="result-success mb-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="result-icon-ok">
+              <i data-lucide="check" style="width: 32px; height: 32px;"></i>
+            </div>
+            <div>
+              <p class="uppercase text-xs" style="letter-spacing: 1px; color: var(--success); font-weight: 600; margin: 0;">Última lectura</p>
+              <p class="text-lg" style="font-weight: 600; margin: 2px 0 0;">Ticket válido</p>
+            </div>
+          </div>
+          <div style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-muted">Código</span>
+              <span style="font-family: monospace; font-weight: 600; color: var(--success);">REX-8K42-9J</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-muted">Cliente</span>
+              <span class="text-sm" style="font-weight: 500;">Carolina Muñoz Reyes</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-muted">Película</span>
+              <span class="text-sm" style="font-weight: 500;">Duna: Parte Tres</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-muted">Función</span>
+              <span class="text-sm" style="font-weight: 500;">Vie 10 Jul · 20:00 · Sala 1 IMAX</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-muted">Asientos</span>
+              <span class="text-sm" style="font-weight: 500; color: var(--gold);">A5, A6 (VIP)</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn btn-secondary btn-sm" style="flex: 1; justify-content: center;">
+              <i data-lucide="printer" style="width:14px;"></i> Reimprimir
+            </button>
+            <button class="btn btn-secondary btn-sm" style="flex: 1; justify-content: center;">
+              <i data-lucide="user" style="width:14px;"></i> Ver perfil
+            </button>
+          </div>
+        </div>
+
+        <!-- Ejemplo error (colapsable / referencial) -->
+        <details class="mb-4" style="border: 1px solid rgba(229,72,77,0.25); border-radius: 12px; padding: 12px; background: rgba(229,72,77,0.04);">
+          <summary style="cursor: pointer; font-size: 13px; font-weight: 500; color: var(--crimson);">
+            <i data-lucide="alert-triangle" style="width:14px; display:inline; vertical-align:middle;"></i>
+            Ver ejemplo de ticket rechazado
+          </summary>
+          <div class="result-error mt-3" style="border: none; padding: 0; background: transparent;">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="result-icon-err" style="width: 44px; height: 44px;">
+                <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+              </div>
+              <div>
+                <p class="uppercase text-xs" style="letter-spacing: 1px; color: var(--crimson); font-weight: 600; margin: 0;">Rechazado</p>
+                <p class="text-sm" style="font-weight: 600; margin: 2px 0 0;">Ticket duplicado</p>
+              </div>
+            </div>
+            <p class="text-xs text-muted" style="margin: 0 0 8px;">Este código ya fue validado <strong>hoy a las 19:42</strong> por Diego Salinas. Contacta al cliente para verificar.</p>
+            <p class="text-xs" style="font-family: monospace; color: var(--crimson);">REX-2A19-7X</p>
+          </div>
+        </details>
+
+        <!-- Función actual -->
+        <div class="card">
+          <h3 style="font-size: 15px; font-weight: 600; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="tv" style="color: var(--gold);"></i>
+            Función en curso
+          </h3>
+          <div style="background: linear-gradient(135deg, rgba(212,168,67,0.1), transparent); border: 1px solid rgba(212,168,67,0.3); border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+            <p class="text-xs text-gold uppercase" style="letter-spacing: 1px; font-weight: 600;">Ahora en Sala 1 · IMAX</p>
+            <p class="font-display" style="font-size: 20px; font-weight: 600; margin: 4px 0;">Duna: Parte Tres</p>
+            <p class="text-xs text-muted">20:00 — 22:45 · Función comenzó hace 8 min</p>
+          </div>
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-muted">Asistencia</span>
+            <span><strong>98</strong> / 120 (82%)</span>
+          </div>
+          <div style="height: 8px; background: var(--bg-offset); border-radius: 4px; overflow: hidden; margin-bottom: 12px;">
+            <div style="height: 100%; width: 82%; background: linear-gradient(90deg, var(--gold), var(--gold-hover));"></div>
+          </div>
+          <div class="flex justify-between text-xs">
+            <div><span class="text-muted">Escaneados:</span> <strong style="color: var(--success);">98</strong></div>
+            <div><span class="text-muted">Pendientes:</span> <strong style="color: var(--gold);">22</strong></div>
+          </div>
+
+          <div class="border-t mt-3" style="padding-top: 12px; border-color: var(--border-div);">
+            <p class="uppercase text-xs text-muted mb-2" style="letter-spacing: 1px; font-weight: 600;">Próximas funciones</p>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div class="flex items-center justify-between text-sm">
+                <div>
+                  <p style="margin: 0; font-weight: 500;">21:30 · Duna Parte Tres</p>
+                  <p class="text-xs text-muted" style="margin: 0;">Sala 1 IMAX · Agotada</p>
+                </div>
+                <span class="badge badge-crimson">120/120</span>
+              </div>
+              <div class="flex items-center justify-between text-sm">
+                <div>
+                  <p style="margin: 0; font-weight: 500;">21:15 · Gladiator II</p>
+                  <p class="text-xs text-muted" style="margin: 0;">Sala 3</p>
+                </div>
+                <span class="badge" style="background: var(--gold-subtle); color: var(--gold);">27/60</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ayuda -->
+        <div class="card mt-4" style="background: linear-gradient(135deg, rgba(110,168,254,0.05), transparent); border-color: rgba(110,168,254,0.2);">
+          <div class="flex items-start gap-3">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(110,168,254,0.15); color: var(--info); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i data-lucide="info" style="width:18px;"></i>
+            </div>
+            <div>
+              <p style="font-weight: 500; margin: 0 0 4px;">¿Ticket rechazado?</p>
+              <p class="text-xs text-muted" style="margin: 0; line-height: 1.6;">
+                Los errores más comunes: código ya escaneado, ticket de otra función, o pago pendiente. Consulta la <a href="#" class="text-info">guía completa</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

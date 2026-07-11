@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>¡Reserva confirmada!</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="butaca-topbar">
+  <div class="inner">
+    <a href="butacaindex.html" class="butaca-brand">Butaca<span class="dot">.</span></a>
+    <span class="butaca-badge">🎬 Demo interactiva simulada</span>
+    <div class="butaca-actions">
+      <a href="butacaindex.html" class="butaca-btn-ghost">← Volver a Butaca</a>
+      <a href="butacaprecios.html" class="butaca-btn-red">Ver precios</a>
+    </div>
+  </div>
+</div>
+
+<div class="container-narrow" style="padding: 60px 16px; text-align: center;">
+  <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(74,222,128,0.15); border: 2px solid var(--success); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+    <i data-lucide="check" style="width: 40px; height: 40px; color: var(--success);"></i>
+  </div>
+  <h1 class="font-display" style="font-size: 32px; font-weight: 700; margin: 0 0 8px;">¡Reserva confirmada!</h1>
+  <p class="text-muted" style="margin: 0 0 32px;">Te enviamos los detalles a <strong style="color: var(--text);">carolina.munoz@gmail.com</strong></p>
+
+  <div class="card" style="text-align: left;">
+    <div class="flex items-center justify-between mb-4">
+      <span class="uppercase text-xs text-muted" style="font-weight: 600; letter-spacing: 1px;">Código de reserva</span>
+      <span class="text-gold" style="font-family: monospace; font-size: 20px; font-weight: 700;">REX-8K42-9J</span>
+    </div>
+
+    <!-- QR simulado -->
+    <div style="background: white; padding: 24px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+      <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; width: 200px; height: 200px;">
+        <script>
+          // fake QR pattern
+          document.write((() => {
+            let cells = '';
+            for (let i = 0; i < 144; i++) {
+              const isDark = Math.random() > 0.55 || (i < 12 || i > 132) || (i % 12 === 0 || i % 12 === 11);
+              cells += `<div style="background:${isDark ? '#000' : '#fff'};"></div>`;
+            }
+            return cells;
+          })());
+        </script>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid var(--border-div); padding-top: 16px;">
+      <div class="flex justify-between text-sm mb-2"><span class="text-muted">Película</span><span style="font-weight: 500;">Duna: Parte Tres</span></div>
+      <div class="flex justify-between text-sm mb-2"><span class="text-muted">Fecha</span><span style="font-weight: 500;">Vie 10 Jul 2026 · 20:00</span></div>
+      <div class="flex justify-between text-sm mb-2"><span class="text-muted">Sala</span><span style="font-weight: 500;">Sala 1 — IMAX</span></div>
+      <div class="flex justify-between text-sm mb-2"><span class="text-muted">Asientos</span><span style="font-weight: 500;">A5, A6 (VIP)</span></div>
+      <div class="flex justify-between text-sm mt-4 border-t" style="padding-top: 12px; border-color: var(--border-div);">
+        <span style="font-weight: 600;">Total pagado</span>
+        <span class="text-gold" style="font-size: 20px; font-weight: 700;">$12.400</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.3); border-radius: 8px; padding: 12px; margin-top: 20px;">
+    <p class="text-sm" style="color: var(--gold); margin: 0;">
+      <i data-lucide="sparkles" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>
+      Ganaste <strong>124 puntos</strong> por esta compra
+    </p>
+  </div>
+
+  <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: center;">
+    <a href="index.html" class="btn btn-secondary">Volver a cartelera</a>
+    <button class="btn btn-primary"><i data-lucide="download"></i> Descargar ticket</button>
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
