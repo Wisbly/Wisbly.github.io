@@ -13,6 +13,7 @@
     --salvia-dark: #5d7853;
     --salvia-deep: #3f5638;
     --oliva: #4a5f42;
+    --verde-solido: #3f5638;
     --duela: #b08968;
     --duela-light: #d4b48a;
     --terracota: #c07a5a;
@@ -24,6 +25,7 @@
     --muted: #8a8a7e;
     --border: #ded4c0;
     --card-bg: #ffffff;
+    --leaf-texture: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='170'%20height='170'%20viewBox='0%200%20170%20170'%3E%3Cg%20fill='none'%20stroke='%235d7853'%20stroke-width='1.1'%20opacity='0.35'%3E%3Cpath%20d='M18%2048%20q16%20-19%2032%200%20q-16%2019%20-32%200%20Z'/%3E%3Cpath%20d='M18%2048%20L50%2048'/%3E%3Cpath%20d='M112%20112%20q16%20-19%2032%200%20q-16%2019%20-32%200%20Z'/%3E%3Cpath%20d='M112%20112%20L144%20112'/%3E%3Cpath%20d='M120%2038%20q-12%20-16%20-28%20-6'/%3E%3Cpath%20d='M40%20128%20q12%20-16%2028%20-6'/%3E%3Ccircle%20cx='125'%20cy='42'%20r='2.4'/%3E%3Ccircle%20cx='132'%20cy='42'%20r='3.3'/%3E%3Ccircle%20cx='127'%20cy='35'%20r='3.3'/%3E%3Ccircle%20cx='119'%20cy='38'%20r='3.3'/%3E%3Ccircle%20cx='119'%20cy='46'%20r='3.3'/%3E%3Ccircle%20cx='127'%20cy='49'%20r='3.3'/%3E%3Ccircle%20cx='42'%20cy='132'%20r='2.4'/%3E%3Ccircle%20cx='49'%20cy='132'%20r='3.3'/%3E%3Ccircle%20cx='44'%20cy='125'%20r='3.3'/%3E%3Ccircle%20cx='36'%20cy='128'%20r='3.3'/%3E%3Ccircle%20cx='36'%20cy='136'%20r='3.3'/%3E%3Ccircle%20cx='44'%20cy='139'%20r='3.3'/%3E%3C/g%3E%3C/svg%3E");
     --shadow-sm: 0 2px 8px rgba(44, 50, 41, 0.06);
     --shadow-md: 0 8px 24px rgba(44, 50, 41, 0.10);
     --shadow-lg: 0 20px 60px rgba(44, 50, 41, 0.15);
@@ -35,6 +37,7 @@
       --salvia-dark: #7d9670;
       --salvia-deep: #b8d0ac;
       --oliva: #a3b990;
+      --verde-solido: #38492f;
       --duela: #c9a380;
       --duela-light: #d4b48a;
       --terracota: #d18f70;
@@ -61,6 +64,18 @@
     color: var(--tinta);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+  }
+  /* Textura botánica sutil de fondo (hojas + flores) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image: var(--leaf-texture);
+    background-size: 170px 170px;
+    background-repeat: repeat;
   }
 
   h1, h2, h3, h4 {
@@ -161,7 +176,7 @@
   }
   .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn-primary {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     padding: 14px 28px;
     border-radius: 999px;
@@ -221,7 +236,7 @@
   .hero-badge-icon {
     width: 40px; height: 40px;
     border-radius: 50%;
-    background: var(--salvia);
+    background: var(--verde-solido);
     display: grid; place-items: center;
     color: white; font-size: 20px;
   }
@@ -229,7 +244,18 @@
   .hero-badge span { color: var(--muted); font-size: 12px; }
 
   /* SECTION */
-  .section { padding: 100px 0; }
+  .section { padding: 100px 0; position: relative; z-index: 0; }
+  .section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: var(--leaf-texture);
+    background-size: 170px 170px;
+    background-repeat: repeat;
+    opacity: 0.5;
+  }
   .section-eyebrow {
     color: var(--salvia-dark);
     font-size: 13px;
@@ -281,7 +307,7 @@
     border-radius: 12px;
     z-index: 2;
   }
-  .phone-screen {
+  .phone-mockup .phone-screen {
     background: #fff;
     border-radius: 30px;
     height: 100%;
@@ -405,7 +431,7 @@
     position: absolute;
     top: 14px;
     right: 14px;
-    background: var(--salvia);
+    background: var(--verde-solido);
     color: white;
     padding: 4px 10px;
     border-radius: 999px;
@@ -431,7 +457,7 @@
   }
   .taller-price small { font-size: 12px; color: var(--muted); font-weight: 400; }
   .taller-btn {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     border: none;
     padding: 10px 18px;
@@ -453,7 +479,7 @@
     flex-shrink: 0;
     width: 44px; height: 44px;
     border-radius: 12px;
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     display: grid; place-items: center;
     font-size: 20px;
@@ -788,9 +814,9 @@
     transition: all 0.2s;
   }
   .menu-tab.active {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
-    border-color: var(--salvia-dark);
+    border-color: var(--verde-solido);
   }
   .menu-panel { display: none; padding: 8px 16px 24px; }
   .menu-panel.active { display: block; animation: fadeIn 0.35s ease; }
@@ -891,7 +917,7 @@
   }
   .checkout-step-num {
     display: inline-block;
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     width: 28px; height: 28px;
     border-radius: 50%;
@@ -945,7 +971,7 @@
   }
   .success-check {
     width: 56px; height: 56px;
-    background: var(--salvia);
+    background: var(--verde-solido);
     border-radius: 50%;
     display: grid; place-items: center;
     color: white;
@@ -1055,7 +1081,7 @@
     resize: none;
   }
   .admin-save {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     border: none;
     padding: 10px 24px;
@@ -1111,7 +1137,7 @@
     border-bottom-color: var(--salvia-dark);
   }
   .admin-tab-badge {
-    background: var(--salvia);
+    background: var(--verde-solido);
     color: #fff;
     font-size: 10px;
     padding: 2px 7px;
@@ -1187,7 +1213,7 @@
     position: absolute;
     top: 8px;
     right: 8px;
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: #fff;
     width: 24px;
     height: 24px;
@@ -1283,7 +1309,7 @@
     font-size: 14px;
     transition: all 0.15s;
   }
-  .admin-icon-btn:hover { background: var(--salvia); color: #fff; border-color: var(--salvia); }
+  .admin-icon-btn:hover { background: var(--verde-solido); color: #fff; border-color: var(--verde-solido); }
   .admin-icon-btn.danger:hover { background: #d94a4a; border-color: #d94a4a; }
 
   /* Historial asistentes */
@@ -1415,8 +1441,8 @@
     background: var(--card-bg);
   }
   .admin-check.checked {
-    background: var(--salvia-dark);
-    border-color: var(--salvia-dark);
+    background: var(--verde-solido);
+    border-color: var(--verde-solido);
     color: #fff;
     font-size: 13px;
     font-weight: 700;
@@ -1545,11 +1571,11 @@
   }
   .vc-nav-links button:hover { color: var(--tinta); background: rgba(125,150,112,0.10); }
   .vc-nav-links button.vc-cta {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: #fff;
     margin-left: 6px;
   }
-  .vc-nav-links button.vc-cta:hover { background: var(--oliva); color: #fff; }
+  .vc-nav-links button.vc-cta:hover { background: var(--verde-solido); color: #fff; }
 
   /* Área scrollable interna */
   .vc-scroll {
@@ -1613,7 +1639,7 @@
     box-shadow: var(--shadow-md);
   }
   .vc-btn {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: #fff;
     border: none;
     padding: 12px 22px;
@@ -1653,7 +1679,7 @@
   .vc-taller-title { font-family: 'Fraunces', serif; font-size: 16px; color: var(--tinta); margin-bottom: 6px; }
   .vc-taller-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
   .vc-taller-cupos {
-    background: var(--salvia);
+    background: var(--verde-solido);
     color: #fff;
     font-size: 11px;
     padding: 3px 8px;
@@ -1686,7 +1712,24 @@
     display: grid;
     place-items: center;
     font-size: 20px;
+    position: relative;
+    overflow: hidden;
   }
+  .vc-menu-thumb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 2;
+  }
+  .vc-menu-thumb.v-espresso::before   { background-image: url("https://loremflickr.com/160/160/espresso,coffee?lock=11"); }
+  .vc-menu-thumb.v-cappuccino::before { background-image: url("https://loremflickr.com/160/160/cappuccino?lock=14"); }
+  .vc-menu-thumb.v-matcha::before     { background-image: url("https://loremflickr.com/160/160/matcha,latte?lock=21"); }
+  .vc-menu-thumb.v-cheesecake::before { background-image: url("https://loremflickr.com/160/160/cheesecake?lock=23"); }
+  .vc-menu-thumb.v-brownie::before    { background-image: url("https://loremflickr.com/160/160/brownie?lock=24"); }
+  .vc-menu-thumb.v-palta::before      { background-image: url("https://loremflickr.com/160/160/avocado,toast?lock=30"); }
   .vc-menu-info { flex: 1; min-width: 0; }
   .vc-menu-name { font-size: 13px; color: var(--tinta); font-weight: 600; }
   .vc-menu-desc { font-size: 11px; color: var(--muted); }
@@ -1868,7 +1911,7 @@
   }
   .vc-mob-menu button:hover { background: rgba(125,150,112,0.10); }
   .vc-mob-menu button.vc-cta-mob {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: #fff;
     margin-top: 4px;
   }
@@ -1901,7 +1944,7 @@
   }
   .vc-mob-btn {
     display: inline-block;
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: #fff;
     border: none;
     padding: 10px 18px;
@@ -1942,7 +1985,7 @@
   }
 
   /* PRECIO */
-  .precio { background: #3f5638; color: #fff; }
+  .precio { background: var(--verde-solido); color: #fff; }
   @media (prefers-color-scheme: dark) {
     .precio { background: #1f2a1c; }
   }
@@ -1999,9 +2042,9 @@
   }
   .precio-monto {
     font-family: 'Fraunces', serif;
-    font-size: 56px;
+    font-size: 34px;
     font-weight: 600;
-    line-height: 1;
+    line-height: 1.1;
     color: #fff;
     margin-bottom: 6px;
   }
@@ -2194,11 +2237,68 @@
   }
   .view-toggle button:hover { color: var(--tinta); }
   .view-toggle button.active {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
   }
   .view-panel { display: none; }
   .view-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* MONITOR PC (marco pantalla escritorio) */
+  .pc-monitor {
+    max-width: 1060px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .pc-screen {
+    width: 100%;
+    background: #1b1b1d;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.28), inset 0 0 0 2px #2c2c2e;
+    position: relative;
+  }
+  .pc-screen::after {
+    content: '';
+    position: absolute;
+    bottom: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #6f8760, #3f5638);
+    box-shadow: 0 0 6px rgba(125,150,112,0.6);
+  }
+  .pc-screen-inner {
+    background: var(--crema);
+    border-radius: 8px;
+    padding: 34px;
+    overflow: hidden;
+    min-height: 320px;
+  }
+  .pc-screen-inner.tight { padding: 20px; background: var(--beige); }
+  .pc-neck {
+    width: 110px;
+    height: 30px;
+    background: linear-gradient(180deg, #2c2c2e, #202022);
+    margin-top: -2px;
+  }
+  .pc-base {
+    width: 300px;
+    max-width: 60%;
+    height: 16px;
+    background: linear-gradient(180deg, #38383a, #202022);
+    border-radius: 4px 4px 10px 10px;
+    box-shadow: 0 14px 24px rgba(0,0,0,0.22);
+  }
+  @media (max-width: 700px) {
+    .pc-screen { padding: 10px; border-radius: 12px; }
+    .pc-screen-inner { padding: 16px; }
+    .pc-neck { height: 20px; }
+    .pc-base { height: 12px; }
+  }
 
   /* IMÁGENES DE MENÚ (thumbnails) */
   .menu-thumb {
@@ -2213,6 +2313,40 @@
     position: relative;
     overflow: hidden;
   }
+  /* Foto real encima del gradiente (oculta el emoji de respaldo) */
+  .menu-thumb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 2;
+  }
+  .menu-thumb.espresso::before   { background-image: url("https://loremflickr.com/160/160/espresso,coffee?lock=11"); }
+  .menu-thumb.americano::before  { background-image: url("https://loremflickr.com/160/160/americano,coffee?lock=12"); }
+  .menu-thumb.cortado::before    { background-image: url("https://loremflickr.com/160/160/cortado,coffee?lock=13"); }
+  .menu-thumb.cappuccino::before { background-image: url("https://loremflickr.com/160/160/cappuccino?lock=14"); }
+  .menu-thumb.latte::before      { background-image: url("https://loremflickr.com/160/160/latte,coffee?lock=15"); }
+  .menu-thumb.mocha::before      { background-image: url("https://loremflickr.com/160/160/mocha,coffee?lock=16"); }
+  .menu-thumb.cold::before       { background-image: url("https://loremflickr.com/160/160/coldbrew,coffee?lock=17"); }
+  .menu-thumb.iced::before       { background-image: url("https://loremflickr.com/160/160/icedcoffee?lock=18"); }
+  .menu-thumb.limonada::before   { background-image: url("https://loremflickr.com/160/160/lemonade?lock=19"); }
+  .menu-thumb.te::before         { background-image: url("https://loremflickr.com/160/160/tea,cup?lock=20"); }
+  .menu-thumb.matcha::before     { background-image: url("https://loremflickr.com/160/160/matcha,latte?lock=21"); }
+  .menu-thumb.chai::before       { background-image: url("https://loremflickr.com/160/160/chai,latte?lock=22"); }
+  .menu-thumb.cheesecake::before { background-image: url("https://loremflickr.com/160/160/cheesecake?lock=23"); }
+  .menu-thumb.brownie::before    { background-image: url("https://loremflickr.com/160/160/brownie?lock=24"); }
+  .menu-thumb.zanahoria::before  { background-image: url("https://loremflickr.com/160/160/carrotcake?lock=25"); }
+  .menu-thumb.muffin::before     { background-image: url("https://loremflickr.com/160/160/muffin?lock=26"); }
+  .menu-thumb.alfajor::before    { background-image: url("https://loremflickr.com/160/160/alfajor,cookie?lock=27"); }
+  .menu-thumb.cookie::before     { background-image: url("https://loremflickr.com/160/160/cookie?lock=28"); }
+  .menu-thumb.caprese::before    { background-image: url("https://loremflickr.com/160/160/caprese,sandwich?lock=29"); }
+  .menu-thumb.palta::before      { background-image: url("https://loremflickr.com/160/160/avocado,toast?lock=30"); }
+  .menu-thumb.quiche::before     { background-image: url("https://loremflickr.com/160/160/quiche?lock=31"); }
+  .menu-thumb.wrap::before       { background-image: url("https://loremflickr.com/160/160/wrap,food?lock=32"); }
+  .menu-thumb.croissant::before  { background-image: url("https://loremflickr.com/160/160/croissant?lock=33"); }
+  .menu-thumb.tabla::before      { background-image: url("https://loremflickr.com/160/160/cheeseboard?lock=34"); }
   .menu-thumb.espresso    { background: linear-gradient(135deg, #6b4a2b, #3d2818); color: #d4b48a; }
   .menu-thumb.americano   { background: linear-gradient(135deg, #7a5b3f, #4a3020); color: #d4b48a; }
   .menu-thumb.cortado     { background: linear-gradient(135deg, #a67c52, #7a5b3f); color: #fff; }
@@ -2316,6 +2450,17 @@
     box-shadow: var(--shadow-md);
     position: relative;
     z-index: 1;
+    overflow: hidden;
+  }
+  .menu-desktop-featured-visual::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://loremflickr.com/600/600/latte,coffee,art?lock=15");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 2;
   }
   .menu-desktop-grid {
     display: grid;
@@ -2384,9 +2529,9 @@
   }
   .menu-desktop-tab:hover { border-color: var(--salvia); color: var(--salvia-dark); }
   .menu-desktop-tab.active {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
-    border-color: var(--salvia-dark);
+    border-color: var(--verde-solido);
   }
   .menu-desktop-panel { display: none; }
   .menu-desktop-panel.active { display: block; animation: fadeIn 0.35s ease; }
@@ -2434,7 +2579,7 @@
     font-family: inherit;
   }
   .admin-mobile-tab.active {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
   }
   .admin-mobile-field {
@@ -2463,7 +2608,7 @@
   .admin-mobile-field textarea { min-height: 60px; resize: none; }
   .admin-mobile-save {
     width: 100%;
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     border: none;
     padding: 14px;
@@ -2518,7 +2663,7 @@
     gap: 10px;
   }
   .checkout-mobile-step-num {
-    background: var(--salvia-dark);
+    background: var(--verde-solido);
     color: white;
     width: 24px; height: 24px;
     border-radius: 50%;
@@ -2582,6 +2727,188 @@
     .section { padding: 70px 0; }
     .hero-visual { max-width: 400px; margin: 0 auto; }
   }
+
+  /* ===== EDITOR DE MENÚ (interactivo) ===== */
+  .menu-editor { background: var(--beige); }
+  .editor-toggle-wrap { display:flex; justify-content:center; margin-bottom:34px; }
+  .editor-toggle {
+    display:inline-flex; background:var(--card-bg); border:1px solid rgba(0,0,0,0.08);
+    border-radius:999px; padding:5px; gap:4px; box-shadow:0 4px 16px rgba(0,0,0,0.06);
+  }
+  .editor-toggle button {
+    border:none; background:transparent; font-family:inherit; font-size:14px; font-weight:600;
+    color:var(--muted); padding:9px 20px; border-radius:999px; cursor:pointer; transition:all .2s;
+    display:flex; align-items:center; gap:7px;
+  }
+  .editor-toggle button.active { background:var(--verde-solido); color:#fff; }
+
+  .editor-view-panel { display:none; }
+  .editor-view-panel.active { display:block; animation:editorFade .35s ease; }
+  @keyframes editorFade { from { opacity:0; transform:translateY(10px);} to {opacity:1; transform:none;} }
+
+  /* --- Admin editor window --- */
+  .editor-window {
+    max-width:920px; margin:0 auto; background:var(--card-bg); border-radius:16px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.14); overflow:hidden; border:1px solid rgba(0,0,0,0.06);
+  }
+  .editor-topbar {
+    display:flex; align-items:center; gap:8px; padding:13px 18px;
+    background:var(--verde-solido); color:#fff;
+  }
+  .editor-dots { display:flex; gap:6px; }
+  .editor-dots span { width:11px; height:11px; border-radius:50%; background:rgba(255,255,255,0.4); }
+  .editor-topbar-title { font-size:13px; font-weight:600; opacity:.95; }
+  .editor-topbar-title small { opacity:.7; font-weight:400; }
+  .editor-saved {
+    margin-left:auto; font-size:12px; font-weight:600; background:rgba(255,255,255,0.18);
+    padding:5px 12px; border-radius:999px; display:flex; align-items:center; gap:6px;
+  }
+  .editor-saved .dot { width:8px; height:8px; border-radius:50%; background:#8fe388; }
+
+  .editor-body { padding:22px 24px 26px; }
+  .editor-cat-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .editor-cat-tab {
+    border:1px solid rgba(0,0,0,0.12); background:transparent; color:var(--muted);
+    font-family:inherit; font-size:13px; font-weight:600; padding:8px 16px; border-radius:999px; cursor:pointer; transition:all .2s;
+  }
+  .editor-cat-tab.active { background:var(--verde-solido); color:#fff; border-color:var(--verde-solido); }
+
+  .editor-cat-panel { display:none; }
+  .editor-cat-panel.active { display:block; }
+
+  .editor-rows { display:flex; flex-direction:column; gap:12px; }
+  .editor-row {
+    display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:14px;
+    background:var(--crema); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:12px 14px;
+    transition:opacity .25s, background .25s;
+  }
+  .editor-row-thumb {
+    width:52px; height:52px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:24px; background:var(--beige); position:relative; overflow:hidden; flex-shrink:0;
+  }
+  .editor-row-thumb .cam {
+    position:absolute; bottom:0; right:0; width:20px; height:20px; background:var(--verde-solido); color:#fff;
+    font-size:11px; display:flex; align-items:center; justify-content:center; border-top-left-radius:8px; cursor:pointer;
+  }
+  .editor-row-name { min-width:0; }
+  .editor-row-name h4 { font-family:'Fraunces',serif; font-size:16px; color:var(--tinta); margin:0 0 2px; }
+  .editor-row-name p { font-size:12px; color:var(--muted); margin:0; }
+
+  .editor-price-field { display:flex; align-items:center; gap:4px; }
+  .editor-price-field .sign { color:var(--muted); font-weight:700; font-size:14px; }
+  .editor-price-input {
+    width:82px; font-family:inherit; font-size:15px; font-weight:700; color:var(--salvia-dark);
+    border:1.5px solid rgba(0,0,0,0.12); border-radius:8px; padding:7px 9px; background:var(--card-bg); text-align:right;
+    transition:border-color .2s;
+  }
+  .editor-price-input:focus { outline:none; border-color:var(--salvia); box-shadow:0 0 0 3px rgba(125,150,112,0.18); }
+
+  .editor-sold-btn {
+    border:1.5px solid rgba(0,0,0,0.14); background:var(--card-bg); color:var(--muted);
+    font-family:inherit; font-size:12px; font-weight:700; padding:8px 12px; border-radius:8px; cursor:pointer;
+    white-space:nowrap; transition:all .2s; display:flex; align-items:center; gap:6px;
+  }
+  .editor-sold-btn .pill { width:9px; height:9px; border-radius:50%; background:#8fe388; }
+
+  .editor-row.is-sold { opacity:.6; background:repeating-linear-gradient(45deg, var(--crema), var(--crema) 8px, rgba(0,0,0,0.03) 8px, rgba(0,0,0,0.03) 16px); }
+  .editor-row.is-sold .editor-sold-btn { background:#c94f4f; color:#fff; border-color:#c94f4f; }
+  .editor-row.is-sold .editor-sold-btn .pill { background:#fff; }
+
+  .editor-add {
+    margin-top:16px; width:100%; border:1.5px dashed rgba(0,0,0,0.2); background:transparent; color:var(--salvia-dark);
+    font-family:inherit; font-size:14px; font-weight:600; padding:14px; border-radius:12px; cursor:pointer; transition:all .2s;
+  }
+  .editor-add:hover { background:var(--crema); border-color:var(--salvia); }
+  .editor-hint {
+    margin-top:18px; font-size:13px; color:var(--muted); text-align:center; line-height:1.6;
+    background:var(--crema); border-radius:10px; padding:12px 16px;
+  }
+  .editor-hint strong { color:var(--salvia-dark); }
+
+  /* --- Client phone preview --- */
+  .editor-preview-wrap { display:flex; flex-direction:column; align-items:center; }
+  .editor-preview-caption { font-size:14px; color:var(--muted); margin-bottom:22px; text-align:center; max-width:420px; }
+  .editor-preview-caption strong { color:var(--salvia-dark); }
+  .editor-phone {
+    width:300px; background:#1b1b1d; border-radius:38px; padding:12px; box-shadow:0 24px 60px rgba(0,0,0,0.28);
+  }
+  .editor-phone-screen { background:var(--crema); border-radius:28px; overflow:hidden; height:560px; display:flex; flex-direction:column; }
+  .editor-phone-bar {
+    background:var(--verde-solido); color:#fff; padding:14px 18px 12px; flex-shrink:0;
+  }
+  .editor-phone-bar .u { font-size:10px; opacity:.85; letter-spacing:.05em; }
+  .editor-phone-bar h4 { font-family:'Fraunces',serif; font-size:19px; margin:3px 0 0; }
+  .editor-phone-scroll { overflow-y:auto; padding:14px; flex:1; }
+  .editor-preview-cat { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--salvia-dark); margin:6px 2px 10px; }
+  .prev-item {
+    display:flex; align-items:center; gap:11px; padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.06); transition:opacity .25s;
+  }
+  .prev-thumb { width:42px; height:42px; border-radius:9px; background:var(--beige); display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0; }
+  .prev-info { flex:1; min-width:0; }
+  .prev-info h5 { font-size:14px; color:var(--tinta); margin:0 0 2px; font-weight:600; }
+  .prev-info p { font-size:11px; color:var(--muted); margin:0; }
+  .prev-price { font-size:14px; font-weight:700; color:var(--salvia-dark); white-space:nowrap; }
+  .prev-item.is-sold { opacity:.55; }
+  .prev-item.is-sold .prev-price { display:none; }
+  .prev-sold-tag {
+    display:none; font-size:10px; font-weight:700; color:#c94f4f; border:1px solid #c94f4f;
+    border-radius:6px; padding:2px 7px; white-space:nowrap;
+  }
+  .prev-item.is-sold .prev-sold-tag { display:inline-block; }
+
+  /* --- Admin desde celular --- */
+  .eadmin-saved {
+    font-size:11px; font-weight:600; background:rgba(255,255,255,0.2); color:#fff;
+    padding:5px 10px; border-radius:999px; display:flex; align-items:center; gap:6px; white-space:nowrap;
+  }
+  .eadmin-saved .dot { width:7px; height:7px; border-radius:50%; background:#8fe388; }
+  .eadmin-cat-chips { display:flex; gap:8px; margin-bottom:14px; }
+  .eadmin-cat-chip {
+    flex:1; border:1px solid rgba(0,0,0,0.12); background:var(--card-bg); color:var(--muted);
+    font-family:inherit; font-size:13px; font-weight:600; padding:8px 10px; border-radius:10px; cursor:pointer; transition:all .2s;
+  }
+  .eadmin-cat-chip.active { background:var(--verde-solido); color:#fff; border-color:var(--verde-solido); }
+  .eadmin-cat-panel { display:none; }
+  .eadmin-cat-panel.active { display:block; }
+
+  .eadmin-row {
+    display:flex; align-items:center; gap:10px; padding:11px 0;
+    border-bottom:1px solid rgba(0,0,0,0.07); transition:opacity .25s;
+  }
+  .eadmin-thumb {
+    width:40px; height:40px; border-radius:9px; background:var(--beige);
+    display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0;
+  }
+  .eadmin-name { flex:1; min-width:0; }
+  .eadmin-name h5 { font-size:13px; color:var(--tinta); margin:0; font-weight:600; line-height:1.25; }
+  .eadmin-sold-tag {
+    display:none; font-size:10px; font-weight:700; color:#c94f4f; margin-top:3px;
+  }
+  .eadmin-row.is-sold .eadmin-sold-tag { display:inline-block; }
+  .eadmin-price-field { display:flex; align-items:center; gap:3px; flex-shrink:0; }
+  .eadmin-price-field span { color:var(--muted); font-weight:700; font-size:13px; }
+  .eadmin-price-input {
+    width:62px; font-family:inherit; font-size:13px; font-weight:700; color:var(--salvia-dark);
+    border:1.5px solid rgba(0,0,0,0.12); border-radius:7px; padding:6px 7px; background:var(--card-bg); text-align:right;
+  }
+  .eadmin-price-input:focus { outline:none; border-color:var(--salvia); box-shadow:0 0 0 3px rgba(125,150,112,0.18); }
+  .eadmin-sold-btn { padding:8px; width:34px; justify-content:center; flex-shrink:0; }
+  .eadmin-row.is-sold { opacity:.6; }
+  .eadmin-row.is-sold .eadmin-sold-btn { background:#c94f4f; border-color:#c94f4f; }
+  .eadmin-row.is-sold .eadmin-sold-btn .pill { background:#fff; }
+  .eadmin-add {
+    margin-top:14px; width:100%; border:1.5px dashed rgba(0,0,0,0.2); background:transparent; color:var(--salvia-dark);
+    font-family:inherit; font-size:13px; font-weight:600; padding:11px; border-radius:10px; cursor:pointer; transition:all .2s;
+  }
+  .eadmin-add:hover { background:var(--beige); border-color:var(--salvia); }
+
+  @media (max-width: 760px) {
+    .editor-row { grid-template-columns:auto 1fr; gap:10px; }
+    .editor-row .editor-price-field { grid-column:2; justify-content:flex-start; }
+    .editor-row .editor-sold-btn { grid-column:2; justify-self:start; }
+    .editor-toggle { flex-wrap:wrap; justify-content:center; border-radius:18px; }
+    .editor-toggle button { padding:8px 14px; font-size:13px; }
+  }
 </style>
 </head>
 <body>
@@ -2600,7 +2927,7 @@
     <div>
       <span class="hero-eyebrow">Propuesta web · Flora Café · Vallenar</span>
       <h1>Café, cerámica y <em>tardes que valen la pena</em>.</h1>
-      <p class="hero-lead">Así se vería tu web con registro simple para talleres, cupos automáticos y ficha de Google real para Vallenar. Menos DMs, más gente llegando por su cuenta.</p>
+      <p class="hero-lead">Así se vería tu web con registro simple para talleres, cupos automáticos y un menú que actualizas tú misma. Menos DMs, más gente llegando por su cuenta.</p>
       <div class="hero-ctas">
         <a href="#agenda" class="btn-primary">Ver talleres →</a>
         <a href="#problema" class="btn-secondary">Cómo funciona</a>
@@ -2657,8 +2984,8 @@
         <li class="problema-item">
           <div class="problema-num">1</div>
           <div>
-            <h3>No apareces en Google Vallenar</h3>
-            <p>Alguien busca "café Vallenar", "qué hacer en Vallenar" o "taller cerámica" — Flora no aparece. Sin <strong>ficha Google Business</strong> ni web indexada, esa gente termina en otro lado.</p>
+            <h3>Preguntan el menú y los precios por DM</h3>
+            <p>"¿Cuánto vale el latte?", "¿tienen algo sin gluten?", "¿qué hay hoy?". El menú vive en tu cabeza y en stories que caducan. <strong>Nadie tiene a mano lo que ofreces</strong>, y tú respondes lo mismo cada día.</p>
           </div>
         </li>
         <li class="problema-item">
@@ -2738,7 +3065,7 @@
   <div class="container">
     <span class="section-eyebrow">Agenda pública</span>
     <h2 class="section-title">Así se ve tu agenda de talleres.</h2>
-    <p class="section-lead">Editable en 4 clics desde tu panel. Aparece en Google. Se comparte con un link.</p>
+    <p class="section-lead">Editable en 4 clics desde tu panel. Siempre actualizada. Se comparte con un link.</p>
 
     <div class="view-toggle-wrap">
       <div class="view-toggle">
@@ -2749,6 +3076,8 @@
 
     <!-- DESKTOP -->
     <div class="view-panel active" data-view="desk-agenda">
+      <div class="pc-monitor">
+       <div class="pc-screen"><div class="pc-screen-inner">
       <div class="agenda-grid">
         <div class="agenda-card">
           <div class="agenda-card-img" data-icon="🌿"></div>
@@ -2801,6 +3130,10 @@
             </div>
           </div>
         </div>
+      </div>
+      </div></div>
+       <div class="pc-neck"></div>
+       <div class="pc-base"></div>
       </div>
     </div>
 
@@ -2900,6 +3233,8 @@
 
     <!-- DESKTOP VERSION -->
     <div class="view-panel active" data-view="desk-menu">
+      <div class="pc-monitor">
+       <div class="pc-screen"><div class="pc-screen-inner">
       <div class="menu-desktop-featured">
         <div>
           <span class="menu-desktop-featured-tag">Recomendado del mes</span>
@@ -3106,6 +3441,10 @@
             </div>
           </div>
         </div>
+      </div>
+      </div></div>
+       <div class="pc-neck"></div>
+       <div class="pc-base"></div>
       </div>
     </div>
 
@@ -3381,6 +3720,235 @@
   </div>
 </section>
 
+<!-- EDITOR DE MENÚ (interactivo) -->
+<section class="section menu-editor" id="editor-menu">
+  <div class="container">
+    <span class="section-eyebrow">Tu panel</span>
+    <h2 class="section-title">Cambió el precio del latte. Lo arreglas en 5 segundos.</h2>
+    <p class="section-lead">Este es el editor real que tendrías. <strong>Edita los precios y marca agotados aquí abajo</strong> — mira cómo cambia al tiro lo que ve tu clienta en el celular. Nada de llamarnos por cada ajuste.</p>
+
+    <div class="editor-toggle-wrap">
+      <div class="editor-toggle">
+        <button class="active" data-eview="admin">🖥 Admin · PC</button>
+        <button data-eview="admin-mob">📱 Admin · celular</button>
+        <button data-eview="cliente">▯ Vista clienta</button>
+      </div>
+    </div>
+
+    <!-- VISTA ADMIN -->
+    <div class="editor-view-panel active" data-eview="admin">
+      <div class="editor-window">
+        <div class="editor-topbar">
+          <div class="editor-dots"><span></span><span></span><span></span></div>
+          <div class="editor-topbar-title">floracafe.cl/panel · <small>Editar menú</small></div>
+          <div class="editor-saved"><span class="dot"></span>Guardado</div>
+        </div>
+        <div class="editor-body">
+          <div class="editor-cat-tabs">
+            <button class="editor-cat-tab active" data-ecat="e-cafes">☕ Cafés</button>
+            <button class="editor-cat-tab" data-ecat="e-dulces">🍰 Dulces</button>
+          </div>
+
+          <!-- CAFÉS -->
+          <div class="editor-cat-panel active" data-ecat="e-cafes">
+            <div class="editor-rows">
+              <div class="editor-row" data-id="cf1">
+                <div class="editor-row-thumb">☕<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Espresso</h4><p>Grano tostado en Copiapó</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="cf1" type="text" value="1.800"></div>
+                <button class="editor-sold-btn" data-sold="cf1"><span class="pill"></span>Disponible</button>
+              </div>
+              <div class="editor-row" data-id="cf2">
+                <div class="editor-row-thumb">☕<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Cappuccino</h4><p>Con espuma cremosa</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="cf2" type="text" value="2.900"></div>
+                <button class="editor-sold-btn" data-sold="cf2"><span class="pill"></span>Disponible</button>
+              </div>
+              <div class="editor-row" data-id="cf3">
+                <div class="editor-row-thumb">🥛<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Latte de vainilla</h4><p>Jarabe casero de vainilla</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="cf3" type="text" value="3.500"></div>
+                <button class="editor-sold-btn" data-sold="cf3"><span class="pill"></span>Disponible</button>
+              </div>
+              <div class="editor-row" data-id="cf4">
+                <div class="editor-row-thumb">🍫<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Mocha</h4><p>Chocolate belga y leche</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="cf4" type="text" value="3.700"></div>
+                <button class="editor-sold-btn" data-sold="cf4"><span class="pill"></span>Disponible</button>
+              </div>
+            </div>
+            <button class="editor-add">＋ Agregar producto a Cafés</button>
+          </div>
+
+          <!-- DULCES -->
+          <div class="editor-cat-panel" data-ecat="e-dulces">
+            <div class="editor-rows">
+              <div class="editor-row" data-id="dl1">
+                <div class="editor-row-thumb">🍰<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Cheesecake frutos rojos</h4><p>Compota casera del huerto</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="dl1" type="text" value="3.900"></div>
+                <button class="editor-sold-btn" data-sold="dl1"><span class="pill"></span>Disponible</button>
+              </div>
+              <div class="editor-row" data-id="dl2">
+                <div class="editor-row-thumb">🍫<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Brownie tibio</h4><p>Chocolate 70%, helado opcional</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="dl2" type="text" value="2.800"></div>
+                <button class="editor-sold-btn" data-sold="dl2"><span class="pill"></span>Disponible</button>
+              </div>
+              <div class="editor-row" data-id="dl3">
+                <div class="editor-row-thumb">🥕<span class="cam" title="Cambiar foto">📷</span></div>
+                <div class="editor-row-name"><h4>Torta de zanahoria</h4><p>Frosting de queso crema</p></div>
+                <div class="editor-price-field"><span class="sign">$</span><input class="editor-price-input" data-price="dl3" type="text" value="3.500"></div>
+                <button class="editor-sold-btn" data-sold="dl3"><span class="pill"></span>Disponible</button>
+              </div>
+            </div>
+            <button class="editor-add">＋ Agregar producto a Dulces</button>
+          </div>
+
+          <div class="editor-hint">Prueba: <strong>cambia un precio</strong> o toca <strong>Disponible</strong> para marcar algo agotado. Luego abre la pestaña <strong>Vista clienta</strong> 👆 y velo aplicado.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA ADMIN CELULAR -->
+    <div class="editor-view-panel" data-eview="admin-mob">
+      <div class="editor-preview-wrap">
+        <p class="editor-preview-caption">El mismo panel, pero desde tu celular — para editar entre mesa y mesa sin sacar el computador. <strong>También aquí cambias precios y marcas agotado.</strong></p>
+        <div class="editor-phone">
+          <div class="editor-phone-screen">
+            <div class="editor-phone-bar" style="display:flex; align-items:center; gap:10px;">
+              <div style="flex:1;">
+                <div class="u">PANEL · FLORA</div>
+                <h4>Editar menú</h4>
+              </div>
+              <span class="eadmin-saved"><span class="dot"></span>Guardado</span>
+            </div>
+            <div class="editor-phone-scroll">
+              <div class="eadmin-cat-chips">
+                <button class="eadmin-cat-chip active" data-ecatm="m-cafes">☕ Cafés</button>
+                <button class="eadmin-cat-chip" data-ecatm="m-dulces">🍰 Dulces</button>
+              </div>
+
+              <!-- CAFÉS mobile admin -->
+              <div class="eadmin-cat-panel active" data-ecatm="m-cafes">
+                <div class="eadmin-row" data-id="cf1">
+                  <div class="eadmin-thumb">☕</div>
+                  <div class="eadmin-name"><h5>Espresso</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="cf1" type="text" value="1.800"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="cf1" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <div class="eadmin-row" data-id="cf2">
+                  <div class="eadmin-thumb">☕</div>
+                  <div class="eadmin-name"><h5>Cappuccino</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="cf2" type="text" value="2.900"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="cf2" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <div class="eadmin-row" data-id="cf3">
+                  <div class="eadmin-thumb">🥛</div>
+                  <div class="eadmin-name"><h5>Latte de vainilla</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="cf3" type="text" value="3.500"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="cf3" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <div class="eadmin-row" data-id="cf4">
+                  <div class="eadmin-thumb">🍫</div>
+                  <div class="eadmin-name"><h5>Mocha</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="cf4" type="text" value="3.700"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="cf4" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <button class="eadmin-add">＋ Agregar producto</button>
+              </div>
+
+              <!-- DULCES mobile admin -->
+              <div class="eadmin-cat-panel" data-ecatm="m-dulces">
+                <div class="eadmin-row" data-id="dl1">
+                  <div class="eadmin-thumb">🍰</div>
+                  <div class="eadmin-name"><h5>Cheesecake f. rojos</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="dl1" type="text" value="3.900"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="dl1" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <div class="eadmin-row" data-id="dl2">
+                  <div class="eadmin-thumb">🍫</div>
+                  <div class="eadmin-name"><h5>Brownie tibio</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="dl2" type="text" value="2.800"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="dl2" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <div class="eadmin-row" data-id="dl3">
+                  <div class="eadmin-thumb">🥕</div>
+                  <div class="eadmin-name"><h5>Torta de zanahoria</h5><span class="eadmin-sold-tag">Agotado</span></div>
+                  <div class="eadmin-price-field"><span>$</span><input class="editor-price-input eadmin-price-input" data-price="dl3" type="text" value="3.500"></div>
+                  <button class="editor-sold-btn eadmin-sold-btn" data-sold="dl3" title="Marcar agotado"><span class="pill"></span></button>
+                </div>
+                <button class="eadmin-add">＋ Agregar producto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA CLIENTE -->
+    <div class="editor-view-panel" data-eview="cliente">
+      <div class="editor-preview-wrap">
+        <p class="editor-preview-caption">Esto es lo que ve quien escanea el QR de la mesa o entra a <strong>floracafe.cl/menu</strong>. Se actualiza solo con lo que editaste arriba.</p>
+        <div class="editor-phone">
+          <div class="editor-phone-screen">
+            <div class="editor-phone-bar">
+              <div class="u">FLORACAFE.CL/MENU</div>
+              <h4>Nuestro menú</h4>
+            </div>
+            <div class="editor-phone-scroll">
+              <div class="editor-preview-cat">☕ Cafés</div>
+              <div class="prev-item" data-mirror="cf1">
+                <div class="prev-thumb">☕</div>
+                <div class="prev-info"><h5>Espresso</h5><p>Grano tostado en Copiapó</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="cf1">1.800</span></span>
+              </div>
+              <div class="prev-item" data-mirror="cf2">
+                <div class="prev-thumb">☕</div>
+                <div class="prev-info"><h5>Cappuccino</h5><p>Con espuma cremosa</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="cf2">2.900</span></span>
+              </div>
+              <div class="prev-item" data-mirror="cf3">
+                <div class="prev-thumb">🥛</div>
+                <div class="prev-info"><h5>Latte de vainilla</h5><p>Jarabe casero de vainilla</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="cf3">3.500</span></span>
+              </div>
+              <div class="prev-item" data-mirror="cf4">
+                <div class="prev-thumb">🍫</div>
+                <div class="prev-info"><h5>Mocha</h5><p>Chocolate belga y leche</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="cf4">3.700</span></span>
+              </div>
+              <div class="editor-preview-cat" style="margin-top:18px;">🍰 Dulces</div>
+              <div class="prev-item" data-mirror="dl1">
+                <div class="prev-thumb">🍰</div>
+                <div class="prev-info"><h5>Cheesecake frutos rojos</h5><p>Compota casera del huerto</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="dl1">3.900</span></span>
+              </div>
+              <div class="prev-item" data-mirror="dl2">
+                <div class="prev-thumb">🍫</div>
+                <div class="prev-info"><h5>Brownie tibio</h5><p>Chocolate 70%, helado opcional</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="dl2">2.800</span></span>
+              </div>
+              <div class="prev-item" data-mirror="dl3">
+                <div class="prev-thumb">🥕</div>
+                <div class="prev-info"><h5>Torta de zanahoria</h5><p>Frosting de queso crema</p></div>
+                <span class="prev-sold-tag">Agotado</span>
+                <span class="prev-price">$<span data-price-for="dl3">3.500</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CHECKOUT -->
 <section class="section checkout">
   <div class="container">
@@ -3397,6 +3965,8 @@
 
     <!-- DESKTOP -->
     <div class="view-panel active" data-view="desk-checkout">
+      <div class="pc-monitor">
+       <div class="pc-screen"><div class="pc-screen-inner">
       <div class="checkout-flow">
         <div class="checkout-step">
           <span class="checkout-step-num">1</span>
@@ -3434,6 +4004,10 @@
             <p style="font-size:12px; margin-top:4px;">Nos vemos el sábado 🌿</p>
           </div>
         </div>
+      </div>
+      </div></div>
+       <div class="pc-neck"></div>
+       <div class="pc-base"></div>
       </div>
     </div>
 
@@ -3503,6 +4077,8 @@
 
     <!-- DESKTOP -->
     <div class="view-panel active" data-view="desk-admin">
+      <div class="pc-monitor">
+       <div class="pc-screen"><div class="pc-screen-inner tight">
       <div class="admin-mockup">
         <div class="admin-topbar">
           <div class="admin-dot r"></div>
@@ -3771,7 +4347,7 @@
 
               <div class="admin-list-header">
                 <div style="display:flex;gap:8px;">
-                  <button class="admin-uploader-btn" style="background:var(--salvia);color:#fff;border-color:var(--salvia);">Todos (142)</button>
+                  <button class="admin-uploader-btn" style="background:var(--verde-solido);color:#fff;border-color:var(--verde-solido);">Todos (142)</button>
                   <button class="admin-uploader-btn">Repetidores (54)</button>
                   <button class="admin-uploader-btn">VIP (12)</button>
                   <button class="admin-uploader-btn">Nuevos (30 días)</button>
@@ -3871,6 +4447,10 @@
             </div>
           </div>
         </div>
+      </div>
+      </div></div>
+       <div class="pc-neck"></div>
+       <div class="pc-base"></div>
       </div>
     </div>
 
@@ -4190,7 +4770,7 @@
                 <h2 class="vc-h2">Café de especialidad + repostería casera.</h2>
                 <div class="vc-menu-grid">
                   <div class="vc-menu-item">
-                    <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#6b4a2b,#3d2818);color:#d4b48a;">☕</div>
+                    <div class="vc-menu-thumb v-espresso" style="background:linear-gradient(135deg,#6b4a2b,#3d2818);color:#d4b48a;">☕</div>
                     <div class="vc-menu-info">
                       <div class="vc-menu-name">Espresso doble</div>
                       <div class="vc-menu-desc">Grano de Colombia · tueste medio</div>
@@ -4198,7 +4778,7 @@
                     <div class="vc-menu-price">$2.500</div>
                   </div>
                   <div class="vc-menu-item">
-                    <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#c9a380,#a67c52);color:#4a3020;">☕</div>
+                    <div class="vc-menu-thumb v-cappuccino" style="background:linear-gradient(135deg,#c9a380,#a67c52);color:#4a3020;">☕</div>
                     <div class="vc-menu-info">
                       <div class="vc-menu-name">Cappuccino</div>
                       <div class="vc-menu-desc">Con espuma bien firme</div>
@@ -4206,7 +4786,7 @@
                     <div class="vc-menu-price">$3.200</div>
                   </div>
                   <div class="vc-menu-item">
-                    <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#a3b990,#6f8760);color:#fff;">🍵</div>
+                    <div class="vc-menu-thumb v-matcha" style="background:linear-gradient(135deg,#a3b990,#6f8760);color:#fff;">🍵</div>
                     <div class="vc-menu-info">
                       <div class="vc-menu-name">Matcha latte</div>
                       <div class="vc-menu-desc">Grado ceremonial · leche a elección</div>
@@ -4214,7 +4794,7 @@
                     <div class="vc-menu-price">$3.800</div>
                   </div>
                   <div class="vc-menu-item">
-                    <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#f0d4a8,#d9944a);color:#a5385a;">🍰</div>
+                    <div class="vc-menu-thumb v-cheesecake" style="background:linear-gradient(135deg,#f0d4a8,#d9944a);color:#a5385a;">🍰</div>
                     <div class="vc-menu-info">
                       <div class="vc-menu-name">Cheesecake frutos rojos</div>
                       <div class="vc-menu-desc">Casero · porción generosa</div>
@@ -4222,7 +4802,7 @@
                     <div class="vc-menu-price">$3.900</div>
                   </div>
                   <div class="vc-menu-item">
-                    <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#4a2818,#2b1810);color:#d9944a;">🍫</div>
+                    <div class="vc-menu-thumb v-brownie" style="background:linear-gradient(135deg,#4a2818,#2b1810);color:#d9944a;">🍫</div>
                     <div class="vc-menu-info">
                       <div class="vc-menu-name">Brownie con helado</div>
                       <div class="vc-menu-desc">Tibio · con helado de vainilla</div>
@@ -4230,7 +4810,7 @@
                     <div class="vc-menu-price">$3.500</div>
                   </div>
                   <div class="vc-menu-item">
-                    <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#a5b990,#6f8760);color:#fff;">🥑</div>
+                    <div class="vc-menu-thumb v-palta" style="background:linear-gradient(135deg,#a5b990,#6f8760);color:#fff;">🥑</div>
                     <div class="vc-menu-info">
                       <div class="vc-menu-name">Tostada de palta</div>
                       <div class="vc-menu-desc">Pan de masa madre · huevo pochado</div>
@@ -4360,27 +4940,27 @@
                 <div class="vc-eyebrow">Menú</div>
                 <h2 class="vc-mob-h1">Café + repostería.</h2>
                 <div class="vc-menu-item" style="margin-bottom:8px;">
-                  <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#6b4a2b,#3d2818);color:#d4b48a;">☕</div>
+                  <div class="vc-menu-thumb v-espresso" style="background:linear-gradient(135deg,#6b4a2b,#3d2818);color:#d4b48a;">☕</div>
                   <div class="vc-menu-info"><div class="vc-menu-name">Espresso doble</div><div class="vc-menu-desc">Grano de Colombia</div></div>
                   <div class="vc-menu-price">$2.500</div>
                 </div>
                 <div class="vc-menu-item" style="margin-bottom:8px;">
-                  <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#c9a380,#a67c52);color:#4a3020;">☕</div>
+                  <div class="vc-menu-thumb v-cappuccino" style="background:linear-gradient(135deg,#c9a380,#a67c52);color:#4a3020;">☕</div>
                   <div class="vc-menu-info"><div class="vc-menu-name">Cappuccino</div><div class="vc-menu-desc">Espuma firme</div></div>
                   <div class="vc-menu-price">$3.200</div>
                 </div>
                 <div class="vc-menu-item" style="margin-bottom:8px;">
-                  <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#a3b990,#6f8760);color:#fff;">🍵</div>
+                  <div class="vc-menu-thumb v-matcha" style="background:linear-gradient(135deg,#a3b990,#6f8760);color:#fff;">🍵</div>
                   <div class="vc-menu-info"><div class="vc-menu-name">Matcha latte</div><div class="vc-menu-desc">Ceremonial</div></div>
                   <div class="vc-menu-price">$3.800</div>
                 </div>
                 <div class="vc-menu-item" style="margin-bottom:8px;">
-                  <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#f0d4a8,#d9944a);color:#a5385a;">🍰</div>
+                  <div class="vc-menu-thumb v-cheesecake" style="background:linear-gradient(135deg,#f0d4a8,#d9944a);color:#a5385a;">🍰</div>
                   <div class="vc-menu-info"><div class="vc-menu-name">Cheesecake</div><div class="vc-menu-desc">Frutos rojos</div></div>
                   <div class="vc-menu-price">$3.900</div>
                 </div>
                 <div class="vc-menu-item">
-                  <div class="vc-menu-thumb" style="background:linear-gradient(135deg,#a5b990,#6f8760);color:#fff;">🥑</div>
+                  <div class="vc-menu-thumb v-palta" style="background:linear-gradient(135deg,#a5b990,#6f8760);color:#fff;">🥑</div>
                   <div class="vc-menu-info"><div class="vc-menu-name">Tostada palta</div><div class="vc-menu-desc">Masa madre</div></div>
                   <div class="vc-menu-price">$4.800</div>
                 </div>
@@ -4428,16 +5008,16 @@
 <!-- PRECIO -->
 <section class="section precio">
   <div class="container">
-    <span class="section-eyebrow">Propuesta económica</span>
+    <span class="section-eyebrow">Propuesta</span>
     <h2 class="section-title">Dos opciones. Elige la que te acomode.</h2>
-    <p class="section-lead">Sin letra chica, sin comisiones nuestras. Pensado para que Flora pueda decir que sí sin pensarlo tres veces.</p>
+    <p class="section-lead">Sin letra chica, sin comisiones nuestras. Los valores los vemos juntos en una llamada corta — quiero armarte algo a tu bolsillo real.</p>
 
     <div class="precio-grid">
       <!-- OPCIÓN A: SOLO WEB -->
       <div class="precio-card">
         <span class="precio-tag">Opción A · Web base</span>
-        <div class="precio-monto">$150.000<small> CLP</small></div>
-        <div class="precio-detalle">Pago único al firmar. Después <strong style="color:#fff;">$20.000 mensuales</strong> por hosting, soporte y cambios menores.</div>
+        <div class="precio-monto">Web + reservas<small></small></div>
+        <div class="precio-detalle">Un pago inicial al firmar + una mensualidad baja por hosting, soporte y cambios menores. <strong style="color:#fff;">Los valores los conversamos.</strong></div>
 
         <div class="precio-hr"></div>
 
@@ -4449,8 +5029,8 @@
           <li><span class="precio-check">✓</span> Integración Transbank/Webpay operativa</li>
           <li><span class="precio-check">✓</span> Confirmación automática por correo</li>
           <li><span class="precio-check">✓</span> Base de datos de asistentes exportable</li>
-          <li><span class="precio-check">✓</span> Ficha Google Business básica creada</li>
-          <li><span class="precio-check">✓</span> Menú café autoadministrable</li>
+          <li><span class="precio-check">✓</span> Web enlazada a tu perfil de Google actual</li>
+          <li><span class="precio-check">✓</span> Menú café autoadministrable (editas precios y agotados)</li>
           <li><span class="precio-check">✓</span> Capacitación 30 min + soporte WhatsApp</li>
         </ul>
 
@@ -4462,24 +5042,24 @@
       <!-- OPCIÓN B: WEB + GOOGLE (recomendado) -->
       <div class="precio-card featured">
         <span class="precio-card-ribbon">✦ Recomendado</span>
-        <span class="precio-tag" style="background:rgba(255,255,255,0.28);">Opción B · Paquete "Google bien puesto"</span>
-        <div class="precio-monto">$200.000<small> CLP total</small></div>
-        <div class="precio-detalle"><strong style="color:#fff;">Todo lo de la Opción A + trabajo real de posicionamiento en Google.</strong> Pago único al firmar. Después los mismos $20.000 mensuales.</div>
+        <span class="precio-tag" style="background:rgba(255,255,255,0.28);">Opción B · Paquete "Todo aprovechado"</span>
+        <div class="precio-monto">Web + presencia<small></small></div>
+        <div class="precio-detalle"><strong style="color:#fff;">Todo lo de la Opción A + sacarle jugo a la presencia que ya tienes.</strong> Misma mensualidad baja. <strong style="color:#fff;">Los valores los conversamos.</strong></div>
 
         <div class="precio-hr"></div>
 
         <span class="precio-tag" style="background:rgba(255,255,255,0.28);">Qué se suma</span>
         <ul class="precio-list">
-          <li><span class="precio-check">✓</span> Ficha Google Business optimizada a fondo (categorías, fotos, atributos, horarios especiales)</li>
-          <li><span class="precio-check">✓</span> SEO local pesado: "café Vallenar", "taller cerámica Vallenar", "qué hacer en Vallenar", "regalo distinto Atacama"</li>
-          <li><span class="precio-check">✓</span> Fichas individuales de cada taller indexadas en Google</li>
-          <li><span class="precio-check">✓</span> Alta en directorios locales (Yelp Chile, Foursquare, TripAdvisor, guías regionales)</li>
-          <li><span class="precio-check">✓</span> Setup de reseñas Google (guion + link corto para que clientes dejen review)</li>
-          <li><span class="precio-check">✓</span> Reporte de posición a los 60 días</li>
+          <li><span class="precio-check">✓</span> Tu perfil de Google Maps actual optimizado (fotos nuevas, horarios, atributos, categorías bien puestas)</li>
+          <li><span class="precio-check">✓</span> Web conectada a tu ficha para que los talleres se vean desde Google</li>
+          <li><span class="precio-check">✓</span> SEO local para talleres: "taller cerámica Vallenar", "qué hacer en Vallenar", "regalo distinto Atacama"</li>
+          <li><span class="precio-check">✓</span> Setup de reseñas (guion + link corto para que clientes dejen review y suba tu ranking)</li>
+          <li><span class="precio-check">✓</span> Menú publicado e indexado para que aparezca al buscarte</li>
+          <li><span class="precio-check">✓</span> Reporte de posición y reseñas a los 60 días</li>
         </ul>
 
         <div class="precio-nota" style="background:rgba(255,255,255,0.15);">
-          <strong>$50.000 extra sobre la Opción A</strong> · te compran empezar a aparecer en Google, que hoy no pasa.
+          <strong>Diferencia mínima sobre la Opción A</strong> · ya estás en Google — esto hace que esa presencia te traiga gente a los talleres.
         </div>
       </div>
     </div>
@@ -4495,7 +5075,7 @@
       <a href="https://wa.me/56900000000?text=Hola,%20vi%20la%20propuesta%20de%20Flora%20y%20quiero%20conversar" class="btn-primary">Escríbeme por WhatsApp →</a>
       <a href="mailto:hola@wisblylabs.cl" class="btn-secondary">Prefiero correo</a>
     </div>
-    <p class="cta-final-note">Opción A: $150.000 setup + $20.000/mes · Opción B (recomendada): $200.000 total + $20.000/mes.</p>
+    <p class="cta-final-note">Te muestro los valores de cada opción en la llamada · Sin compromiso.</p>
   </div>
 </section>
 
@@ -4547,6 +5127,108 @@
       if (panel) panel.classList.add('active');
     });
   });
+
+  // ============ EDITOR DE MENÚ (interactivo) ============
+  (function(){
+    const section = document.getElementById('editor-menu');
+    if (!section) return;
+
+    // Toggle admin / cliente
+    section.querySelectorAll('.editor-toggle button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.eview;
+        section.querySelectorAll('.editor-toggle button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        section.querySelectorAll('.editor-view-panel').forEach(p => p.classList.remove('active'));
+        const panel = section.querySelector(`.editor-view-panel[data-eview="${target}"]`);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // Category tabs dentro del editor
+    section.querySelectorAll('.editor-cat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.ecat;
+        section.querySelectorAll('.editor-cat-tab').forEach(t => t.classList.remove('active'));
+        section.querySelectorAll('.editor-cat-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        const panel = section.querySelector(`.editor-cat-panel[data-ecat="${target}"]`);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // Category chips de la vista admin celular
+    section.querySelectorAll('.eadmin-cat-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const target = chip.dataset.ecatm;
+        section.querySelectorAll('.eadmin-cat-chip').forEach(c => c.classList.remove('active'));
+        section.querySelectorAll('.eadmin-cat-panel').forEach(p => p.classList.remove('active'));
+        chip.classList.add('active');
+        const panel = section.querySelector(`.eadmin-cat-panel[data-ecatm="${target}"]`);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    const flashSaved = () => {
+      section.querySelectorAll('.editor-saved, .eadmin-saved').forEach(badge => {
+        const base = badge.classList.contains('eadmin-saved') ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.18)';
+        badge.textContent = '';
+        const dot = document.createElement('span'); dot.className = 'dot';
+        badge.appendChild(dot); badge.append('Guardado ✓');
+        badge.style.background = 'rgba(143,227,136,0.35)';
+        clearTimeout(badge._t);
+        badge._t = setTimeout(() => { badge.style.background = base; }, 900);
+      });
+    };
+
+    // Editar precios en vivo → refleja en TODAS las vistas (PC, celular admin y clienta)
+    section.querySelectorAll('.editor-price-input').forEach(input => {
+      const id = input.dataset.price;
+      const sync = () => {
+        let digits = input.value.replace(/\D/g, '');
+        if (digits === '') digits = '0';
+        const formatted = Number(digits).toLocaleString('es-CL');
+        input.value = formatted;
+        section.querySelectorAll(`.editor-price-input[data-price="${id}"]`).forEach(o => { if (o !== input) o.value = formatted; });
+        section.querySelectorAll(`[data-price-for="${id}"]`).forEach(m => { m.textContent = formatted; });
+        flashSaved();
+      };
+      input.addEventListener('input', sync);
+      input.addEventListener('blur', sync);
+    });
+
+    // Marcar agotado / disponible (sincroniza PC + celular admin + clienta)
+    section.querySelectorAll('.editor-sold-btn').forEach(btn => {
+      const id = btn.dataset.sold;
+      btn.addEventListener('click', () => {
+        const anyRow = section.querySelector(`.editor-row[data-id="${id}"], .eadmin-row[data-id="${id}"]`);
+        const sold = anyRow ? !anyRow.classList.contains('is-sold') : true;
+        section.querySelectorAll(`.editor-row[data-id="${id}"], .eadmin-row[data-id="${id}"]`).forEach(r => r.classList.toggle('is-sold', sold));
+        section.querySelectorAll(`.prev-item[data-mirror="${id}"]`).forEach(m => m.classList.toggle('is-sold', sold));
+        section.querySelectorAll(`.editor-sold-btn[data-sold="${id}"]`).forEach(b => {
+          b.innerHTML = b.classList.contains('eadmin-sold-btn')
+            ? '<span class="pill"></span>'
+            : '<span class="pill"></span>' + (sold ? 'Agotado' : 'Disponible');
+        });
+        flashSaved();
+      });
+    });
+
+    // Botones simulados (agregar / cambiar foto)
+    section.querySelectorAll('.editor-add, .eadmin-add').forEach(b => {
+      b.addEventListener('click', () => {
+        const orig = b.textContent;
+        b.textContent = '✓ En la web real, se abre el formulario de producto';
+        setTimeout(() => { b.textContent = orig; }, 1600);
+      });
+    });
+    section.querySelectorAll('.editor-row-thumb .cam').forEach(cam => {
+      cam.addEventListener('click', () => {
+        cam.textContent = '⏳';
+        setTimeout(() => { cam.textContent = '📷'; flashSaved(); }, 700);
+      });
+    });
+  })();
 
   // ============ ADMIN TABS (crear/activos/inscritos/historial) ============
   document.querySelectorAll('.admin-tab').forEach(tab => {
